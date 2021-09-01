@@ -89,13 +89,13 @@ public class Game : MonoBehaviour
         var panelName = typeof(T).Name;
         if (!_panels.ContainsKey(panelName))
         {
-            Log.LogPrint(panelName);
+//            Log.LogPrint(panelName);
             GameObject
                 go = Resources
                     .Load<GameObject>(panelName) as GameObject; //  Factorys.GetAssetFactory().LoadPanel(panelName);
-            Log.LogParas(go, "go");
+           // Log.LogParas(go, "go");
             GameObject tempGo = Instantiate(go) as GameObject;
-            Log.LogParas(tempGo,"tempGo");
+           // Log.LogParas(tempGo,"tempGo");
             tempGo.Name(panelName);
 
             _panels.Add(panelName, tempGo.GetComponent<Panel>());

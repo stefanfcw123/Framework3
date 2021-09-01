@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: VersionToolData
   m_EditorClassIdentifier: 
   Channel: 2
-  Debug: 1
+  Debug: 0
