@@ -1,0 +1,19 @@
+{
+  "Version": "v0.0.8",
+  "Type": 1,
+  "AccessRight": 0,
+  "DownloadUrl": null,
+  "InstallPath": "Assets/QFramework/Effect/UIImageBloomShader/",
+  "DocUrl": "http://liangxiegame.com",
+  "Readme": {
+    "version": "v0.0.8",
+    "content": "upgrade 2 qf v0.1.x",
+    "author": "liangxie",
+    "date": "2019 年 09 月 03 日 22:20",
+    "VersionNumber": 8
+  },
+  "Id": null,
+  "Name": "UIImageBloomShader",
+  "VersionNumber": 8,
+  "FileName": "UIImageBloomShader_v0.0.8.unitypackage"
+}

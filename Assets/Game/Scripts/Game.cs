@@ -58,6 +58,7 @@ public class Game : MonoBehaviour
         _mainPanel = AddPanel<MainPanel>();
         contentPanel = AddPanel<ContentPanel>();
         tipPanel = AddPanel<TipPanel>();
+        
     }
 
     private void Release()
@@ -93,9 +94,9 @@ public class Game : MonoBehaviour
             GameObject
                 go = Resources
                     .Load<GameObject>(panelName) as GameObject; //  Factorys.GetAssetFactory().LoadPanel(panelName);
-           // Log.LogParas(go, "go");
+            // Log.LogParas(go, "go");
             GameObject tempGo = Instantiate(go) as GameObject;
-           // Log.LogParas(tempGo,"tempGo");
+            // Log.LogParas(tempGo,"tempGo");
             tempGo.Name(panelName);
 
             _panels.Add(panelName, tempGo.GetComponent<Panel>());
