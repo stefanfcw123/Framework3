@@ -10,5 +10,5 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class HaveEvents : MonoBehaviour
 {
-    public List<EventType> EventTypes = new List<EventType>();
+    public List<EventTypes> EventTypes = new List<EventTypes>();
 }

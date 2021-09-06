@@ -1,4 +1,4 @@
-﻿public enum EventType {NullEvent,
+﻿public enum EventTypes {NullEvent,
 	ReadSuccessEvent,
 	PerSecondEvent,
 	BtnClickEvent,
