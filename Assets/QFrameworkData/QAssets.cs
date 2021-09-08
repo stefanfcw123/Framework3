@@ -11,24 +11,29 @@
 namespace QAssetBundle
 {
     
-    public class Cs_coroutine_lua_txt
+    public class Functions_lua_txt
     {
-        public const string BundleName = "cs_coroutine_lua_txt";
-        public const string CS_COROUTINE = "cs_coroutine";
+        public const string BundleName = "functions_lua_txt";
+        public const string FUNCTIONS = "functions";
     }
-    public class Eventcenter_lua_txt
+    public class Main_lua_txt
     {
-        public const string BundleName = "eventcenter_lua_txt";
-        public const string EVENTCENTER = "eventcenter";
+        public const string BundleName = "main_lua_txt";
+        public const string MAIN = "main";
     }
-    public class Gameplay2_unity
+    public class Root_lua_txt
     {
-        public const string BundleName = "gameplay2_unity";
-        public const string GAMEPLAY2 = "gameplay2";
+        public const string BundleName = "root_lua_txt";
+        public const string ROOT = "root";
     }
-    public class Util_lua_txt
+    public class Sys_lua_txt
     {
-        public const string BundleName = "util_lua_txt";
-        public const string UTIL = "util";
+        public const string BundleName = "sys_lua_txt";
+        public const string SYS = "sys";
+    }
+    public class Ui_lua_txt
+    {
+        public const string BundleName = "ui_lua_txt";
+        public const string UI = "ui";
     }
 }

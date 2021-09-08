@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.RegularExpressions;
 
 public class IOHelper
 {
@@ -40,6 +42,38 @@ public class IOHelper
         File.Move(fileInfo.FullName, p4);
     }
 
+    public static void CreateFile(string filePath, byte[] bytes)
+    {
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+
+        FileInfo file = new FileInfo(filePath);
+        Stream stream = file.Create();
+        stream.Write(bytes, 0, bytes.Length);
+
+        stream.Flush();
+
+        stream.Close();
+        stream.Dispose();
+    }
+
+    /*public static void DerectoryFilter(string targetPath, ref List<string> fileList)
+    {
+        var files = Directory.GetFiles(targetPath, "*");
+        foreach (var file in files)
+        {
+            if ((new Regex(".meta")).IsMatch(file))
+            {
+                fileList.Add(file);
+            }
+        }
+        var dirs = Directory.GetDirectories(targetPath);
+        //递归，遍历文件夹
+        foreach (var dir in dirs) DerectoryFilter(dir, targetPath + "\\" + Path.GetFileName(dir), suffix);
+    }*/
+
     public static void DirectoryCopy(string sourceDirPath, string saveDirPath, string suffix = "")
     {
         //如果指定的存储路径不存在，则创建该存储路径
@@ -47,11 +81,15 @@ public class IOHelper
             //创建
             Directory.CreateDirectory(saveDirPath);
         //获取源路径文件的名称
-        var files = Directory.GetFiles(sourceDirPath);
+        var files = Directory.GetFiles(sourceDirPath, "*");
         //遍历子文件夹的所有文件
         foreach (var file in files)
         {
-            if (file.Contains(".meta")) continue;
+            /*if (delMeta == true && (new Regex(".meta")).IsMatch(file))
+            {
+                continue;
+            }*/
+
             var pFilePath = saveDirPath + "\\" + Path.GetFileName(file) + suffix;
             File.Copy(file, pFilePath, true);
         }
@@ -59,6 +97,55 @@ public class IOHelper
         var dirs = Directory.GetDirectories(sourceDirPath);
         //递归，遍历文件夹
         foreach (var dir in dirs) DirectoryCopy(dir, saveDirPath + "\\" + Path.GetFileName(dir), suffix);
+    }
+
+    public static void DirectoryCopy2(
+        string sourceDirName, string destDirName, bool copySubDirs)
+    {
+        //Log.LogParas(sourceDirName);
+        DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+        DirectoryInfo[] dirs = dir.GetDirectories();
+
+        // If the source directory does not exist, throw an exception.
+        if (!dir.Exists)
+        {
+            throw new DirectoryNotFoundException(
+                "Source directory does not exist or could not be found: "
+                + sourceDirName);
+        }
+
+        //Log.LogParas(destDirName);
+        // If the destination directory does not exist, create it.
+        if (!Directory.Exists(destDirName))
+        {
+            Directory.CreateDirectory(destDirName);
+        }
+
+        // Get the file contents of the directory to copy.
+        FileInfo[] files = dir.GetFiles();
+
+        foreach (FileInfo file in files)
+        {
+            // Create the path to the new copy of the file.
+            string temppath = Path.Combine(destDirName, file.Name);
+
+            // Copy the file.
+            file.CopyTo(temppath, false);
+            //Log.LogParas(temppath);
+        }
+
+        // If copySubDirs is true, copy the subdirectories.
+        if (copySubDirs)
+        {
+            foreach (DirectoryInfo subdir in dirs)
+            {
+                // Create the subdirectory.
+                string temppath = Path.Combine(destDirName, subdir.Name);
+                //Log.LogParas(temppath);
+                // Copy the subdirectories.
+                DirectoryCopy2(subdir.FullName, temppath, copySubDirs);
+            }
+        }
     }
 
     public static long GetDirectorySize(string dirPath)

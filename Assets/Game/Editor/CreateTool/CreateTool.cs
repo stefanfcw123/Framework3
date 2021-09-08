@@ -138,7 +138,7 @@ public class #类名# : Panel
         CrateAssetsTxtFile(".txt");
     }
 
-    private static void CrateAssetsTxtFile(string fileEx, string fileName = "new", string fileContain = "")
+    public static void CrateAssetsTxtFile(string fileEx, string fileName = "new", string fileContain = "")
     {
         var selectFolderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
         var fileFullName = $"{fileName}{fileEx}";

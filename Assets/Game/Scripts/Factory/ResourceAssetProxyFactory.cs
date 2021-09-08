@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using QFramework;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -7,12 +8,16 @@ public class ResourceAssetProxyFactory : IAssetFactory
 {
     private readonly Dictionary<string, AudioClip> m_Audios;
     private readonly Dictionary<string, Object> m_Effects;
-    private readonly ResourceAssetFactory m_RealFactory; // 實際負責載入的AssetFactory
+    private readonly ResourceAssetFactory m_ResFactory; // 實際負責載入的AssetFactory
+    private readonly QFResourceAssetFactory m_QFFactory; // 實際負責載入的AssetFactory
     private readonly Dictionary<string, Sprite> m_Sprites;
 
     public ResourceAssetProxyFactory()
     {
-        m_RealFactory = new ResourceAssetFactory();
+        ResKit.Init();
+
+        m_QFFactory = new QFResourceAssetFactory();
+        m_ResFactory = new ResourceAssetFactory();
         m_Effects = new Dictionary<string, Object>();
         m_Audios = new Dictionary<string, AudioClip>();
         m_Sprites = new Dictionary<string, Sprite>();
@@ -24,7 +29,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
         if (m_Effects.ContainsKey(AssetName) == false)
         {
             var res =
-                m_RealFactory.LoadGameObjectFromResourcePath(ResourceAssetFactory.EffectPath + AssetName);
+                m_ResFactory.LoadGameObjectFromResourcePath(ResourceAssetFactory.EffectPath + AssetName);
             m_Effects.Add(AssetName, res);
         }
 
@@ -37,7 +42,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
         if (m_Audios.ContainsKey(ClipName) == false)
         {
             var res =
-                m_RealFactory.LoadGameObjectFromResourcePath(ResourceAssetFactory.AudioPath + ClipName);
+                m_ResFactory.LoadGameObjectFromResourcePath(ResourceAssetFactory.AudioPath + ClipName);
             m_Audios.Add(ClipName, res as AudioClip);
         }
 
@@ -49,7 +54,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
     {
         if (m_Sprites.ContainsKey(SpriteName) == false)
         {
-            var res = m_RealFactory.LoadSprite(SpriteName);
+            var res = m_ResFactory.LoadSprite(SpriteName);
             m_Sprites.Add(SpriteName, res);
         }
 
@@ -68,7 +73,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
 
     public override TextAsset LoadTextAsset(string name)
     {
-        return null;
+        return m_QFFactory.LoadTextAsset(name);
     }
 
     public override SpriteAtlas LoadSpriteAtlas(string name)
@@ -78,21 +83,21 @@ public class ResourceAssetProxyFactory : IAssetFactory
 
     public override GameObject LoadPanel(string name)
     {
-        return m_RealFactory.LoadPanel(name);
+        return m_ResFactory.LoadPanel(name);
     }
 
     public override GameObject LoadPool(string name)
     {
-        return m_RealFactory.LoadPool(name);
+        return m_ResFactory.LoadPool(name);
     }
 
     public override GameObject loadGameObject(string name)
     {
-        return m_RealFactory.loadGameObject(name);
+        return m_ResFactory.loadGameObject(name);
     }
 
     public override T LoadScriptableObject<T>()
     {
-        return m_RealFactory.LoadScriptableObject<T>();
+        return m_ResFactory.LoadScriptableObject<T>();
     }
 }

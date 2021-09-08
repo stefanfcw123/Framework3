@@ -33,10 +33,12 @@ public class Game : MonoBehaviour
         Release();
     }
 
-    public BreadMakerSystem _breadMakerSystem;
-    public MainPanel _mainPanel;
-    public ContentPanel contentPanel;
-    public TipPanel tipPanel;
+    public LuaSystem luaSystem { get; set; }
+    public HotUpdateSystem HotUpdateSystem { get; set; }
+
+    public MainPanel _mainPanel { get; set; }
+
+    public TipPanel tipPanel { get; set; }
 
     public VersionToolData _versionToolData { get; set; }
 
@@ -53,12 +55,12 @@ public class Game : MonoBehaviour
 
         I = this;
 
-        _breadMakerSystem = AddSystem<BreadMakerSystem>();
+
+        HotUpdateSystem = AddSystem<HotUpdateSystem>();
+        luaSystem = AddSystem<LuaSystem>();
 
         _mainPanel = AddPanel<MainPanel>();
-        contentPanel = AddPanel<ContentPanel>();
         tipPanel = AddPanel<TipPanel>();
-        
     }
 
     private void Release()
@@ -90,13 +92,10 @@ public class Game : MonoBehaviour
         var panelName = typeof(T).Name;
         if (!_panels.ContainsKey(panelName))
         {
-//            Log.LogPrint(panelName);
             GameObject
                 go = Resources
                     .Load<GameObject>(panelName) as GameObject; //  Factorys.GetAssetFactory().LoadPanel(panelName);
-            // Log.LogParas(go, "go");
             GameObject tempGo = Instantiate(go) as GameObject;
-            // Log.LogParas(tempGo,"tempGo");
             tempGo.Name(panelName);
 
             _panels.Add(panelName, tempGo.GetComponent<Panel>());

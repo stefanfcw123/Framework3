@@ -203,10 +203,5 @@ public class VersionTool : EditorWindow
         xmlDoc.Save(VersionPath);
     }
 
-    [Serializable]
-    public class Ver
-    {
-        public int Number;
-        public string Explain;
-    }
+  
 }
