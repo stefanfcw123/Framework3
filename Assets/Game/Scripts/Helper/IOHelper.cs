@@ -53,7 +53,7 @@ public class IOHelper
         Stream stream = file.Create();
         stream.Write(bytes, 0, bytes.Length);
 
-        stream.Flush();
+        //stream.Flush();
 
         stream.Close();
         stream.Dispose();

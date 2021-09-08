@@ -18,6 +18,7 @@ public class Ver
 public class HotUpdateSystem : GameSystem
 {
     private Ver RemoteVar;
+    private Ver localVer;
 
     public HotUpdateSystem(Game game) : base(game)
     {
@@ -32,25 +33,36 @@ public class HotUpdateSystem : GameSystem
 
     private IEnumerator StartUpdate()
     {
-        var f = Factorys.GetAssetFactory();
+        /*var f = Factorys.GetAssetFactory();
         Log.LogParas(f);
-        yield return null;
+        yield return null;*/
 
-        CopyFiles();
-        yield return null;
-
-        Log.LogParas("yiled break");
-        yield break;
-
-        var localVer = LoadVersion(File.ReadAllText(LocalVersionPath, Encoding.UTF8));
-        yield return StartCoroutine(LoadRemoteVersion());
-
-        Log.LogParas("rNumber", RemoteVar.Number, "lNumber", localVer.Number);
-        if (RemoteVar.Number > localVer.Number)
+        if (AssetBundleSettings.LoadAssetResFromStreammingAssetsPath)
         {
-            Log.LogParas("开始执行LoadRemoteABFiles");
+            Log.LogParas("第1次");
             yield return StartCoroutine(LoadRemoteABFiles());
+
+            AssetBundleSettings.LoadAssetResFromStreammingAssetsPath = false;
         }
+        else
+        {
+            Log.LogParas("第2次");
+            localVer = LoadVersion(File.ReadAllText(LocalVersionPath, Encoding.UTF8));
+            yield return StartCoroutine(LoadRemoteVersion());
+            if (RemoteVar.Number > localVer.Number)
+            {
+                yield return StartCoroutine(LoadRemoteABFiles());
+                Log.LogParas("需要更新");
+            }
+            else
+            {
+                Log.LogParas("不需要更新");
+            }
+        }
+
+        /*CopyFiles();
+        yield return null;
+        Log.LogParas("rNumber", RemoteVar.Number, "lNumber", localVer.Number);*/
 
         yield return null;
         Incident.SendEvent(new StartPlay());
@@ -58,10 +70,14 @@ public class HotUpdateSystem : GameSystem
 
     private IEnumerator LoadRemoteABFiles()
     {
+        GetPA().DeleteDirIfExists();
+        GetPA().CreateDirIfNotExists();
+
         string bin = "asset_bindle_config.bin";
         string mainfest = ".manifest";
         string android = "Android";
 
+        Log.LogParas(Path.Combine(GetIA(), bin));
         var webRequest = UnityWebRequest.Get(Path.Combine(GetIA(), bin));
 
         yield return webRequest.SendWebRequest();
@@ -74,10 +90,6 @@ public class HotUpdateSystem : GameSystem
             {
                 var serializeData =
                     (ResDatas.SerializeData) SerializeHelper.DeserializeBinary(openS);
-
-                GetPA().DeleteDirIfExists();
-                GetPA().CreateDirIfNotExists();
-                Log.LogPrint("清空了:" + GetPA());
 
                 List<string> abNameList = new List<string>();
                 abNameList.Add(bin);
@@ -103,7 +115,9 @@ public class HotUpdateSystem : GameSystem
                     }
                     else
                     {
-                        IOHelper.CreateFile(Path.Combine(GetPA(), fileName), www.downloadHandler.data);
+                        var path = Path.Combine(GetPA(), fileName);
+                        Log.LogParas(path);
+                        IOHelper.CreateFile(path, www.downloadHandler.data);
                     }
                 }
             }
@@ -152,7 +166,7 @@ public class HotUpdateSystem : GameSystem
 
     public static string GetI()
     {
-        return "http://192.168.101.19/HFS";
+        return "http://127.0.0.1/HFS";
     }
 
     private static string GetIA()
@@ -182,11 +196,11 @@ public class HotUpdateSystem : GameSystem
             GetPA().DeleteDirIfExists();
             GetPA().CreateDirIfNotExists();
 
-            Log.LogParas(Directory.Exists(Application.streamingAssetsPath), Application.streamingAssetsPath);
+            /*Log.LogParas(Directory.Exists(Application.streamingAssetsPath), Application.streamingAssetsPath);
             Log.LogParas(Directory.Exists(Application.streamingAssetsPath + "/AssetBundles"));
             Log.LogParas(Directory.Exists(Application.streamingAssetsPath + "/AssetBundles/Android"));
+            Log.LogParas("sa", Directory.Exists(GetSA()));*/
 
-            Log.LogParas("sa", Directory.Exists(GetSA()));
             IOHelper.DirectoryCopy2(GetSA(), GetPA(), true);
 
             AssetBundleSettings.LoadAssetResFromStreammingAssetsPath = false;

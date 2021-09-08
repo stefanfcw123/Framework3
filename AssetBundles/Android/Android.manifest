@@ -1,19 +1,19 @@
 ManifestFileVersion: 0
-CRC: 939763651
+CRC: 1184902088
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: functions_lua_txt
-      Dependencies: {}
-    Info_1:
       Name: main_lua_txt
       Dependencies: {}
+    Info_1:
+      Name: ui_lua_txt
+      Dependencies: {}
     Info_2:
-      Name: root_lua_txt
+      Name: functions_lua_txt
       Dependencies: {}
     Info_3:
       Name: sys_lua_txt
       Dependencies: {}
     Info_4:
-      Name: ui_lua_txt
+      Name: root_lua_txt
       Dependencies: {}

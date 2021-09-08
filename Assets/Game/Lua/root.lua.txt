@@ -12,7 +12,7 @@ function root:ctor()
 end
 
 function root:Awake()
-    print("hello root Awake")
+    print("hello root Awake2")
 end
 
 function root:Update()

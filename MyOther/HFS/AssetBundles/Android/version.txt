@@ -6,4 +6,5 @@
   <Ver Number="5" Explain="1" />
   <Ver Number="6" Explain="1.完美的版本2.没有缺点" />
   <Ver Number="7" Explain="1" />
+  <Ver Number="8" Explain="1" />
 </Root>

@@ -47,6 +47,8 @@ public class PathTool
     [MenuItem("Framework/PathTool/ClearABFilePathByThreePlaces")]
     public static void ClearABFilePathByThreePlaces()
     {
+        PlayerPrefs.DeleteAll();
+        
         var p1 = Application.streamingAssetsPath;
         var p2 = Application.persistentDataPath;
         var p3 = GetHFS();
