@@ -7,10 +7,14 @@ using UnityEngine.U2D;
 public class QFResourceAssetFactory : IAssetFactory
 {
     private ResLoader _resLoaderTextAsset;
+    private ResLoader _resLoaderSprite;
+    private ResLoader _resLoaderGameObject;
 
     public QFResourceAssetFactory()
     {
         _resLoaderTextAsset = ResLoader.Allocate();
+        _resLoaderSprite =ResLoader.Allocate();
+        _resLoaderGameObject =ResLoader.Allocate();
     }
 
     public override GameObject LoadEffect(string name)
@@ -25,7 +29,7 @@ public class QFResourceAssetFactory : IAssetFactory
 
     public override Sprite LoadSprite(string name)
     {
-        throw new System.NotImplementedException();
+       return _resLoaderSprite.LoadSprite(name) as Sprite;
     }
 
     public override Material LoadMaterial(string name)
@@ -60,7 +64,7 @@ public class QFResourceAssetFactory : IAssetFactory
 
     public override GameObject loadGameObject(string name)
     {
-        throw new System.NotImplementedException();
+       return _resLoaderGameObject.LoadSync(name) as GameObject;
     }
 
     public override T LoadScriptableObject<T>()

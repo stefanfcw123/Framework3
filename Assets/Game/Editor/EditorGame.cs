@@ -12,6 +12,16 @@ public class EditorGame
         return Path.Combine(Application.dataPath, tempPath);
     }
 
+    public static string GetHFS_A()
+    {
+        return Path.Combine(GetHFS(), HotUpdateSystem.GetA());
+    }
+
+    public static string GetHFS()
+    {
+        return Path.Combine(EditorGame.GetMyOtherPath(), "HFS");
+    }
+
     public static string GetMyOtherVersionPath()
     {
         return GetMyOtherPath() + "/version.txt";

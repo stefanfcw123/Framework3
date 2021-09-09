@@ -3,9 +3,9 @@
 --  email : 894982165@qq.com
 --   time : 2021/1/28 14:56:48
 -------------------------------------------------------
-require("functions");
-require("sys")
-require("ui")
+require("functions.functions");
+require("base.sys")
+require("base.ui")
 
 UnityEngine = CS.UnityEngine;
 GameObject = CS.UnityEngine.GameObject;
@@ -21,6 +21,8 @@ AudioSource = CS.UnityEngine.AudioSource;
 Resources = CS.UnityEngine.Resources;
 Color = CS.UnityEngine.Color;
 SpriteRenderer = CS.UnityEngine.SpriteRenderer;
+
+af =CS.Factorys.GetAssetFactory();
 
 -- arr
 function table.index_of(arr, val)

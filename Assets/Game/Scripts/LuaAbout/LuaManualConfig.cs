@@ -86,6 +86,9 @@ public static class LuaManualConfig
         typeof(Func<double, double, double>),
         typeof(Action<string>),
         typeof(Action<double>),
+        typeof(Action<float>),
+        typeof(Action<int>),
+        typeof(Action<bool>),
         typeof(UnityEngine.Events.UnityAction),
         typeof(System.Collections.IEnumerator)
     };

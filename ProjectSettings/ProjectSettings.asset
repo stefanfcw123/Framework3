@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: SkyAllen
-  productName: FFFF2
+  productName: MemoryBread
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -131,7 +131,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.0.8
+  bundleVersion: 0.0.16
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -175,9 +175,9 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.SkyAllen.FFFF2
+    Android: com.amazon.SkyAllen.MemoryBread
   buildNumber: {}
-  AndroidBundleVersionCode: 8
+  AndroidBundleVersionCode: 16
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -254,7 +254,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{inproject}: MyOther/user.keystore'
+  AndroidKeystoreName: '{inproject}: Assets/../MyOther/user.keystore'
   AndroidKeyaliasName: a
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

@@ -45,6 +45,7 @@ public class #类名# : GameSystem
 
     private static string format => EditorGame.format;
     private static readonly string CodeCreateDir = $"{Application.dataPath}/Game/Scripts";
+    private static readonly string LuaCodeCreateDir = $"{Application.dataPath}/Game/LuaFiles/ui";
 
     private static readonly string UIInitClassStr = @"using UnityEngine;
 using System;
@@ -79,9 +80,9 @@ public class #类名#Args : PanelArgs
 
 public class #类名# : Panel
 {
-	public override void Initialize(PanelArgs arguments)
+	public override void Initialize()
 	{
-		base.Initialize(arguments);
+		base.Initialize();
 	}
 //auto
    private void Awake()
@@ -210,7 +211,7 @@ public class #类名# : Panel
                 bindStr = $"{bindStr}Incident.RigisterEvent<{ev}>({ev}Callback);{format}";
             }
 
-        var scriptPath = $"{CodeCreateDir}/{className}.cs";
+        var scriptPath = $"{CodeCreateDir}/System/{className}.cs";
         var classStr = "";
         if (File.Exists(scriptPath)) //如果已经存在了脚本，则只替换//auto下方的字符串
         {
@@ -249,6 +250,175 @@ public class #类名# : Panel
         EditorGame.Refresh();
 
         Log.LogPrint("Create System Success");
+    }
+
+    static string LuaClassStr = @"
+-------------------------------------------------------                                                             
+-- author : sky_allen                                                                                                                  
+--  email : 894982165@qq.com      
+--   time : $time$                                                                                           
+-------------------------------------------------------
+
+---@class $table$
+local $table$ = class('$table$',ui)
+local $table$CS
+
+function $table$:init()
+    $table$.super.init(self)
+end
+
+--auto
+   
+function $table$:ctor(go, tier)
+    $table$.super.ctor(self, go, tier)
+    $table$CS= self.go:GetComponent('$table$');
+	#查找#
+    #绑定#
+end
+	#成员#
+    #函数#    
+
+return $table$
+";
+
+    [MenuItem("GameObject/CreateTool/LuaPanelCreateCode", priority = 5)]
+    public static void LuaPanelCreateCode()
+    {
+        var selectobj = Selection.gameObjects;
+        if (selectobj.Length != 1) return;
+
+        var root = selectobj[0].transform;
+        var rootName = root.name;
+
+        if ((rootName.Contains("Panel") == false)) return;
+
+        /*var haveE = root.GetComponent<HaveEvents>();
+        if (haveE != null)
+            if (haveE.EventTypes.Distinct().Count() != haveE.EventTypes.Count())
+                throw new Exception("have same event type");*/
+
+        PanelTypes = StructHelper.GetEnums<PanelUIType>();
+        PanelTypes.Remove(PanelUIType.Null);
+        PanelDic.Clear();
+
+        PanelTraverse(root, root);
+
+        LuaUIAboutCreateFile(rootName, null, LuaClassStr);
+    }
+
+    private static void LuaUIAboutCreateFile(string className, HaveEvents haveE, string initClassStr)
+    {
+        var memberStr = ""; //成员变量字符串
+        var findStr = ""; //查询代码字符串
+
+        var bindStr = "";
+        var funcStr = "";
+
+        foreach (var kv in PanelDic)
+        {
+            var name = kv.Key;
+            var childPath = kv.Value.Item1;
+            var type = kv.Value.Item2;
+            //memberStr =$"{memberStr}private {type} {name}=null;{format}";
+
+            switch (type)
+            {
+                case PanelUIType.Text:
+                    findStr =
+                        $"{findStr}self.{name}=self.go.transform:Find(\"{childPath}\"):GetComponent(\'{type}\');{format}";
+                    funcStr = $"{funcStr}function {className}:{name}Refresh(t)self.{name}.text=t;end{format}";
+                    break;
+                case PanelUIType.Button:
+                    findStr =
+                        $"{findStr}self.{name}=self.go.transform:Find(\"{childPath}\"):GetComponent(\'{type}\');{format}";
+
+                    //bindStr = $"{bindStr}{name}.onClick.AddListener(()=>{{{name}Action?.Invoke();}});{format}";
+                    bindStr = $"{bindStr}self.{name}.onClick:AddListener(function()self:{name}Action()end);{format}";
+                    //memberStr = $"{memberStr}public Action {name}Action{{get;set;}}{format}";
+                    break;
+                case PanelUIType.Toggle:
+                    findStr =
+                        $"{findStr}self.{name}=self.go.transform:Find(\"{childPath}\"):GetComponent(\'{type}\');{format}";
+                    bindStr =
+                        $"{bindStr}self.{name}.onValueChanged:AddListener(function(t)self:{name}Action(t)end);{format}";
+                    //memberStr = $"{memberStr}public Action<bool> {name}Action{{get;set;}}{format}";
+                    break;
+                case PanelUIType.Slider:
+                    findStr =
+                        $"{findStr}self.{name}=self.go.transform:Find(\"{childPath}\"):GetComponent(\'{type}\');{format}";
+                    bindStr =
+                        $"{bindStr}self.{name}.onValueChanged:AddListener(function(t)self:{name}Action(t)end);{format}";
+                    //memberStr = $"{memberStr}public Action<float> {name}Action{{get;set;}}{format}";
+                    break;
+                case PanelUIType.Dropdown:
+                    findStr =
+                        $"{findStr}self.{name}=self.go.transform:Find(\"{childPath}\"):GetComponent(\'{type}\');{format}";
+                    bindStr =
+                        $"{bindStr}self.{name}.onValueChanged:AddListener(function(t)self:{name}Action(t)end);{format}";
+                    /*memberStr = $"{memberStr}public Action<int> {name}Action{{get;set;}}{format}";*/
+                    break;
+                case PanelUIType.InputField:
+                    break;
+                case PanelUIType.Image:
+                    findStr =
+                        $"{findStr}self.{name}=self.go.transform:Find(\"{childPath}\"):GetComponent(\'{type}\');{format}";
+                    funcStr = $"{funcStr}function {className}:{name}Refresh(t)self.{name}.sprite=t;end{format}";
+                    break;
+                case PanelUIType.GameObject:
+                    findStr =
+                        $"{findStr}self.{name}=self.go.transform:Find(\"{childPath}\").gameObject;{format}";
+                    funcStr =
+                        $"{funcStr}function {className}:{name}SetParent(t)t.transform:SetParent(self.{name}.transform,false);end{format}";
+                    break;
+            }
+        }
+
+        if (haveE != null)
+            foreach (var ev in haveE.EventTypes)
+            {
+                bindStr = $"{bindStr}Incident.DeleteEvent<{ev}>({ev}Callback);{format}";
+                bindStr = $"{bindStr}Incident.RigisterEvent<{ev}>({ev}Callback);{format}";
+            }
+
+        var scriptPath = $"{LuaCodeCreateDir}/{className}.lua";
+        var classStr = "";
+        if (File.Exists(scriptPath)) //如果已经存在了脚本，则只替换//auto下方的字符串
+        {
+            var classfile = new FileStream(scriptPath, FileMode.Open);
+            var read = new StreamReader(classfile);
+            var readStr = read.ReadToEnd();
+
+            read.Close();
+            classfile.Close();
+            File.Delete(scriptPath);
+
+            var splitStr = "--auto";
+            var unchangeStr = Regex.Split(readStr, splitStr, RegexOptions.IgnoreCase)[0];
+            var changeStr = Regex.Split(initClassStr, splitStr, RegexOptions.IgnoreCase)[1];
+
+            classStr = $"{unchangeStr}{splitStr}{changeStr}";
+        }
+        else
+        {
+            classStr = initClassStr;
+        }
+
+        classStr = classStr.Replace("$table$", className);
+        classStr = classStr.Replace("#查找#", findStr);
+        classStr = classStr.Replace("#成员#", memberStr);
+        classStr = classStr.Replace("#绑定#", bindStr);
+        classStr = classStr.Replace("#函数#", funcStr);
+
+        var file = new FileStream(scriptPath, FileMode.CreateNew); //指示操作系统应创建新文件，如果文件已经存在，将引发异常
+        var fileW = new StreamWriter(file, Encoding.UTF8);
+        fileW.Write(classStr);
+        fileW.Flush(); //强制写入，确保数据完整
+        fileW.Close(); //不需要dispose，下次接着玩
+        file.Close(); //fileStrem最后关闭
+
+        EditorGame.Refresh();
+
+        Log.LogPrint("[LUA:] Panel Or UI Create Success");
     }
 
     [MenuItem("GameObject/CreateTool/PanelCreateCode", priority = 5)]
@@ -424,7 +594,7 @@ public class #类名# : Panel
                 case PanelUIType.Image:
                     findStr =
                         $"{findStr}{name}=transform.Find(\"{childPath}\").GetComponent<{type}>();{format}";
-                    funcStr = $"{funcStr}private void {name}Refresh(Sprite s)=>{name}.sprite=s;{format}";
+                    funcStr = $"{funcStr}public void {name}Refresh(Sprite s)=>{name}.sprite=s;{format}";
                     break;
                 case PanelUIType.GameObject:
                     findStr =
@@ -442,7 +612,7 @@ public class #类名# : Panel
                 bindStr = $"{bindStr}Incident.RigisterEvent<{ev}>({ev}Callback);{format}";
             }
 
-        var scriptPath = $"{CodeCreateDir}/{className}.cs";
+        var scriptPath = $"{CodeCreateDir}/Panel/{className}.cs";
         var classStr = "";
         if (File.Exists(scriptPath)) //如果已经存在了脚本，则只替换//auto下方的字符串
         {
@@ -546,6 +716,74 @@ public class #类名# : Panel
 
             PanelTraverse(c, root);
         }
+    }
+
+
+    [MenuItem("Assets/CreateTool/CreateLua", false, 1)]
+    static void CreateLua()
+    {
+        string head = @"
+-------------------------------------------------------                                                             
+-- author : sky_allen                                                                                                                  
+--  email : 894982165@qq.com      
+--   time : $time$                                                                                           
+-------------------------------------------------------
+
+---@class $table$
+local $table$ = class('$table$',ui)
+local $table$CS
+
+function $table$:ctor(go, tier)
+    $table$.super.ctor(self, go, tier)
+    $table$CS= self.go:GetComponent('$table$');
+end
+
+function $table$:init()
+    $table$.super.init(self)
+end
+
+return $table$
+";
+        CreateTool.CrateAssetsTxtFile(".lua", fileContain: head);
+    }
+
+    [MenuItem("Assets/CreateTool/RenameLuaAndCopyPath", false, 2)]
+    static void RenameLuaAndCopyPath()
+    {
+        var selectFolderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+        var realPath = EditorGame.GetAssetsPathAbsolute(selectFolderPath);
+
+        StreamReader reader = new StreamReader(realPath, Encoding.UTF8);
+        String content = reader.ReadToEnd();
+        reader.Close();
+
+        var tempStrArray = selectFolderPath.Split('/');
+        var fileName = tempStrArray[tempStrArray.Length - 1].Split('.')[0];
+
+        if (content.Contains("$table$"))
+        {
+            content = content.Replace("$table$", fileName);
+            content = content.Replace("$time$", DateTime.Now.ToString());
+
+            File.WriteAllText(realPath, content, new UTF8Encoding(false));
+
+            AssetDatabase.Refresh();
+        }
+
+
+        string copyPath = "";
+        for (int i = 0; i < tempStrArray.Length; i++)
+        {
+            if ((i == 0) || (i == 1) || (i == 2) || (i == tempStrArray.Length - 1))
+            {
+                continue;
+            }
+
+            copyPath += tempStrArray[i] + "/";
+        }
+
+        copyPath = Path.Combine(copyPath, fileName);
+        EditorGame.CopyToBoard(copyPath);
     }
 }
 

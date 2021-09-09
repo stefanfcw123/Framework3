@@ -36,22 +36,18 @@ public class PathTool
     [MenuItem("Framework/PathTool/OpenMyHFS")]
     public static void OpenMyHFS()
     {
-        Application.OpenURL(GetHFS());
+        Application.OpenURL(EditorGame.GetHFS());
     }
 
-    private static string GetHFS()
-    {
-        return Path.Combine(EditorGame.GetMyOtherPath(), "HFS");
-    }
 
     [MenuItem("Framework/PathTool/ClearABFilePathByThreePlaces")]
     public static void ClearABFilePathByThreePlaces()
     {
         PlayerPrefs.DeleteAll();
-        
+
         var p1 = Application.streamingAssetsPath;
         var p2 = Application.persistentDataPath;
-        var p3 = GetHFS();
+        var p3 = EditorGame.GetHFS();
 
         p1.DeleteDirIfExists();
         p2.DeleteDirIfExists();

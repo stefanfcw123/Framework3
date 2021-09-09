@@ -50,15 +50,16 @@ public class ResourceAssetProxyFactory : IAssetFactory
     }
 
     // 產生Sprite
-    public override Sprite LoadSprite(string SpriteName)
+    public override Sprite LoadSprite(string spriteName)
     {
-        if (m_Sprites.ContainsKey(SpriteName) == false)
+        /*if (m_Sprites.ContainsKey(SpriteName) == false)
         {
             var res = m_ResFactory.LoadSprite(SpriteName);
             m_Sprites.Add(SpriteName, res);
         }
+        return m_Sprites[SpriteName];*/
 
-        return m_Sprites[SpriteName];
+        return m_QFFactory.LoadSprite(spriteName);
     }
 
     public override Material LoadMaterial(string name)
@@ -93,6 +94,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
 
     public override GameObject loadGameObject(string name)
     {
+        return m_QFFactory.loadGameObject(name);
         return m_ResFactory.loadGameObject(name);
     }
 

@@ -57,6 +57,7 @@ public class IOHelper
 
         stream.Close();
         stream.Dispose();
+        Log.LogParas("create success");
     }
 
     /*public static void DerectoryFilter(string targetPath, ref List<string> fileList)
@@ -85,6 +86,11 @@ public class IOHelper
         //遍历子文件夹的所有文件
         foreach (var file in files)
         {
+            if (file.EndsWith(".meta"))
+            {
+                continue;
+            }
+
             /*if (delMeta == true && (new Regex(".meta")).IsMatch(file))
             {
                 continue;
@@ -100,7 +106,7 @@ public class IOHelper
     }
 
     public static void DirectoryCopy2(
-        string sourceDirName, string destDirName, bool copySubDirs)
+        string sourceDirName, string destDirName, bool copySubDirs, bool isOverwrite = true)
     {
         //Log.LogParas(sourceDirName);
         DirectoryInfo dir = new DirectoryInfo(sourceDirName);
@@ -130,7 +136,7 @@ public class IOHelper
             string temppath = Path.Combine(destDirName, file.Name);
 
             // Copy the file.
-            file.CopyTo(temppath, false);
+            file.CopyTo(temppath, isOverwrite);
             //Log.LogParas(temppath);
         }
 

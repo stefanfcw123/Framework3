@@ -36,11 +36,14 @@ public class Game : MonoBehaviour
     public LuaSystem luaSystem { get; set; }
     public HotUpdateSystem HotUpdateSystem { get; set; }
 
-    public MainPanel _mainPanel { get; set; }
+    //public MainPanel _mainPanel { get; set; }
+    //public TipPanel tipPanel { get; set; }
 
-    public TipPanel tipPanel { get; set; }
+    public static VersionToolData VData => AF.LoadScriptableObject<VersionToolData>();
 
-    public VersionToolData _versionToolData { get; set; }
+    public static IAssetFactory AF => Factorys.GetAssetFactory();
+
+    //public VersionToolData _versionToolData { get; set; }
 
     private void Reset()
     {
@@ -54,13 +57,12 @@ public class Game : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         I = this;
-
-
+        
         HotUpdateSystem = AddSystem<HotUpdateSystem>();
         luaSystem = AddSystem<LuaSystem>();
 
-        _mainPanel = AddPanel<MainPanel>();
-        tipPanel = AddPanel<TipPanel>();
+        /*_mainPanel = AddPanel<MainPanel>();
+        tipPanel = AddPanel<TipPanel>();*/
     }
 
     private void Release()

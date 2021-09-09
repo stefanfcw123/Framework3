@@ -44,6 +44,11 @@ public class VersionTool : EditorWindow
             }
         }
 
+        if (GUILayout.Button(new GUIContent("开始移动各种文件")))
+        {
+            MoveVersionFile();
+        }
+
         if (GUILayout.Button(new GUIContent("开始打包"))) StartBuild();
 
         EditorGUILayout.EndVertical();
@@ -91,7 +96,8 @@ public class VersionTool : EditorWindow
 
     private static void StartBuild()
     {
-        var data = Factorys.GetAssetFactory().LoadScriptableObject<VersionToolData>();
+        var data = Resources.Load<VersionToolData>("VersionToolData");
+        data.Debug = false;
 
         var applicationIdentifier = "";
         BuildTarget buildTarget = default;
@@ -116,18 +122,17 @@ public class VersionTool : EditorWindow
             buildTarget = BuildTarget.iOS;
         }
 
-        // EditorUtility.SetDirty(data);
-        // EditorGlobal.Refresh();
+        EditorUtility.SetDirty(data);
+        EditorGame.Refresh();
 
-        var config = Factorys.GetAssetFactory()
-            .LoadScriptableObject<ProductConfigList>().list[0];
+        var config = Resources.Load<ProductConfigList>("ProductConfigList").list[0];
         PlayerSettings.companyName = config.CompanyName;
         PlayerSettings.productName = config.ProductName;
         PlayerSettings.applicationIdentifier = applicationIdentifier;
-        /*PlayerSettings.Android.keyaliasName = "a";
+        PlayerSettings.Android.keyaliasName = "a";
         PlayerSettings.keyaliasPass = "yn1234";
         PlayerSettings.keystorePass = "yn1234";
-        PlayerSettings.Android.keystoreName = EditorGame.GetMyOtherPath() + @"\user.keystore";*/
+        PlayerSettings.Android.keystoreName = EditorGame.GetMyOtherPath() + @"\user.keystore";
 
         if (config.LandScape)
             PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
@@ -146,7 +151,18 @@ public class VersionTool : EditorWindow
         //EditorUtility.DisplayDialog("版本工具", "打包成功", "ok", "exit");
     }
 
+    private static void MoveVersionFile()
+    {
+        var v = EditorGame.GetMyOtherVersionPath();
+        var vT = HotUpdateSystem.GetSA();
+        File.Copy(v, Path.Combine(vT, "version.txt"), true);
+        EditorGame.Refresh();
 
+        IOHelper.DirectoryCopy2(vT, EditorGame.GetHFS_A(), true);
+        EditorGame.Refresh();
+
+        Log.LogPrint("Move Files Success!");
+    }
 
     private static void LoadByVersionXML()
     {
@@ -202,6 +218,4 @@ public class VersionTool : EditorWindow
         xmlDoc.AppendChild(rootNode);
         xmlDoc.Save(VersionPath);
     }
-
-  
 }
