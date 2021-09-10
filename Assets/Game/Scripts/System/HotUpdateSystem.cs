@@ -114,7 +114,7 @@ public class HotUpdateSystem : GameSystem
                     {
                         var path = Path.Combine(GetPA(), fileName);
                         Log.LogParas("abNameList:" + abNameList.Count + ":" + path);
-                        IOHelper.CreateFile(path, www.downloadHandler.data);
+                        IOHelper.CreateFileByStream2(path, www.downloadHandler.data);
                     }
                 }
             }

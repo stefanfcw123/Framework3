@@ -1,11 +1,35 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 
 public class IOHelper
 {
+    public static string GetFileName(string filePath)
+    {
+        FileInfo f = new FileInfo(filePath);
+        return f.Name.Replace(f.Extension, "");
+    }
+
+    public static List<string> GetAllFilePaths(string dirPath, string mode = "*")
+    {
+        List<string> res = new List<string>();
+
+        DirectoryInfo directoryInfo = new DirectoryInfo(dirPath);
+
+        var fs = directoryInfo.GetFiles(mode);
+
+        foreach (var f in fs)
+        {
+            res.Add(f.FullName);
+        }
+
+        return res;
+    }
+
     public static void CreateFileByStream(string path, string content)
     {
         if (File.Exists(path)) File.Delete(path);
@@ -42,7 +66,7 @@ public class IOHelper
         File.Move(fileInfo.FullName, p4);
     }
 
-    public static void CreateFile(string filePath, byte[] bytes)
+    public static void CreateFileByStream2(string filePath, byte[] bytes)
     {
         if (File.Exists(filePath))
         {

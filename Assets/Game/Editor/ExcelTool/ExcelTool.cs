@@ -16,7 +16,6 @@ using UnityEngine;
 
 public class ExcelTool : EditorWindow
 {
-    public const string FileName = "ProductConfig";
     private const string format = "\r\n\t";
     public const string ScriptableObjectReadPath = "Assets/Game/Scripts/ScriptableObject";
     public const string ScriptableObjectWritePath = "Assets/Game/Resources";
@@ -31,20 +30,58 @@ public class ExcelTool : EditorWindow
     [MenuItem("Framework/ExcelTool/CreateScriptableObject")]
     public static void CreateScriptableObject()
     {
-        ReadExcel();
-        FillBigDic();
-        CreateCS();
+        var lists = GetFixedFilePaths();
+        foreach (var s in lists)
+        {
+            ReadExcel(s);
+            FillBigDic();
+            CreateCS(s);
+        }
     }
 
     [MenuItem("Framework/ExcelTool/SetScriptableObjectData")]
     public static void SetScriptableObjectData()
     {
-        ReadExcel();
-        FillBigDic();
-        SetConfigGenenal<ProductConfigList, ProductConfig>();
+        var lists = GetFixedFilePaths();
+        foreach (var s in lists)
+        {
+            ReadExcel(s);
+            FillBigDic();
+            SetConfigGenenal<ProductConfigList, ProductConfig>(s);
+        }
     }
 
-    private static void SetConfigGenenal<TList, TItem>() where TList : ScriptableObject where TItem : class, new()
+    [MenuItem("Framework/ExcelTool/CreateSetLuaData")]
+    public static void CreateSetLuaData()
+    {
+        var lists = GetFixedFilePaths();
+        foreach (var s in lists)
+        {
+            ReadExcel(s);
+            FillBigDic();
+            CreateLua(s);
+        }
+    }
+
+    private static List<string> GetFixedFilePaths()
+    {
+        var lists = IOHelper.GetAllFilePaths(EditorGame.GetMyOtherPath(), "*.xlsx");
+        List<string> res = new List<string>();
+        foreach (var s in lists)
+        {
+            if (s.Contains("~$"))
+            {
+                continue;
+            }
+
+            res.Add(IOHelper.GetFileName(s));
+        }
+
+        return res;
+    }
+
+    private static void SetConfigGenenal<TList, TItem>(string FileName)
+        where TList : ScriptableObject where TItem : class, new()
     {
         var listObj = CreateInstance<TList>();
 
@@ -67,16 +104,16 @@ public class ExcelTool : EditorWindow
                     case CreateFieldType.Null:
                         break;
                     case CreateFieldType.INT:
-                        info.SetValue(t1, Convert.ToInt32(GetItemItemStr(fName, i)));
+                        info.SetValue(t1, CovertInt(GetItemItemStr(fName, i)));
                         break;
                     case CreateFieldType.STRING:
-                        info.SetValue(t1, Convert.ToString(GetItemItemStr(fName, i)));
+                        info.SetValue(t1, CovertString(GetItemItemStr(fName, i)));
                         break;
                     case CreateFieldType.DOUBLE:
-                        info.SetValue(t1, Convert.ToDouble(GetItemItemStr(fName, i)));
+                        info.SetValue(t1, CovertDouble(GetItemItemStr(fName, i)));
                         break;
                     case CreateFieldType.BOOL:
-                        info.SetValue(t1, Convert.ToBoolean(GetItemItemStr(fName, i)));
+                        info.SetValue(t1, CovertBoolean(GetItemItemStr(fName, i)));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -97,15 +134,26 @@ public class ExcelTool : EditorWindow
     private static string GetItemItemStr(string filed, int row)
     {
         var col = BigDic[filed].belongColumn;
-        var res = collection[row][col].ToString();
+        var res = GetFixedCollectionGrid(row, col);
         return res;
     }
 
-    private static void ReadExcel(int sheetIndex = 0)
+    private static string GetFixedCollectionGrid(int row, int col)
+    {
+        string res = collection[row][col].ToString().Trim();
+
+        if (row == 0 && string.IsNullOrWhiteSpace(res))
+        {
+            throw new Exception("Key is empty error!");
+        }
+
+        return res;
+    }
+
+    private static void ReadExcel(string FileName, int sheetIndex = 0)
     {
         var excelFullPath = $"{ReadExcelPath}/{FileName}.xlsx";
-
-        var stream = File.Open(excelFullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        var stream = File.Open(excelFullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         var excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
         var result = excelReader.AsDataSet();
         var t = result.Tables[sheetIndex];
@@ -113,7 +161,7 @@ public class ExcelTool : EditorWindow
         collection = t.Rows;
         row = t.Rows.Count;
         col = t.Columns.Count;
-        
+
         stream.Close();
         excelReader.Close();
     }
@@ -123,7 +171,7 @@ public class ExcelTool : EditorWindow
         BigDic = new Dictionary<string, GridMessage>();
 
         var contents = new List<string>();
-        for (var c = 0; c < col; c++) contents.Add(collection[0][c].ToString());
+        for (var c = 0; c < col; c++) contents.Add(GetFixedCollectionGrid(0, c));
 
         for (var index = 0; index < contents.Count; index++)
         {
@@ -158,7 +206,7 @@ public class ExcelTool : EditorWindow
         return res;
     }
 
-    private static string GetListContent()
+    private static string GetListContent(string FileName)
     {
         var sb = new StringBuilder();
         sb.Append($"using System;{format}");
@@ -173,7 +221,7 @@ public class ExcelTool : EditorWindow
         return sb.ToString();
     }
 
-    private static string GetItemContent()
+    private static string GetItemContent(string FileName)
     {
         var sb = new StringBuilder();
         sb.Append($"using UnityEngine;{format}");
@@ -185,13 +233,116 @@ public class ExcelTool : EditorWindow
         return sb.ToString();
     }
 
-    private static void CreateCS()
+    public static int CovertInt(string content)
+    {
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            return 0;
+        }
+        else
+        {
+            return Convert.ToInt32(content);
+        }
+    }
+
+    public static string CovertString(string content)
+    {
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            return "";
+        }
+        else
+        {
+            return Convert.ToString(content);
+        }
+    }
+
+    public static double CovertDouble(string content)
+    {
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            return 0;
+        }
+        else
+        {
+            return Convert.ToDouble(content);
+        }
+    }
+
+    public static bool CovertBoolean(string content)
+    {
+        if (string.IsNullOrWhiteSpace(content))
+        {
+            return false;
+        }
+        else
+        {
+            return Convert.ToBoolean(content);
+        }
+    }
+
+    private static void CreateLua(string FileName)
+    {
+        /*foreach (var key in BigDic.Keys)
+        {
+            Log.LogParas(key, BigDic[key].belongColumn, BigDic[key]._createFieldType);
+        }*/
+
+        StringBuilder sb = new StringBuilder();
+        sb.Append($"{FileName}={{");
+
+        for (var i = 1; i < row; i++)
+        {
+            StringBuilder sbPer = new StringBuilder();
+            sbPer.Append("{");
+            foreach (var kv in BigDic)
+            {
+                var fName = kv.Key;
+                var fType = kv.Value._createFieldType;
+
+                string s = "";
+                switch (fType)
+                {
+                    case CreateFieldType.Null:
+                        break;
+                    case CreateFieldType.INT:
+                        s = CovertInt(GetItemItemStr(fName, i)).ToString();
+                        break;
+                    case CreateFieldType.STRING:
+                        s = $"'{CovertString(GetItemItemStr(fName, i))}'";
+                        break;
+                    case CreateFieldType.DOUBLE:
+                        s = CovertDouble(GetItemItemStr(fName, i)).ToString();
+                        break;
+                    case CreateFieldType.BOOL:
+                        s = CovertBoolean(GetItemItemStr(fName, i)).ToString().ToLower();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                sbPer.Append($"{fName}={s},{format}");
+            }
+
+            sbPer.Append("},");
+
+            sb.Append(sbPer);
+        }
+
+        sb.Append("}");
+
+        var path = $"{Path.Combine(LuaSystem.LuaRoot(), "data")}/{FileName}.lua";
+        IOHelper.CreateFileByStream(path, sb.ToString());
+        Log.LogParas($"Excel To Lua {FileName} Success");
+    }
+
+    private static void CreateCS(string FileName)
     {
         IOHelper.CreateFileByStream(EditorGame.GetAssetsPathAbsolute(ScriptableObjectReadPath) + $"/{FileName}.cs",
-            GetItemContent());
+            GetItemContent(FileName));
         IOHelper.CreateFileByStream(
             EditorGame.GetAssetsPathAbsolute(ScriptableObjectReadPath) + $"/{FileName}List.cs",
-            GetListContent());
+            GetListContent(FileName));
 
         EditorGame.Refresh();
         Log.LogPrint("Create CS File Success");

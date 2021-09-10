@@ -45,7 +45,7 @@ public class #类名# : GameSystem
 
     private static string format => EditorGame.format;
     private static readonly string CodeCreateDir = $"{Application.dataPath}/Game/Scripts";
-    private static readonly string LuaCodeCreateDir = $"{Application.dataPath}/Game/LuaFiles/ui";
+    private static readonly string LuaCodeCreateDir = Path.Combine(LuaSystem.LuaRoot(), "ui");
 
     private static readonly string UIInitClassStr = @"using UnityEngine;
 using System;
@@ -134,10 +134,10 @@ public class #类名# : Panel
 
     private static List<PanelUIType> PanelTypes;
 
-    private static void CreateAssetsTxt()
+    /*private static void CreateAssetsTxt()
     {
         CrateAssetsTxtFile(".txt");
-    }
+    }*/
 
     public static void CrateAssetsTxtFile(string fileEx, string fileName = "new", string fileContain = "")
     {
@@ -403,6 +403,7 @@ return $table$
             classStr = initClassStr;
         }
 
+        classStr = classStr.Replace("$time$", DateTime.Now.ToString());
         classStr = classStr.Replace("$table$", className);
         classStr = classStr.Replace("#查找#", findStr);
         classStr = classStr.Replace("#成员#", memberStr);
@@ -730,18 +731,7 @@ return $table$
 -------------------------------------------------------
 
 ---@class $table$
-local $table$ = class('$table$',ui)
-local $table$CS
-
-function $table$:ctor(go, tier)
-    $table$.super.ctor(self, go, tier)
-    $table$CS= self.go:GetComponent('$table$');
-end
-
-function $table$:init()
-    $table$.super.init(self)
-end
-
+local $table$ = class('$table$')
 return $table$
 ";
         CreateTool.CrateAssetsTxtFile(".lua", fileContain: head);

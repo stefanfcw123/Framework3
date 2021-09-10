@@ -6,6 +6,7 @@
 require("functions.functions");
 require("base.sys")
 require("base.ui")
+require("functions.util")
 
 UnityEngine = CS.UnityEngine;
 GameObject = CS.UnityEngine.GameObject;
@@ -20,9 +21,10 @@ Physics2D = CS.UnityEngine.Physics2D;
 AudioSource = CS.UnityEngine.AudioSource;
 Resources = CS.UnityEngine.Resources;
 Color = CS.UnityEngine.Color;
+DOTween = CS.DG.Tweening.DOTween
 SpriteRenderer = CS.UnityEngine.SpriteRenderer;
 
-af =CS.Factorys.GetAssetFactory();
+af = CS.Factorys.GetAssetFactory();
 
 -- arr
 function table.index_of(arr, val)

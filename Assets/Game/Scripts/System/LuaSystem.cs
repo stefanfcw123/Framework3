@@ -31,6 +31,11 @@ public class LuaSystem : GameSystem
 {
     public static readonly LuaEnv LuaEnv = new LuaEnv();
 
+    public static string LuaRoot()
+    {
+        return Application.dataPath + "/Game/LuaFiles";
+    }
+    
     public override void Initialize()
     {
         base.Initialize();
@@ -38,37 +43,32 @@ public class LuaSystem : GameSystem
 
     private byte[] CustomLoader(ref string filepath)
     {
+#if UNITY_EDITOR
         if (Game.VData.Debug == false)
         {
-            var full = filepath.Split('.');
+            /*var full = filepath.Split('.');
             var name = $"{full[full.Length - 1]}";
-
             TextAsset txt = Factorys.GetAssetFactory().LoadTextAsset($"{name}.lua");
-            return System.Text.Encoding.UTF8.GetBytes(txt.text);
+            return System.Text.Encoding.UTF8.GetBytes(txt.text);*/
+
+            filepath = "LuaFiles/" + filepath.Replace('.', '/') + ".lua";
+            TextAsset file = Factorys.GetAssetFactory().LoadTextAsset(filepath);
+            return file.bytes;
         }
         else
         {
             filepath = Application.dataPath + "/Game/LuaFiles/" + filepath.Replace('.', '/') + ".lua";
             return File.ReadAllBytes(filepath);
         }
-    }
-
-    /*private byte[] CustomLoader2(ref string filepath)
-    {
-        filepath = "LuaFiles/" + filepath.Replace('.', '/') + ".lua";
-
-        TextAsset file = null;
-
-        if (file != null)
-        {
+#endif
+        
+#if !UNITY_EDITOR
+            filepath = "LuaFiles/" + filepath.Replace('.', '/') + ".lua";
+            TextAsset file = Factorys.GetAssetFactory().LoadTextAsset(filepath);
             return file.bytes;
-        }
-        else
-        {
-            return null;
-        }
-    }*/
-
+#endif
+        
+    }
 
     public static LuaTable GetLua(GameObject go, LuaTable baseClass
     )

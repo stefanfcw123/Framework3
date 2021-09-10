@@ -18,6 +18,15 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
+        if (Game.VData.Debug==true)
+        {
+            GameObject.Find("Reporter").SetActive(true);
+        }
+        else
+        {
+            GameObject.Find("Reporter").SetActive(false);
+        }
+
         Initinal();
     }
 

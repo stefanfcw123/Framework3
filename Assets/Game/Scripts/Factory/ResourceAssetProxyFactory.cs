@@ -9,14 +9,13 @@ public class ResourceAssetProxyFactory : IAssetFactory
     private readonly Dictionary<string, AudioClip> m_Audios;
     private readonly Dictionary<string, Object> m_Effects;
     private readonly ResourceAssetFactory m_ResFactory; // 實際負責載入的AssetFactory
-    private readonly QFResourceAssetFactory m_QFFactory; // 實際負責載入的AssetFactory
+    //private readonly QFResourceAssetFactory m_QFFactory; 
     private readonly Dictionary<string, Sprite> m_Sprites;
 
     public ResourceAssetProxyFactory()
     {
-        ResKit.Init();
-
-        m_QFFactory = new QFResourceAssetFactory();
+        /*ResKit.Init();
+        m_QFFactory = new QFResourceAssetFactory();*/
         m_ResFactory = new ResourceAssetFactory();
         m_Effects = new Dictionary<string, Object>();
         m_Audios = new Dictionary<string, AudioClip>();
@@ -50,31 +49,31 @@ public class ResourceAssetProxyFactory : IAssetFactory
     }
 
     // 產生Sprite
-    public override Sprite LoadSprite(string spriteName)
+    public override Sprite LoadSprite(string SpriteName)
     {
-        /*if (m_Sprites.ContainsKey(SpriteName) == false)
+        if (m_Sprites.ContainsKey(SpriteName) == false)
         {
             var res = m_ResFactory.LoadSprite(SpriteName);
             m_Sprites.Add(SpriteName, res);
         }
-        return m_Sprites[SpriteName];*/
+        return m_Sprites[SpriteName];
 
-        return m_QFFactory.LoadSprite(spriteName);
+        //return m_QFFactory.LoadSprite(spriteName);
     }
 
     public override Material LoadMaterial(string name)
     {
-        return null;
+        return m_ResFactory.LoadMaterial(name);
     }
 
     public override Font LoadFont(string name)
     {
-        return null;
+        return m_ResFactory.LoadFont(name);
     }
 
     public override TextAsset LoadTextAsset(string name)
     {
-        return m_QFFactory.LoadTextAsset(name);
+        return m_ResFactory.LoadTextAsset(name);
     }
 
     public override SpriteAtlas LoadSpriteAtlas(string name)
@@ -94,7 +93,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
 
     public override GameObject loadGameObject(string name)
     {
-        return m_QFFactory.loadGameObject(name);
+        //return m_QFFactory.loadGameObject(name);
         return m_ResFactory.loadGameObject(name);
     }
 

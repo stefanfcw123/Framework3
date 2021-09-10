@@ -31,17 +31,17 @@ public class ResourceAssetFactory : IAssetFactory
 
     public override Material LoadMaterial(string name)
     {
-        return null;
+        return Resources.Load(name) as Material;
     }
 
     public override Font LoadFont(string name)
     {
-        return null;
+        return Resources.Load(name) as Font;
     }
 
     public override TextAsset LoadTextAsset(string name)
     {
-        return null;
+        return Resources.Load(name) as TextAsset;
     }
 
     public override SpriteAtlas LoadSpriteAtlas(string name)
@@ -51,7 +51,7 @@ public class ResourceAssetFactory : IAssetFactory
 
     public override GameObject LoadPanel(string name)
     {
-        return Resources.Load<GameObject>(name);
+        return Resources.Load<GameObject>($"UI/{name}");
     }
 
     public override GameObject LoadPool(string name)

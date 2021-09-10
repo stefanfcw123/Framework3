@@ -97,7 +97,6 @@ public class VersionTool : EditorWindow
     private static void StartBuild()
     {
         var data = Resources.Load<VersionToolData>("VersionToolData");
-        data.Debug = false;
 
         var applicationIdentifier = "";
         BuildTarget buildTarget = default;

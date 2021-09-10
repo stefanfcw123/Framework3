@@ -1,0 +1,13 @@
+﻿ProductConfig={{ID='',
+	CompanyName='SkyAllen',
+	ProductName='MemoryBread',
+	ScreenLong=0,
+	ScreenShort=720,
+	LandScape=false,
+	},{ID='2',
+	CompanyName='skyAllen233444666777',
+	ProductName='memoryBread3333',
+	ScreenLong=22,
+	ScreenShort=33,
+	LandScape=true,
+	},}
