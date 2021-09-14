@@ -27,6 +27,10 @@ SpriteRenderer = CS.UnityEngine.SpriteRenderer;
 af = CS.Factorys.GetAssetFactory();
 
 -- arr
+function table.real_len(t)
+    return table.maxn(t);
+end
+
 function table.index_of(arr, val)
 
     for i, v in ipairs(arr) do
@@ -378,4 +382,51 @@ function create_enum_table(tbl, idx)
     return res
 end
 
+function assert_true(val, msg)
+    assert(val, msg)
+end
+
+math.randomseed(tostring(os.time()):reverse():sub(1, 7));
+weight = class("weight");
+function weight:ctor(weight, items)
+    assert_true(#weight == #items);
+
+    self.weightDic = {};
+    self.items = items;
+    self.sum = 0;
+
+    local first = 0;
+    local second = 0;
+
+    local len = #weight;
+    for i = 1, len do
+        local arr = {}
+        first = second;
+        second = weight[i] + first;
+
+        arr[1] = first;
+        arr[2] = second;
+
+        self. weightDic[i] = arr;
+    end
+
+    self.sum = self.weightDic[len][2];
+end
+function weight:GetItemByNumber()
+
+    local number = math.random(1, self.sum)
+
+    local key = self:GetAccordWithKey(number)
+    return self.items[key];
+end;
+
+function weight:GetAccordWithKey(randomNumber)
+    for i, v in pairs(self.weightDic) do
+        local arr = v;
+        if randomNumber > arr[1] and randomNumber <= arr[2] then
+            return i;
+        end
+    end
+    error("key is error");
+end
 
