@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-        if (Game.VData.Debug==true)
+        if (Game.VData.Debug == true)
         {
             GameObject.Find("Reporter").SetActive(true);
         }
@@ -66,7 +67,7 @@ public class Game : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         I = this;
-        
+
         HotUpdateSystem = AddSystem<HotUpdateSystem>();
         luaSystem = AddSystem<LuaSystem>();
 
