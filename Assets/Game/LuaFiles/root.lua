@@ -4,21 +4,24 @@
 --   time : 2021/9/2 16:17:39                                                                                           
 -------------------------------------------------------
 
+require("functions.functions");
+require("functions.kit");
+util = require("functions.util");
+sys = require("base.sys")
+ui = require("base.ui")
+
 ---@class root
 root = class('root')
-
 ---@type save
 save = nil;
 ---@type audio
 audio = nil;
-
 GameGo = GameObject.Find("Game");
 local canvasT = GameGo.transform:Find("Canvas");
 local uis = {}
 local systems = {}
 
 function root:ctor()
-
 end
 
 function root.set_tier(go, tier)
@@ -46,8 +49,7 @@ function root:Update()
 end
 
 function root:init()
-    print("by root init :" .. _VERSION)
-
+    print("call root:init");
     save = root.add_sys("save");
     audio = root.add_sys("audio");
 end
@@ -60,7 +62,7 @@ function root.add_sys(name)
 end
 
 function root.add_ui(name)
-    local go = af:LoadPanel(name);
+    local go = AF:LoadPanel(name);
     local go2 = UnityEngine.GameObject.Instantiate(go);
     go2.name = name;
     local ui_class = require("ui." .. name);

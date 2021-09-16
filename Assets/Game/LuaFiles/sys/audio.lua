@@ -5,7 +5,7 @@
 -------------------------------------------------------
 
 ---@class audio
-local audio = {}
+local audio = class("audio");
 
 local _musicAudioSource = nil;
 local _musicEnable = false;
@@ -19,7 +19,7 @@ end
 local function AudioSourceCommon(audioSource, audioName, isLoop, volume, isPlayOneShot)
     audioSource.loop = isLoop;
     audioSource.volume = volume;
-    audioSource.clip = af:LoadAudioClip(audioName);
+    audioSource.clip = AF:LoadAudioClip(audioName);
 
     if audioSource.enabled then
         if isPlayOneShot then

@@ -5,22 +5,22 @@
 -------------------------------------------------------
 
 ---@class ui
-ui = class('ui')
+local ui = class('ui')
 
 function ui:ctor(go, tier)
     self.go = go;
     self.tier = tier
-    self.is_show =false;
+    self.is_show = false;
 end
 
 function ui:show()
     self.go:SetActive(true)
-    self.is_show =true;
+    self.is_show = true;
 end
 
 function ui:hide()
     self.go:SetActive(false)
-    self.is_show =false;
+    self.is_show = false;
 end
 
 function ui:init()
@@ -33,3 +33,5 @@ end
 
 function ui:frame()
 end
+
+return sys;

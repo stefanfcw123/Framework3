@@ -8,7 +8,7 @@ local player_data = {
 }
 
 ---@class save
-local save = {}
+local save = class("save");
 
 function save.init()
 end

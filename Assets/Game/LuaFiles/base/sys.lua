@@ -6,7 +6,7 @@
 -------------------------------------------------------
 
 ---@class sys
-sys = class('sys')
+local sys = class('sys')
 
 function sys:ctor()
 end
@@ -19,3 +19,5 @@ end
 
 function sys:frame()
 end
+
+return sys;
