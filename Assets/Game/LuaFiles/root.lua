@@ -6,7 +6,6 @@
 
 require("functions.functions");
 require("functions.kit");
-util = require("functions.util");
 sys = require("base.sys")
 ui = require("base.ui")
 
@@ -21,26 +20,16 @@ local canvasT = GameGo.transform:Find("Canvas");
 local uis = {}
 local systems = {}
 
-function root:ctor()
-end
-
-function root.set_tier(go, tier)
-    local p = canvasT:Find(tier);
-    go.transform:SetParent(p, false);
-end
-
-function root:Awake()
+function root:Start()
     self:init();
 end
 
 function root:Update()
-
     for i, v in pairs(systems) do
         if v.frame then
             v.frame()
         end
     end
-
     for i, v in pairs(uis) do
         if v.is_show then
             v:frame()
@@ -52,6 +41,11 @@ function root:init()
     print("call root:init");
     save = root.add_sys("save");
     audio = root.add_sys("audio");
+end
+
+function root.set_tier(go, tier)
+    local p = canvasT:Find(tier);
+    go.transform:SetParent(p, false);
 end
 
 function root.add_sys(name)
@@ -72,4 +66,4 @@ function root.add_ui(name)
     return ui_ins;
 end
 
-return root
+return root;
