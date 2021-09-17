@@ -21,6 +21,4 @@ DOTween = CS.DG.Tweening.DOTween
 SpriteRenderer = CS.UnityEngine.SpriteRenderer;
 AF = CS.Factorys.GetAssetFactory();
 
-math.randomseed(tostring(os.time()):reverse():sub(1, 7));
-
 

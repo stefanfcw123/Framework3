@@ -6,17 +6,4 @@
 module(..., package.seeall);
 local algo = class('algo')
 
-function c()
-
-end
-
-function b()
-    c();
-end
-
-function a()
-    b();
-end
-a();
-
 return algo

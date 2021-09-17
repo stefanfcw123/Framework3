@@ -8,7 +8,7 @@ namespace QFramework
 		[Obsolete("不可以自行创建 Core 的实例")]
 		public Core() {}
 
-		[RuntimeInitializeOnLoadMethod]
+		//[RuntimeInitializeOnLoadMethod]
 		static void InitOnLoad()
 		{
 			var config = mConfig;

@@ -42,10 +42,11 @@ function root:Update()
 end
 
 function root:init()
-    print("call root:init");
+    print("root:init");
+    --local algo = require("functions.algo")
+    math.randomseed(tostring(os.time()):reverse():sub(1, 7));
     save = root.add_sys("save");
     audio = root.add_sys("audio");
-    local algo = require("functions.algo")
 end
 
 function root.set_tier(go, tier)

@@ -39,7 +39,7 @@ public static class Incident
         {
             var reg = _registerations[eventObjType] as Registerations<T>;
             reg.OnReceives -= onReceive;
-        }, eventObjType => Log.LogWarning("Don't have the key"));
+        }, null);
     }
 
     /// <summary>
@@ -61,9 +61,9 @@ public static class Incident
     {
         var eventObjType = typeof(T);
         if (_registerations.ContainsKey(eventObjType))
-            containsKeyAction.Invoke(eventObjType);
+            containsKeyAction?.Invoke(eventObjType);
         else
-            unContainsKeyAction.Invoke(eventObjType);
+            unContainsKeyAction?.Invoke(eventObjType);
     }
 }
 
