@@ -20,4 +20,10 @@ public class LuaTool
         AssetDatabase.Refresh();
         Debug.Log("执行完毕");
     }
+    [MenuItem("Framework/LuaTool/LuaHotReload")]
+    public static void LuaHotReload()
+    {
+        LuaSystem.HotReload();
+        Debug.Log("LuaHotReload");
+    }
 }

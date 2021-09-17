@@ -35,10 +35,15 @@ public class LuaSystem : GameSystem
     {
         return Application.dataPath + "/Game/LuaFiles";
     }
-    
+
     public override void Initialize()
     {
         base.Initialize();
+    }
+
+    public static void HotReload()
+    {
+        LuaEnv.DoString("require('functions.Hotfix')");
     }
 
     private byte[] CustomLoader(ref string filepath)
@@ -61,13 +66,13 @@ public class LuaSystem : GameSystem
             return File.ReadAllBytes(filepath);
         }
 #endif
-        
+
 #if !UNITY_EDITOR
             filepath = "LuaFiles/" + filepath.Replace('.', '/') + ".lua";
             TextAsset file = Factorys.GetAssetFactory().LoadTextAsset(filepath);
             return file.bytes;
 #endif
-        
+
     }
 
     public static LuaTable GetLua(GameObject go, LuaTable baseClass
@@ -210,7 +215,7 @@ public class LuaSystem : GameSystem
         var mono = gameObject.AddComponent<LuaMono>();
     }
 
-//auto
+    //auto
     private void Awake()
     {
         Incident.DeleteEvent<StartPlay>(StartPlayCallback);

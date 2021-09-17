@@ -23,8 +23,12 @@ local systems = {}
 function root:Start()
     self:init();
 end
-
 function root:Update()
+
+    if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C) then
+        print(i);
+    end
+
     for i, v in pairs(systems) do
         if v.frame then
             v.frame()
@@ -41,6 +45,7 @@ function root:init()
     print("call root:init");
     save = root.add_sys("save");
     audio = root.add_sys("audio");
+    local algo = require("functions.algo")
 end
 
 function root.set_tier(go, tier)
