@@ -128,14 +128,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1759362487, guid: 8348bd3733493294e86c727d4c7e6035, type: 3}
-      propertyPath: EventTypes.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1759362487, guid: 8348bd3733493294e86c727d4c7e6035, type: 3}
-      propertyPath: EventTypes.Array.data[0]
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4538834288019846587, guid: 8348bd3733493294e86c727d4c7e6035,
         type: 3}
       propertyPath: m_Name

@@ -6,7 +6,6 @@
 
 UnityEngine = CS.UnityEngine;
 GameObject = CS.UnityEngine.GameObject;
-UI = CS.UnityEngine.UI;
 Transform = CS.UnityEngine.Transform;
 Vector3 = CS.UnityEngine.Vector3;
 Vector2 = CS.UnityEngine.Vector2;
@@ -19,6 +18,13 @@ Resources = CS.UnityEngine.Resources;
 Color = CS.UnityEngine.Color;
 DOTween = CS.DG.Tweening.DOTween
 SpriteRenderer = CS.UnityEngine.SpriteRenderer;
+UI = CS.UnityEngine.UI;
+Button = UI.Button;
+Text = CS.UnityEngine.UI.Text;
+InputField = UnityEngine.UI.InputField;
+Image = UI.Image;
+Text = UI.Text;
+Slider = UI.Slider;
 AF = CS.Factorys.GetAssetFactory();
 
 

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: ProductConfigList
   m_EditorClassIdentifier: 
   list:
-  - ID: 1
+  - ID: 
     CompanyName: SkyAllen
     ProductName: MemoryBread
-    ScreenLong: 1280
-    ScreenShort: 720
-    LandScape: 0
+    ScreenLong: 1920
+    ScreenShort: 1080
+    LandScape: 1

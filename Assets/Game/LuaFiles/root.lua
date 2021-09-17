@@ -8,14 +8,18 @@ require("functions.functions");
 require("functions.kit");
 sys = require("base.sys")
 ui = require("base.ui")
-
 ---@class root
 root = class('root')
+---@type event
+event = require("functions.event")
 ---@type save
 save = nil;
 ---@type audio
 audio = nil;
+---@type lobbyPanel
+lobbyPanel = nil;
 GameGo = GameObject.Find("Game");
+
 local canvasT = GameGo.transform:Find("Canvas");
 local uis = {}
 local systems = {}
@@ -23,10 +27,10 @@ local systems = {}
 function root:Start()
     self:init();
 end
+
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C) then
-        print(i);
     end
 
     for i, v in pairs(systems) do
@@ -42,11 +46,13 @@ function root:Update()
 end
 
 function root:init()
-    print("root:init");
-    --local algo = require("functions.algo")
+    print "root init"
     math.randomseed(tostring(os.time()):reverse():sub(1, 7));
     save = root.add_sys("save");
     audio = root.add_sys("audio");
+    local loadPanel = root.add_ui("loadPanel");
+    loadPanel:over()
+    lobbyPanel = root.add_ui("lobbyPanel");
 end
 
 function root.set_tier(go, tier)

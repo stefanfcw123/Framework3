@@ -29,9 +29,10 @@ function ui:init()
 end
 
 function ui:over()
+    self:hide()
 end
 
 function ui:frame()
 end
 
-return sys;
+return ui;

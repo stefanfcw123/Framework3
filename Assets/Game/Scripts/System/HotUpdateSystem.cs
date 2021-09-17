@@ -92,12 +92,12 @@ public class HotUpdateSystem : GameSystem
                 abNameList.Add(bin);
 
                 abNameList.Add(android);
-                //abNameList.Add(android + mainfest);
+                abNameList.Add(android + mainfest);
 
                 foreach (var gData in serializeData.AssetDataGroup)
                 {
                     abNameList.Add(gData.key);
-                    //abNameList.Add(gData.key + mainfest);
+                    abNameList.Add(gData.key + mainfest);
                 }
 
                 abNameList.Add("version.txt");

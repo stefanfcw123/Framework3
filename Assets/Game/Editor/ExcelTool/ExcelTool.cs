@@ -13,6 +13,8 @@ using System.Text.RegularExpressions;
 using Excel;
 using UnityEditor;
 using UnityEngine;
+using QF;
+using QFramework;
 
 public class ExcelTool : EditorWindow
 {
@@ -30,6 +32,7 @@ public class ExcelTool : EditorWindow
     [MenuItem("Framework/ExcelTool/CreateScriptableObject")]
     public static void CreateScriptableObject()
     {
+        // todo  暂时需要手动删除不需要的
         var lists = GetFixedFilePaths();
         foreach (var s in lists)
         {
@@ -43,6 +46,7 @@ public class ExcelTool : EditorWindow
     public static void SetScriptableObjectData()
     {
         var lists = GetFixedFilePaths();
+
         foreach (var s in lists)
         {
             ReadExcel(s);
@@ -55,6 +59,11 @@ public class ExcelTool : EditorWindow
     public static void CreateSetLuaData()
     {
         var lists = GetFixedFilePaths();
+
+        var path = Path.Combine(LuaSystem.LuaRoot(), "data");
+        path.DeleteDirIfExists();
+        path.CreateDirIfNotExists();
+
         foreach (var s in lists)
         {
             ReadExcel(s);

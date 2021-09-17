@@ -4,6 +4,16 @@
 --   time : 2021/9/16 9:59:31                                                                                           
 -------------------------------------------------------
 -- func
+
+function array2table(mono, uiType)
+    local res = {};
+    local array = mono:GetComponentsInChildren(typeof(uiType))
+    for i = 1, array.Length do
+        table.insert(res, array[i - 1]);
+    end
+    return res;
+end
+
 function create_enum_table(tbl, idx)
     local res = {}
     local index = idx or 0

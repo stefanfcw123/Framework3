@@ -19,6 +19,10 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
+        var config = Factorys.GetAssetFactory()
+    .LoadScriptableObject<ProductConfigList>().list[0];
+        SetMatchWidthOrHeight(config);
+
         if (Game.VData.Debug == true)
         {
             GameObject.Find("Reporter").SetActive(true);
@@ -57,9 +61,7 @@ public class Game : MonoBehaviour
 
     private void Reset()
     {
-        var config = Factorys.GetAssetFactory()
-            .LoadScriptableObject<ProductConfigList>().list[0];
-        SetMatchWidthOrHeight(config);
+
     }
 
     public void Initinal()

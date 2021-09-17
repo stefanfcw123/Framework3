@@ -261,7 +261,6 @@ public class #类名# : Panel
 
 ---@class $table$
 local $table$ = class('$table$',ui)
-local $table$CS
 
 function $table$:init()
     $table$.super.init(self)
@@ -271,7 +270,6 @@ end
    
 function $table$:ctor(go, tier)
     $table$.super.ctor(self, go, tier)
-    $table$CS= self.go:GetComponent('$table$');
 	#查找#
     #绑定#
 end
@@ -419,7 +417,7 @@ return $table$
 
         EditorGame.Refresh();
 
-        Log.LogPrint("[LUA:] Panel Or UI Create Success");
+        Log.LogPrint("Lua Panel Or UI Create Success");
     }
 
     [MenuItem("GameObject/CreateTool/PanelCreateCode", priority = 5)]
