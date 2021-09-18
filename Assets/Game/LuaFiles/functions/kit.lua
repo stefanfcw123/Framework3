@@ -5,6 +5,14 @@
 -------------------------------------------------------
 -- func
 
+function uiActive(ui, arg)
+    if arg == nil then
+        ui.gameObject:SetActive(true);
+    elseif arg == false then
+        ui.gameObject:SetActive(false);
+    end
+end
+
 function array2table(mono, uiType)
     local res = {};
     local array = mono:GetComponentsInChildren(typeof(uiType))
@@ -332,4 +340,21 @@ end
 function string.get_pure_number(str)
     local temp = string.gsub(str, "%D+", "");
     return tonumber(temp);
+end
+
+function string.format_foreign(digit)
+    local d_str = tostring(digit):reverse();
+    local t = {};
+    local counter = 0;
+
+    for i = 1, #d_str do
+        table.insert(t, 1, string.value_of(d_str, i))
+        counter = counter + 1;
+        if counter == 3 and i ~= #d_str then
+            table.insert(t, 1, ",")
+            counter = 0;
+        end
+    end
+
+    return table.concat(t);
 end

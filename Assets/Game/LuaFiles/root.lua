@@ -18,7 +18,46 @@ save = nil;
 audio = nil;
 ---@type lobbyPanel
 lobbyPanel = nil;
+---@type barPanel
+barPanel = nil;
+---@type playPanel
+playPanel = nil;
 GameGo = GameObject.Find("Game");
+data = nil;
+
+WILL_PLAY = "WILL_PLAY"
+BACK_LOBBY = "BACK_LOBBY"
+container = {};
+function addEvent(event_type, callback)
+    if container[event_type] == nil then
+        local callbacks = {};
+        table.insert(callbacks, callback);
+        container[event_type] = callbacks;
+    else
+        local callbacks = container[event_type];
+        table.insert(callbacks, callback);
+    end
+end;
+function delEvent(event_type, callback)
+    if container[event_type] == nil then
+        error("The event type is nil");
+    else
+        local callbacks = container[event_type];
+        for i, v in ipairs(callbacks) do
+            if v == callback then
+                table.remove(callbacks, i);
+                break ;
+            end
+        end
+    end
+end
+function sendEvent(event_type, ...)
+    local callbacks = container[event_type];
+
+    for i, v in ipairs(callbacks) do
+        v(...)
+    end
+end
 
 local canvasT = GameGo.transform:Find("Canvas");
 local uis = {}
@@ -51,8 +90,10 @@ function root:init()
     save = root.add_sys("save");
     audio = root.add_sys("audio");
     local loadPanel = root.add_ui("loadPanel");
-    loadPanel:over()
     lobbyPanel = root.add_ui("lobbyPanel");
+    barPanel = root.add_ui("barPanel");
+    playPanel = root.add_ui("playPanel")
+    loadPanel:over()
 end
 
 function root.set_tier(go, tier)
