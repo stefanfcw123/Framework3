@@ -11,6 +11,7 @@ function ui:ctor(go, tier)
     self.go = go;
     self.tier = tier
     self.is_show = false;
+    self.go:SetActive(false)
 end
 
 function ui:show()
@@ -25,7 +26,6 @@ end
 
 function ui:init()
     root.set_tier(self.go, self.tier)
-    self:hide();
 end
 
 function ui:over()

@@ -5,6 +5,10 @@
 -------------------------------------------------------
 -- func
 
+function getColor(a, b, c, d)
+    return Color(a / 255, b / 255, c / 255, d / 255);
+end
+
 function uiActive(ui, arg)
     if arg == nil then
         ui.gameObject:SetActive(true);
@@ -343,7 +347,8 @@ function string.get_pure_number(str)
 end
 
 function string.format_foreign(digit)
-    local d_str = tostring(digit):reverse();
+    local a, b = math.modf(digit);
+    local d_str = tostring(a):reverse();
     local t = {};
     local counter = 0;
 

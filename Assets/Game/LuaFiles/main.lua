@@ -16,6 +16,7 @@ Physics2D = CS.UnityEngine.Physics2D;
 AudioSource = CS.UnityEngine.AudioSource;
 Resources = CS.UnityEngine.Resources;
 Color = CS.UnityEngine.Color;
+Tweening = CS.DG.Tweening;
 DOTween = CS.DG.Tweening.DOTween
 SpriteRenderer = CS.UnityEngine.SpriteRenderer;
 UI = CS.UnityEngine.UI;

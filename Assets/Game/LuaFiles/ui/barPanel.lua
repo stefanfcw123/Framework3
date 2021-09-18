@@ -12,13 +12,25 @@ function barPanel:init()
     barPanel.super.init(self)
     self:show()
     uiActive(self.backButton, false)
-    self:coinTextRefresh(string.format_foreign(data.money));
+
     addEvent(BACK_LOBBY, function()
         uiActive(self.backButton, false)
     end)
     addEvent(WILL_PLAY, function()
         uiActive(self.backButton)
     end)
+    addEvent(CHIP_CHANGE, function(n1, n2)
+        DOTween.To(function(f)
+            self:coinTextRefresh(string.format_foreign(f));
+        end, n1, n2, GIGITAL_SLOW);
+    end)
+
+    save.addChip(0);
+
+end
+
+function barPanel:setButtonAction()
+    settingPanel:show();
 end
 
 function barPanel:backButtonAction()
@@ -31,9 +43,13 @@ function barPanel:ctor(go, tier)
     barPanel.super.ctor(self, go, tier)
     self.backButton = self.go.transform:Find("backButton"):GetComponent('Button');
     self.coinText = self.go.transform:Find("Image/coinText"):GetComponent('Text');
+    self.setButton = self.go.transform:Find("setButton"):GetComponent('Button');
 
     self.backButton.onClick:AddListener(function()
         self:backButtonAction()
+    end);
+    self.setButton.onClick:AddListener(function()
+        self:setButtonAction()
     end);
 
 end

@@ -8,6 +8,7 @@ require("functions.functions");
 require("functions.kit");
 sys = require("base.sys")
 ui = require("base.ui")
+popui = require("base.popui")
 ---@class root
 root = class('root')
 ---@type event
@@ -22,11 +23,17 @@ lobbyPanel = nil;
 barPanel = nil;
 ---@type playPanel
 playPanel = nil;
+---@type settingPanel
+settingPanel = nil;
 GameGo = GameObject.Find("Game");
 data = nil;
 
+GIGITAL_SLOW = 1-- 数字缓动时间
+POP_SLOW = 0.3;
+
 WILL_PLAY = "WILL_PLAY"
 BACK_LOBBY = "BACK_LOBBY"
+CHIP_CHANGE = "CHIP_CHANGE"
 container = {};
 function addEvent(event_type, callback)
     if container[event_type] == nil then
@@ -70,6 +77,8 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C) then
+        --save.addChip(1000);
+        settingPanel:show();
     end
 
     for i, v in pairs(systems) do
@@ -84,6 +93,7 @@ function root:Update()
     end
 end
 
+-- todo 检查C#相关的待办事项
 function root:init()
     print "root init"
     math.randomseed(tostring(os.time()):reverse():sub(1, 7));
@@ -93,6 +103,7 @@ function root:init()
     lobbyPanel = root.add_ui("lobbyPanel");
     barPanel = root.add_ui("barPanel");
     playPanel = root.add_ui("playPanel")
+    settingPanel = root.add_ui("settingPanel");
     loadPanel:over()
 end
 
