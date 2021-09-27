@@ -22,10 +22,21 @@ end
 function ui:hide()
     self.go:SetActive(false)
     self.is_show = false;
+    save.save();
 end
 
 function ui:init()
     root.set_tier(self.go, self.tier)
+
+    local buttons = array2table(self.go, Button);
+    for i, v in ipairs(buttons) do
+        v.onClick:AddListener(function()
+            audio.PlaySound("btnClick")
+            v.transform:DOScale(0.85, BTN_SCALE):OnComplete(function()
+                v.transform:DOScale(1, BTN_SCALE);
+            end);
+        end)
+    end
 end
 
 function ui:over()

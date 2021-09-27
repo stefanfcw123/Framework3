@@ -5,6 +5,25 @@
 -------------------------------------------------------
 -- func
 
+function readOnlyTable(t)
+    local res = {}
+    setmetatable(res, {
+        __index = t,
+        __newindex = function(t, _)
+            error("Readonly " .. _, 2);
+        end
+    })
+    return res;
+end
+
+function global(key, val)
+    if rawget(_G, key) == false then
+        rawset(_G, key, val or false);
+    else
+        print("The same name.", val);
+    end
+end
+
 function getColor(a, b, c, d)
     return Color(a / 255, b / 255, c / 255, d / 255);
 end
@@ -33,7 +52,7 @@ function create_enum_table(tbl, idx)
     for i, v in ipairs(tbl) do
         res[v] = index + i
     end
-    return res
+    return readOnlyTable(res);
 end
 
 function assert_true(val, msg)

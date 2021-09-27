@@ -5,7 +5,7 @@ using UnityEngine.U2D;
 public class ResourceAssetFactory : IAssetFactory
 {
     public const string EffectPath = "";
-    public const string AudioPath = "";
+    public const string AudioPath = "Audio";
     public const string SpritePath = "";
 
     // 產生特效
@@ -17,10 +17,7 @@ public class ResourceAssetFactory : IAssetFactory
     // 產生AudioClip
     public override AudioClip LoadAudioClip(string clipName)
     {
-        var res = LoadGameObjectFromResourcePath(AudioPath + clipName);
-        if (res == null)
-            return null;
-        return res as AudioClip;
+        return Resources.Load<AudioClip>($"Audio/{clipName}");
     }
 
     // 產生Sprite

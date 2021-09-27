@@ -8,12 +8,21 @@
 local audio = class("audio");
 
 local _musicAudioSource = nil;
-local _musicEnable = false;
-local _soundEnable = false;
 local _soundAudioSources = {}
 
 function audio.init()
     _musicAudioSource = GameGo:AddComponent(typeof(AudioSource));
+
+    audio.PlayMusic("lobbyBG");
+    audio.switchMusic();
+end
+
+function audio.switchMusic()
+    if not data._musicEnable then
+        audio.PauseMusic()
+    else
+        audio.RecoverMusic()
+    end
 end
 
 local function AudioSourceCommon(audioSource, audioName, isLoop, volume, isPlayOneShot)
@@ -31,15 +40,16 @@ local function AudioSourceCommon(audioSource, audioName, isLoop, volume, isPlayO
 end
 
 function audio.PlaySound(audioName, isLoop, volume, isPlayOneShot)
-    local isLoop = isLoop or false;
-    local volume = volume or 1;
-    local isPlayOneShot = isPlayOneShot or false;
-
-    if not _soundEnable then
+    if not data._soundEnable then
         do
             return
         end ;
     end
+
+    local isLoop = isLoop or false;
+    local volume = volume or 1;
+    local isPlayOneShot = isPlayOneShot or false;
+
     if _soundAudioSources[audioName] ~= nil then
         if isPlayOneShot then
             _soundAudioSources[audioName]:PlayOneShot(audioSource.clip);

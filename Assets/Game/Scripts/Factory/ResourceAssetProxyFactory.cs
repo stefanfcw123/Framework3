@@ -38,14 +38,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
     // 產生AudioClip
     public override AudioClip LoadAudioClip(string ClipName)
     {
-        if (m_Audios.ContainsKey(ClipName) == false)
-        {
-            var res =
-                m_ResFactory.LoadGameObjectFromResourcePath(ResourceAssetFactory.AudioPath + ClipName);
-            m_Audios.Add(ClipName, res as AudioClip);
-        }
-
-        return m_Audios[ClipName];
+        return m_ResFactory.LoadAudioClip(ClipName);
     }
 
     // 產生Sprite

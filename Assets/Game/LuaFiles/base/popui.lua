@@ -21,7 +21,7 @@ end
 function popui:GetAnim()
     local s = DOTween.Sequence();
     s:SetEase(Tweening.Ease.OutBounce)
-    local t1 = self.main:DOScale(0.5, 0);
+    local t1 = self.main:DOScale(1/2, 0);
     local t2 = self.main:DOScale(1, POP_SLOW);
     s:Append(t1);
     s:Append(t2);

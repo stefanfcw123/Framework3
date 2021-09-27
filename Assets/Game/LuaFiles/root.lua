@@ -14,57 +14,23 @@ root = class('root')
 ---@type event
 event = require("functions.event")
 ---@type save
-save = nil;
+save = false;
 ---@type audio
-audio = nil;
+audio = false;
 ---@type lobbyPanel
-lobbyPanel = nil;
+lobbyPanel = false;
 ---@type barPanel
-barPanel = nil;
+barPanel = false;
 ---@type playPanel
-playPanel = nil;
+playPanel = false;
 ---@type settingPanel
-settingPanel = nil;
+settingPanel = false;
+---@type buyPanel
+buyPanel = false;
 GameGo = GameObject.Find("Game");
-data = nil;
-
-GIGITAL_SLOW = 1-- 数字缓动时间
-POP_SLOW = 0.3;
-
-WILL_PLAY = "WILL_PLAY"
-BACK_LOBBY = "BACK_LOBBY"
-CHIP_CHANGE = "CHIP_CHANGE"
-container = {};
-function addEvent(event_type, callback)
-    if container[event_type] == nil then
-        local callbacks = {};
-        table.insert(callbacks, callback);
-        container[event_type] = callbacks;
-    else
-        local callbacks = container[event_type];
-        table.insert(callbacks, callback);
-    end
-end;
-function delEvent(event_type, callback)
-    if container[event_type] == nil then
-        error("The event type is nil");
-    else
-        local callbacks = container[event_type];
-        for i, v in ipairs(callbacks) do
-            if v == callback then
-                table.remove(callbacks, i);
-                break ;
-            end
-        end
-    end
-end
-function sendEvent(event_type, ...)
-    local callbacks = container[event_type];
-
-    for i, v in ipairs(callbacks) do
-        v(...)
-    end
-end
+data = false;
+require("data.config")
+require("functions.event2")
 
 local canvasT = GameGo.transform:Find("Canvas");
 local uis = {}
@@ -96,7 +62,16 @@ end
 -- todo 检查C#相关的待办事项
 function root:init()
     print "root init"
+    setmetatable(_G, {
+        __index = function(t,_)
+            error("read nil value ".. _,2)
+        end,
+        __newindex = function(t,_)
+            error("write nil value ".. _,2)
+        end
+    });
     math.randomseed(tostring(os.time()):reverse():sub(1, 7));
+
     save = root.add_sys("save");
     audio = root.add_sys("audio");
     local loadPanel = root.add_ui("loadPanel");
@@ -104,6 +79,7 @@ function root:init()
     barPanel = root.add_ui("barPanel");
     playPanel = root.add_ui("playPanel")
     settingPanel = root.add_ui("settingPanel");
+    buyPanel = root.add_ui("buyPanel")
     loadPanel:over()
 end
 

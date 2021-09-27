@@ -32,10 +32,6 @@ function save.addChip(n)
     return success;
 end
 
-function save.expandChip()
-
-end
-
 function save.save()
     local data_str = string.serialize(data);
     UnityEngine.PlayerPrefs.SetString("player_data", data_str);
@@ -46,6 +42,8 @@ function save.load()
     if data_str == "" then
         data = {
             chip = 10000,
+            _musicEnable=true,
+            _soundEnable=true,
         }
     else
         data = string.unserialize(data_str);
