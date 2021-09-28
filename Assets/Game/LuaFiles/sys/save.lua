@@ -8,17 +8,17 @@ local save = class("save");
 
 function save.init()
     save.load();
+    addEvent(GET_GAP_BONUS, function()
+        save.save()
+    end)
 end
 
 function save.addChip(n)
     local success;
-
     if n >= 0 then
-        data.chip = data.chip + n;
         success = true;
     else
         if (data.chip + n) >= 0 then
-            data.chip = data.chip + n;
             success = true;
         else
             success = false;
@@ -26,9 +26,13 @@ function save.addChip(n)
     end
 
     if success then
-        sendEvent(CHIP_CHANGE, data.chip, data.chip + n);
+        if n >= 0 then
+            sendEvent(CHIP_CHANGE, data.chip, data.chip + n, true);
+        else
+            sendEvent(CHIP_CHANGE, data.chip, data.chip + n, false);
+        end
+        data.chip = data.chip + n;
     end
-
     return success;
 end
 
@@ -42,8 +46,9 @@ function save.load()
     if data_str == "" then
         data = {
             chip = 10000,
-            _musicEnable=true,
-            _soundEnable=true,
+            _musicEnable = true,
+            _soundEnable = true,
+            gapBonusStamp = 0
         }
     else
         data = string.unserialize(data_str);

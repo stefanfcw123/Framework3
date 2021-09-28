@@ -17,6 +17,10 @@ event = require("functions.event")
 save = false;
 ---@type audio
 audio = false;
+---@type timeManage
+timeManage =false;
+---@type slotsManage
+slotsManage = false;
 ---@type lobbyPanel
 lobbyPanel = false;
 ---@type barPanel
@@ -59,28 +63,29 @@ function root:Update()
     end
 end
 
--- todo 检查C#相关的待办事项
 function root:init()
     print "root init"
     setmetatable(_G, {
-        __index = function(t,_)
-            error("read nil value ".. _,2)
+        __index = function(t, _)
+            error("read nil value " .. _, 2)
         end,
-        __newindex = function(t,_)
-            error("write nil value ".. _,2)
+        __newindex = function(t, _)
+            error("write nil value " .. _, 2)
         end
     });
     math.randomseed(tostring(os.time()):reverse():sub(1, 7));
 
     save = root.add_sys("save");
     audio = root.add_sys("audio");
+    timeManage = root.add_sys("timeManage");
+
+    slotsManage = root.add_sys("slotsManage");
     local loadPanel = root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");
     barPanel = root.add_ui("barPanel");
     playPanel = root.add_ui("playPanel")
     settingPanel = root.add_ui("settingPanel");
     buyPanel = root.add_ui("buyPanel")
-    loadPanel:over()
 end
 
 function root.set_tier(go, tier)

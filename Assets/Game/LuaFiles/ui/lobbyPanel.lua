@@ -22,13 +22,15 @@ end
 
 function lobbyPanel:init()
     lobbyPanel.super.init(self)
-    self:show()
     initButton(self);
     addEvent(WILL_PLAY, function()
         self:hide()
     end)
     addEvent(BACK_LOBBY, function()
         self:show()
+    end)
+    addEvent(LOAD_OVER, function()
+        self:show();
     end)
 end
 

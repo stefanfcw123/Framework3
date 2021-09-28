@@ -27,6 +27,7 @@ end
 
 function ui:init()
     root.set_tier(self.go, self.tier)
+    self.go:GetComponent("Image").color = getColor(255, 255, 255, 255);
 
     local buttons = array2table(self.go, Button);
     for i, v in ipairs(buttons) do

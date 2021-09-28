@@ -15,7 +15,6 @@ public class Ver
     public string Explain;
 }
 
-//TODO 杜绝一切的非精准目录，后面要检查一下下
 public class HotUpdateSystem : GameSystem
 {
     private Ver RemoteVar;

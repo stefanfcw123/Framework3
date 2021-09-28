@@ -1,8 +1,6 @@
--------------------------------------------------------
--- author : sky_allen
---  email : 894982165@qq.com
---   time : 2021/1/28 14:56:48
--------------------------------------------------------
+if jit then
+    jit.off();jit.flush()
+end
 
 UnityEngine = CS.UnityEngine;
 GameObject = CS.UnityEngine.GameObject;

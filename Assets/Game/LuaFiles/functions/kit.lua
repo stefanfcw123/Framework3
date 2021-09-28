@@ -382,3 +382,8 @@ function string.format_foreign(digit)
 
     return table.concat(t);
 end
+
+function string.percent(n)
+    local N = n * 100;
+    return string.format("%.0f%%", N)
+end

@@ -279,7 +279,7 @@ end
 return $table$
 ";
 
-    [MenuItem("GameObject/CreateTool/LuaPanelCreateCode", priority = -300)]
+    [MenuItem("GameObject/CreateTool/LuaPanelCreateCode %g", priority = -300)]
     public static void LuaPanelCreateCode()
     {
         var selectobj = Selection.gameObjects;

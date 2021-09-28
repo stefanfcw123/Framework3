@@ -32,7 +32,7 @@ public class ExcelTool : EditorWindow
     [MenuItem("Framework/ExcelTool/CreateScriptableObject")]
     public static void CreateScriptableObject()
     {
-        // todo  暂时需要手动删除不需要的
+        // todo  自动删除不需要的
         var lists = GetFixedFilePaths();
         foreach (var s in lists)
         {

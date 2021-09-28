@@ -10,7 +10,6 @@ local barPanel = class('barPanel', ui)
 function barPanel:init()
     self.tier = "PopUp"
     barPanel.super.init(self)
-    self:show()
     uiActive(self.backButton, false)
     self.levelSlider.interactable = false;
 
@@ -20,14 +19,39 @@ function barPanel:init()
     addEvent(WILL_PLAY, function()
         uiActive(self.backButton)
     end)
-    addEvent(CHIP_CHANGE, function(n1, n2)
-        DOTween.To(function(f)
-            self:coinTextRefresh(string.format_foreign(f));
-        end, n1, n2, GIGITAL_SLOW);
+    addEvent(CHIP_CHANGE, function(n1, n2, needAnim)
+        if needAnim then
+            DOTween.To(function(f)
+                self:coinTextRefresh(string.format_foreign(f));
+            end, n1, n2, GIGITAL_SLOW);
+        else
+            self:coinTextRefresh(string.format_foreign(n2));
+        end
+        --print("barPanel", data.chip, n2)
+    end)
+    addEvent(LOAD_OVER, function()
+        self:show();
+    end)
+    addEvent(TIME_STAMP, function(c1)
+        local canGapBonus = timeManage.canGapBonus(c1);
+        if canGapBonus then
+            self.gapBonusButton.interactable = true;
+            -- todo 弄成多配置
+            -- todo 分辨率的设置
+            self:gapBonusTextRefresh("can get award");
+        else
+            self.gapBonusButton.interactable = false;
+            self:gapBonusTextRefresh(c1);
+        end
     end)
 
     save.addChip(0);
 
+end
+
+function barPanel:gapBonusButtonAction()
+    sendEvent(GET_GAP_BONUS)
+    print("gapBonusButtonAction click")
 end
 
 function barPanel:levelSliderAction(t)
@@ -46,23 +70,40 @@ function barPanel:buyButtonAction()
 end
 
 --auto
-   
+
 function barPanel:ctor(go, tier)
     barPanel.super.ctor(self, go, tier)
-	self.backButton=self.go.transform:Find("backButton"):GetComponent('Button');
-	self.coinText=self.go.transform:Find("Image/coinText"):GetComponent('Text');
-	self.buyButton=self.go.transform:Find("buyButton"):GetComponent('Button');
-	self.setButton=self.go.transform:Find("setButton"):GetComponent('Button');
-	self.levelSlider=self.go.transform:Find("levelSlider"):GetComponent('Slider');
-	
-    self.backButton.onClick:AddListener(function()self:backButtonAction()end);
-	self.buyButton.onClick:AddListener(function()self:buyButtonAction()end);
-	self.setButton.onClick:AddListener(function()self:setButtonAction()end);
-	self.levelSlider.onValueChanged:AddListener(function(t)self:levelSliderAction(t)end);
-	
+    self.backButton = self.go.transform:Find("backButton"):GetComponent('Button');
+    self.coinText = self.go.transform:Find("Image/coinText"):GetComponent('Text');
+    self.buyButton = self.go.transform:Find("buyButton"):GetComponent('Button');
+    self.setButton = self.go.transform:Find("setButton"):GetComponent('Button');
+    self.levelSlider = self.go.transform:Find("levelSlider"):GetComponent('Slider');
+    self.gapBonusButton = self.go.transform:Find("gapBonusButton"):GetComponent('Button');
+    self.gapBonusText = self.go.transform:Find("gapBonusButton/gapBonusText"):GetComponent('Text');
+
+    self.backButton.onClick:AddListener(function()
+        self:backButtonAction()
+    end);
+    self.buyButton.onClick:AddListener(function()
+        self:buyButtonAction()
+    end);
+    self.setButton.onClick:AddListener(function()
+        self:setButtonAction()
+    end);
+    self.levelSlider.onValueChanged:AddListener(function(t)
+        self:levelSliderAction(t)
+    end);
+    self.gapBonusButton.onClick:AddListener(function()
+        self:gapBonusButtonAction()
+    end);
+
 end
-	
-    function barPanel:coinTextRefresh(t)self.coinText.text=t;end
-	    
+
+function barPanel:coinTextRefresh(t)
+    self.coinText.text = t;
+end
+function barPanel:gapBonusTextRefresh(t)
+    self.gapBonusText.text = t;
+end
 
 return barPanel
