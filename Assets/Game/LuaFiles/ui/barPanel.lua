@@ -51,7 +51,8 @@ end
 
 function barPanel:gapBonusButtonAction()
     sendEvent(GET_GAP_BONUS)
-    print("gapBonusButtonAction click")
+    print(" barPanel gapBonusButtonAction click")
+    timeManage.SendTIME_STAMP();
 end
 
 function barPanel:levelSliderAction(t)

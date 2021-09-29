@@ -27,7 +27,7 @@ public class PathTool
         Application.OpenURL(path);
     }
 
-    [MenuItem("Assets/PathTool/OpenMyOther")]
+    [MenuItem("Assets/PathTool/OpenMyOther &H")]
     public static void OpenMyOther()
     {
         Application.OpenURL(EditorGame.GetMyOtherPath());

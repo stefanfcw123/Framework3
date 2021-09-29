@@ -23,14 +23,14 @@ public class Game : MonoBehaviour
     .LoadScriptableObject<ProductConfigList>().list[0];
         SetMatchWidthOrHeight(config);
 
-        if (Game.VData.Debug == true)
+        /*if (Game.VData.Debug == true)
         {
             GameObject.Find("Reporter").SetActive(true);
         }
         else
         {
             GameObject.Find("Reporter").SetActive(false);
-        }
+        }*/
 
         Initinal();
     }

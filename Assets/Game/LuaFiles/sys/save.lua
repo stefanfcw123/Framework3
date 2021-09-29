@@ -8,9 +8,9 @@ local save = class("save");
 
 function save.init()
     save.load();
-    addEvent(GET_GAP_BONUS, function()
+--[[    addEvent(GET_GAP_BONUS, function()
         save.save()
-    end)
+    end)]]
 end
 
 function save.addChip(n)
