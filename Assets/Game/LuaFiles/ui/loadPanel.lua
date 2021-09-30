@@ -17,9 +17,11 @@ function loadPanel:init()
     self.progressSlider.interactable = false;
     self.progressSlider.value = 0;
 
-    if QUICK_LOAD then
+    if LOAD_QUICK then
         pSpeed = 1000;
     end
+    local s = string.format("%s: %s", localize(2), UnityEngine.Application.version)
+    self:verTextRefresh(s)
 end
 
 function loadPanel:frame()
@@ -40,6 +42,7 @@ function loadPanel:ctor(go, tier)
     loadPanel.super.ctor(self, go, tier)
     self.progressSlider = self.go.transform:Find("progressSlider"):GetComponent('Slider');
     self.progressText = self.go.transform:Find("progressSlider/progressText"):GetComponent('Text');
+    self.verText = self.go.transform:Find("verText"):GetComponent('Text');
 
     self.progressSlider.onValueChanged:AddListener(function(t)
         self:progressSliderAction(t)
@@ -49,6 +52,9 @@ end
 
 function loadPanel:progressTextRefresh(t)
     self.progressText.text = t;
+end
+function loadPanel:verTextRefresh(t)
+    self.verText.text = t;
 end
 
 return loadPanel

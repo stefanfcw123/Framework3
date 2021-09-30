@@ -36,17 +36,21 @@ function barPanel:init()
         local canGapBonus = timeManage.canGapBonus(c1);
         if canGapBonus then
             self.gapBonusButton.interactable = true;
-            -- todo 弄成多配置
-            -- todo 分辨率的设置
-            self:gapBonusTextRefresh("can get award");
+            self:gapBonusTextRefresh(localize(1));
         else
             self.gapBonusButton.interactable = false;
-            self:gapBonusTextRefresh(c1);
+            self:gapBonusTextRefresh(CS.TimeHelper.GetTimeSpanFormat(c1));
         end
     end)
 
     save.addChip(0);
 
+end
+
+function barPanel:gapBonusButtonJump()
+    -- TODO 动画没做好不搞了
+    local t = self.gapBonusButton.transform;
+    --t:DOMoveY(1,1):SetRelative(true)
 end
 
 function barPanel:gapBonusButtonAction()
@@ -70,6 +74,10 @@ function barPanel:buyButtonAction()
     buyPanel:show()
 end
 
+function barPanel:pigButtonAction()
+    pigPanel:show()
+end
+
 --auto
 
 function barPanel:ctor(go, tier)
@@ -81,6 +89,7 @@ function barPanel:ctor(go, tier)
     self.levelSlider = self.go.transform:Find("levelSlider"):GetComponent('Slider');
     self.gapBonusButton = self.go.transform:Find("gapBonusButton"):GetComponent('Button');
     self.gapBonusText = self.go.transform:Find("gapBonusButton/gapBonusText"):GetComponent('Text');
+    self.pigButton = self.go.transform:Find("pigButton"):GetComponent('Button');
 
     self.backButton.onClick:AddListener(function()
         self:backButtonAction()
@@ -96,6 +105,9 @@ function barPanel:ctor(go, tier)
     end);
     self.gapBonusButton.onClick:AddListener(function()
         self:gapBonusButtonAction()
+    end);
+    self.pigButton.onClick:AddListener(function()
+        self:pigButtonAction()
     end);
 
 end

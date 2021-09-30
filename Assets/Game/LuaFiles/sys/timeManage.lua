@@ -7,7 +7,7 @@
 ---@class timeManage
 local timeManage = class('timeManage')
 
-local gapBonusInterval = MINUTE;
+local gapBonusInterval;
 
 local function nowTimeStamp()
     return math.floor(CS.TimeHelper.GetNowTimeStamp());
@@ -15,6 +15,13 @@ end
 
 function timeManage.init()
     print("timeManage init")
+
+    if GAPBONUS_QUICK then
+        gapBonusInterval = MINUTE;
+    else
+        gapBonusInterval = HOUR;
+    end
+
     addEvent(LOAD_OVER, function()
         timeManage.startSendTimeStamp();
     end)
@@ -22,6 +29,7 @@ function timeManage.init()
         data.gapBonusStamp = nowTimeStamp()
         save.save();
     end)
+
 end
 
 function timeManage.startSendTimeStamp()

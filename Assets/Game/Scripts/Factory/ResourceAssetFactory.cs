@@ -11,6 +11,7 @@ public class ResourceAssetFactory : IAssetFactory
     // 產生特效
     public override GameObject LoadEffect(string assetName)
     {
+        return Resources.Load<GameObject>($"Effect/{assetName}");
         return InstantiateGameObject(EffectPath + assetName);
     }
 
@@ -23,7 +24,9 @@ public class ResourceAssetFactory : IAssetFactory
     // 產生Sprite
     public override Sprite LoadSprite(string spriteName)
     {
-        return Resources.Load(SpritePath + spriteName, typeof(Sprite)) as Sprite;
+        //return Resources.Load(SpritePath + spriteName, typeof(Sprite)) as Sprite;
+
+        return Resources.Load<Sprite>($"Sprite/{spriteName}");
     }
 
     public override Material LoadMaterial(string name)

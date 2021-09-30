@@ -5,6 +5,10 @@
 -------------------------------------------------------
 -- func
 
+function localize(id)
+    return Language[id][LANGUAGE_KEY];
+end
+
 function readOnlyTable(t)
     local res = {}
     setmetatable(res, {

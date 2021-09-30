@@ -25,14 +25,16 @@ public class ResourceAssetProxyFactory : IAssetFactory
     // 產生特效
     public override GameObject LoadEffect(string AssetName)
     {
-        if (m_Effects.ContainsKey(AssetName) == false)
+        /*if (m_Effects.ContainsKey(AssetName) == false)
         {
             var res =
                 m_ResFactory.LoadGameObjectFromResourcePath(ResourceAssetFactory.EffectPath + AssetName);
             m_Effects.Add(AssetName, res);
         }
 
-        return Object.Instantiate(m_Effects[AssetName]) as GameObject;
+        return Object.Instantiate(m_Effects[AssetName]) as GameObject;*/
+
+        return m_ResFactory.LoadEffect(AssetName);
     }
 
     // 產生AudioClip

@@ -69,6 +69,7 @@
 		<type fullname="DG.Tweening.TweenParams" preserve="all"/>
 		<type fullname="DG.Tweening.Core.ABSSequentiable" preserve="all"/>
 		<type fullname="DG.Tweening.Core.TweenerCore`3[UnityEngine.Vector3,UnityEngine.Vector3,DG.Tweening.Plugins.Options.VectorOptions]" preserve="all"/>
+		<type fullname="DG.Tweening.Core.TweenerCore`3[UnityEngine.Vector2,UnityEngine.Vector2,DG.Tweening.Plugins.Options.VectorOptions]" preserve="all"/>
 		<type fullname="DG.Tweening.TweenExtensions" preserve="all"/>
 		<type fullname="DG.Tweening.TweenSettingsExtensions" preserve="all"/>
 		<type fullname="DG.Tweening.ShortcutExtensions" preserve="all"/>

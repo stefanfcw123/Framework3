@@ -119,6 +119,7 @@ public class Game : MonoBehaviour
         return _panels[panelName] as T;
     }
 
+    // todo add IsPad
     private static void SetMatchWidthOrHeight(ProductConfig config) //横1竖0
     {
         float longNumber = config.ScreenLong;

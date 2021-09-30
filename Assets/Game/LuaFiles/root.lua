@@ -5,20 +5,24 @@
 -------------------------------------------------------
 
 require("functions.functions");
+require("data.Language")
+require("base.config")
 require("functions.kit");
 sys = require("base.sys")
 ui = require("base.ui")
 popui = require("base.popui")
+require("functions.event2")
+
 ---@class root
 root = class('root')
----@type event
-event = require("functions.event")
 ---@type save
 save = false;
 ---@type audio
 audio = false;
 ---@type timeManage
-timeManage =false;
+timeManage = false;
+---@type shop
+shop = false
 ---@type slotsManage
 slotsManage = false;
 ---@type lobbyPanel
@@ -31,10 +35,14 @@ playPanel = false;
 settingPanel = false;
 ---@type buyPanel
 buyPanel = false;
+---@type pigPanel
+pigPanel = false;
+---@type tipPanel
+tipPanel = false;
+---@type dailyPanel
+dailyPanel = false;
 GameGo = GameObject.Find("Game");
 data = false;
-require("data.config")
-require("functions.event2")
 
 local canvasT = GameGo.transform:Find("Canvas");
 local uis = {}
@@ -47,8 +55,7 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C) then
-        --save.addChip(1000);
-        settingPanel:show();
+        sendEvent(TIP_MESSAGE, "hello siki")
     end
 
     for i, v in pairs(systems) do
@@ -78,14 +85,18 @@ function root:init()
     save = root.add_sys("save");
     audio = root.add_sys("audio");
     timeManage = root.add_sys("timeManage");
-
     slotsManage = root.add_sys("slotsManage");
+    shop = root.add_sys("shop");
+
     local loadPanel = root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");
     barPanel = root.add_ui("barPanel");
     playPanel = root.add_ui("playPanel")
     settingPanel = root.add_ui("settingPanel");
     buyPanel = root.add_ui("buyPanel")
+    pigPanel = root.add_ui("pigPanel")
+    tipPanel = root.add_ui("tipPanel")
+    dailyPanel = root.add_ui("dailyPanel")
 end
 
 function root.set_tier(go, tier)

@@ -14,4 +14,7 @@ HOUR = MINUTE * 60;
 DAY = HOUR * 24;
 WEEK = DAY * 7;
 
-QUICK_LOAD = true;
+LANGUAGE_KEY ="Chinese";
+
+LOAD_QUICK = false;
+GAPBONUS_QUICK=false;
