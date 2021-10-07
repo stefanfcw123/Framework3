@@ -27,6 +27,9 @@ InputField = UnityEngine.UI.InputField;
 Image = UI.Image;
 Text = UI.Text;
 Slider = UI.Slider;
+WaitForSeconds =CS.UnityEngine.WaitForSeconds;
+WaitForEndOfFrame =CS.UnityEngine.WaitForEndOfFrame;
+WaitUntil =CS.UnityEngine.WaitUntil;
 AF = CS.Factorys.GetAssetFactory();
 
 

@@ -45,6 +45,7 @@ public static class LuaManualConfig
     //lua中要使用到C#库的配置，比如C#标准库，或者Unity API，第三方库等。
     [LuaCallCSharp] public static List<Type> LuaCallCSharp = new List<Type>()
     {
+      
         typeof(System.Object),
         typeof(UnityEngine.Object),
         typeof(Vector2),
@@ -99,7 +100,7 @@ public static class LuaManualConfig
         typeof(DG.Tweening.TweenParams),
         typeof(DG.Tweening.Core.ABSSequentiable),
         typeof(DG.Tweening.Core.TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions>),
-        
+
         typeof(DG.Tweening.Core.TweenerCore<Vector2, Vector2, DG.Tweening.Plugins.Options.VectorOptions>),
         typeof(DG.Tweening.Core.DOGetter<Vector2>),
         typeof(DG.Tweening.Core.DOSetter<Vector2>),
@@ -107,13 +108,13 @@ public static class LuaManualConfig
         typeof(DG.Tweening.Core.DOTweenUtils),
         typeof(DG.Tweening.Core.DOTweenExternalCommand),
         typeof(DG.Tweening.DOTweenModuleUI),
-        typeof(DG.Tweening.Core.TweenerCore<float,float,DG.Tweening.Plugins.Options.VectorOptions>),
+        typeof(DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.VectorOptions>),
 
         typeof(DG.Tweening.TweenCallback),
         typeof(DG.Tweening.TweenExtensions),
         typeof(DG.Tweening.TweenSettingsExtensions),
         typeof(DG.Tweening.ShortcutExtensions),
-        
+
         // typeof(DG.Tweening.ShortcutExtensions43),
         // typeof(DG.Tweening.ShortcutExtensions46),
         // typeof(DG.Tweening.ShortcutExtensions50),
@@ -121,6 +122,9 @@ public static class LuaManualConfig
         //dotween pro 的功能
         //typeof(DG.Tweening.DOTweenPath),
         //typeof(DG.Tweening.DOTweenVisualManager)
+        
+        typeof(System.Func<bool>),
+        typeof(LuaMono),
     };
 
     //C#静态调用Lua的配置（包括事件的原型），仅可以配delegate，interface
@@ -128,7 +132,7 @@ public static class LuaManualConfig
     {
         typeof(LuaMono),
         typeof(LuaSystem),
-        
+
         typeof(Action),
         typeof(Func<double, double, double>),
         typeof(Action<string>),
@@ -138,7 +142,9 @@ public static class LuaManualConfig
         typeof(Action<bool>),
         typeof(Action<LuaTable>),
         typeof(UnityEngine.Events.UnityAction),
-        typeof(System.Collections.IEnumerator)
+        typeof(System.Collections.IEnumerator),
+        
+        typeof(Func<bool>)
     };
 
     //黑名单

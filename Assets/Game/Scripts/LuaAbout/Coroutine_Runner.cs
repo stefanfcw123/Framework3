@@ -22,7 +22,8 @@ namespace XLuaTest
             {
                 typeof(WaitForSeconds),
                 typeof(WWW),
-                typeof(WaitUntil)
+                typeof(WaitUntil),
+                typeof(WaitForEndOfFrame),
             };
             }
         }

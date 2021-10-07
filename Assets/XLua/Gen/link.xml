@@ -36,6 +36,7 @@
 		<type fullname="UnityEngine.Debug" preserve="all"/>
 		<type fullname="UnityEngine.WaitForSeconds" preserve="all"/>
 		<type fullname="UnityEngine.WaitUntil" preserve="all"/>
+		<type fullname="UnityEngine.WaitForEndOfFrame" preserve="all"/>
 		
 	</assembly>
 
@@ -51,6 +52,7 @@
 
 	<assembly fullname="Assembly-CSharp">
 	    <type fullname="LuaSystem" preserve="all"/>
+		<type fullname="LuaMono" preserve="all"/>
 		
 	</assembly>
 

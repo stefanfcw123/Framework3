@@ -16,5 +16,5 @@ WEEK = DAY * 7;
 
 LANGUAGE_KEY ="Chinese";
 
-LOAD_QUICK = false;
+LOAD_QUICK = true;
 GAPBONUS_QUICK=false;

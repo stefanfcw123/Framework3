@@ -12,6 +12,7 @@ sys = require("base.sys")
 ui = require("base.ui")
 popui = require("base.popui")
 require("functions.event2")
+cs_coroutine = (require 'functions.cs_coroutine');
 
 ---@class root
 root = class('root')
@@ -54,8 +55,8 @@ end
 
 function root:Update()
 
-    if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C) then
-        sendEvent(TIP_MESSAGE, "hello siki")
+    if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
+         sendEvent(TIP_MESSAGE, "hello siki")
     end
 
     for i, v in pairs(systems) do
@@ -71,7 +72,6 @@ function root:Update()
 end
 
 function root:init()
-    print "root init"
     setmetatable(_G, {
         __index = function(t, _)
             error("read nil value " .. _, 2)
@@ -80,6 +80,7 @@ function root:init()
             error("write nil value " .. _, 2)
         end
     });
+    print "root init"
     math.randomseed(tostring(os.time()):reverse():sub(1, 7));
 
     save = root.add_sys("save");
