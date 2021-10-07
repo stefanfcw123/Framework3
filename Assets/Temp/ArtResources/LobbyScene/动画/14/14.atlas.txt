@@ -1,0 +1,111 @@
+
+14.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+di
+  rotate: false
+  xy: 2, 204
+  size: 534, 787
+  orig: 534, 787
+  offset: 0, 0
+  index: -1
+fish
+  rotate: false
+  xy: 891, 589
+  size: 146, 163
+  orig: 146, 163
+  offset: 0, 0
+  index: -1
+fish2
+  rotate: false
+  xy: 829, 227
+  size: 177, 147
+  orig: 177, 147
+  offset: 0, 0
+  index: -1
+paopao
+  rotate: false
+  xy: 538, 216
+  size: 289, 99
+  orig: 289, 99
+  offset: 0, 0
+  index: -1
+paopao2
+  rotate: false
+  xy: 710, 99
+  size: 289, 115
+  orig: 289, 115
+  offset: 0, 0
+  index: -1
+paopao3
+  rotate: false
+  xy: 538, 317
+  size: 289, 124
+  orig: 289, 124
+  offset: 0, 0
+  index: -1
+paopao4
+  rotate: false
+  xy: 538, 443
+  size: 289, 127
+  orig: 289, 127
+  offset: 0, 0
+  index: -1
+paopao5
+  rotate: false
+  xy: 2, 2
+  size: 352, 200
+  orig: 352, 200
+  offset: 0, 0
+  index: -1
+paopao6
+  rotate: false
+  xy: 356, 2
+  size: 352, 200
+  orig: 352, 200
+  offset: 0, 0
+  index: -1
+paopao7
+  rotate: false
+  xy: 538, 572
+  size: 351, 180
+  orig: 351, 180
+  offset: 0, 0
+  index: -1
+paopao8
+  rotate: false
+  xy: 710, 18
+  size: 351, 79
+  orig: 351, 79
+  offset: 0, 0
+  index: -1
+paopao9
+  rotate: false
+  xy: 1001, 168
+  size: 57, 57
+  orig: 57, 57
+  offset: 0, 0
+  index: -1
+seabed
+  rotate: false
+  xy: 538, 754
+  size: 404, 237
+  orig: 404, 237
+  offset: 0, 0
+  index: -1
+shanhu
+  rotate: false
+  xy: 829, 376
+  size: 157, 194
+  orig: 157, 194
+  offset: 0, 0
+  index: -1
+shanhu2
+  rotate: false
+  xy: 988, 393
+  size: 157, 194
+  orig: 157, 194
+  offset: 0, 0
+  index: -1

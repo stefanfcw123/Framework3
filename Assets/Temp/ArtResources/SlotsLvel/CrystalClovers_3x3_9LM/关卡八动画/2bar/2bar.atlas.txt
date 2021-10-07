@@ -1,0 +1,13 @@
+
+2bar.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+2bar
+  rotate: false
+  xy: 2, 2
+  size: 388, 255
+  orig: 388, 255
+  offset: 0, 0
+  index: -1

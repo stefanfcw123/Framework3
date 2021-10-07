@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 80afcffdbfc5fa04f8e7469fa2361376
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Akzidenz-Grotesk BQ Light Exten
+  fontNames:
+  - Akzidenz-Grotesk BQ Light Exten
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 037eede44f2d24744b3b9e844251f7d0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

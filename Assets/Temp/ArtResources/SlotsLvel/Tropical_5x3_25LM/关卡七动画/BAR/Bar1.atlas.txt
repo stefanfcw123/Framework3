@@ -1,0 +1,13 @@
+
+Bar1.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bar
+  rotate: false
+  xy: 2, 2
+  size: 247, 75
+  orig: 247, 75
+  offset: 0, 0
+  index: -1

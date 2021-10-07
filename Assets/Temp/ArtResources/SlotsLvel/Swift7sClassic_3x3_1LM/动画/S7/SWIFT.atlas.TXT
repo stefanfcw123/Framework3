@@ -1,0 +1,13 @@
+
+SWIFT.png
+size: 347,189
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+SWIFT
+  rotate: false
+  xy: 2, 2
+  size: 343, 185
+  orig: 343, 186
+  offset: 0, 1
+  index: -1

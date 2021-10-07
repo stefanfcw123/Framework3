@@ -1,0 +1,13 @@
+
+Zbar.png
+size: 269,301
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Zbar
+  rotate: false
+  xy: 2, 2
+  size: 265, 297
+  orig: 265, 297
+  offset: 0, 0
+  index: -1

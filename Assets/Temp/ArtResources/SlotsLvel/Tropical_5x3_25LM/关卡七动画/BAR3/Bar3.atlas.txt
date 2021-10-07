@@ -1,0 +1,13 @@
+
+Bar3.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BAR3
+  rotate: false
+  xy: 2, 2
+  size: 247, 203
+  orig: 247, 203
+  offset: 0, 0
+  index: -1

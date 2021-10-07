@@ -1,9 +1,9 @@
-print("jit", jit, _VERSION)
-
 if jit then
     jit.off();
     jit.flush()
 end
+
+print("jit", jit, _VERSION)
 
 UnityEngine = CS.UnityEngine;
 GameObject = CS.UnityEngine.GameObject;

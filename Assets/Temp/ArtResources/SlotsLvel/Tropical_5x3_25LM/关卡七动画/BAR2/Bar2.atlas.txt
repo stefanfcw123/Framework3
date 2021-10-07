@@ -1,0 +1,13 @@
+
+Bar2.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BAR2
+  rotate: false
+  xy: 2, 2
+  size: 247, 147
+  orig: 247, 147
+  offset: 0, 0
+  index: -1

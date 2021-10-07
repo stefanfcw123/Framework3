@@ -1,0 +1,13 @@
+
+BAR7.png
+size: 278,264
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BAR7
+  rotate: false
+  xy: 2, 2
+  size: 274, 260
+  orig: 274, 260
+  offset: 0, 0
+  index: -1

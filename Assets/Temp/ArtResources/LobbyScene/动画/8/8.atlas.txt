@@ -1,0 +1,48 @@
+
+8.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+7
+  rotate: false
+  xy: 2, 2
+  size: 238, 217
+  orig: 238, 217
+  offset: 0, 0
+  index: -1
+balloon
+  rotate: false
+  xy: 478, 792
+  size: 151, 116
+  orig: 151, 116
+  offset: 0, 0
+  index: -1
+balloon2
+  rotate: false
+  xy: 478, 630
+  size: 94, 160
+  orig: 94, 160
+  offset: 0, 0
+  index: -1
+bg
+  rotate: false
+  xy: 2, 221
+  size: 474, 777
+  orig: 474, 777
+  offset: 0, 0
+  index: -1
+circus
+  rotate: false
+  xy: 478, 910
+  size: 299, 88
+  orig: 299, 88
+  offset: 0, 0
+  index: -1
+flag
+  rotate: false
+  xy: 242, 34
+  size: 383, 185
+  orig: 383, 185
+  offset: 0, 0
+  index: -1

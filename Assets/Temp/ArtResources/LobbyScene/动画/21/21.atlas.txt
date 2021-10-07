@@ -1,0 +1,41 @@
+
+21.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg
+  rotate: false
+  xy: 486, 283
+  size: 387, 279
+  orig: 387, 279
+  offset: 0, 0
+  index: -1
+di
+  rotate: false
+  xy: 2, 57
+  size: 482, 787
+  orig: 482, 787
+  offset: 0, 0
+  index: -1
+famer
+  rotate: false
+  xy: 486, 564
+  size: 477, 280
+  orig: 477, 280
+  offset: 0, 0
+  index: -1
+farm
+  rotate: false
+  xy: 486, 2
+  size: 332, 279
+  orig: 332, 279
+  offset: 0, 0
+  index: -1
+leaves
+  rotate: false
+  xy: 820, 98
+  size: 177, 183
+  orig: 177, 183
+  offset: 0, 0
+  index: -1

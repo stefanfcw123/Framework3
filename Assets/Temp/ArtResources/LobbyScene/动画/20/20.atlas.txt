@@ -1,0 +1,48 @@
+
+20.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+di
+  rotate: false
+  xy: 2, 219
+  size: 482, 787
+  orig: 482, 787
+  offset: 0, 0
+  index: -1
+leave
+  rotate: false
+  xy: 372, 60
+  size: 165, 157
+  orig: 165, 157
+  offset: 0, 0
+  index: -1
+leaves
+  rotate: false
+  xy: 486, 594
+  size: 95, 145
+  orig: 95, 145
+  offset: 0, 0
+  index: -1
+lemon
+  rotate: false
+  xy: 486, 457
+  size: 135, 135
+  orig: 135, 135
+  offset: 0, 0
+  index: -1
+lemon2
+  rotate: false
+  xy: 486, 741
+  size: 265, 265
+  orig: 265, 265
+  offset: 0, 0
+  index: -1
+party
+  rotate: false
+  xy: 2, 2
+  size: 368, 215
+  orig: 368, 215
+  offset: 0, 0
+  index: -1

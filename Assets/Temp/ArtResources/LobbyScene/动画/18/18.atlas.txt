@@ -1,0 +1,69 @@
+
+18.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Tale
+  rotate: false
+  xy: 2, 2
+  size: 147, 61
+  orig: 147, 61
+  offset: 0, 0
+  index: -1
+chong
+  rotate: false
+  xy: 486, 624
+  size: 518, 384
+  orig: 518, 384
+  offset: 0, 0
+  index: -1
+di
+  rotate: false
+  xy: 2, 221
+  size: 482, 787
+  orig: 482, 787
+  offset: 0, 0
+  index: -1
+fairy
+  rotate: false
+  xy: 424, 81
+  size: 233, 138
+  orig: 233, 138
+  offset: 0, 0
+  index: -1
+girl
+  rotate: false
+  xy: 486, 348
+  size: 289, 274
+  orig: 289, 274
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 151, 38
+  size: 59, 25
+  orig: 59, 25
+  offset: 0, 0
+  index: -1
+leaves
+  rotate: false
+  xy: 2, 65
+  size: 420, 154
+  orig: 420, 154
+  offset: 0, 0
+  index: -1
+图层 226
+  rotate: false
+  xy: 2, 65
+  size: 420, 154
+  orig: 420, 154
+  offset: 0, 0
+  index: -1
+lotus
+  rotate: false
+  xy: 659, 38
+  size: 251, 308
+  orig: 251, 308
+  offset: 0, 0
+  index: -1
