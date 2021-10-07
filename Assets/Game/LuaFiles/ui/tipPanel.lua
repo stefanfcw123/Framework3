@@ -14,9 +14,7 @@ function tipPanel:createTip(t)
     go.transform:Find("Text"):GetComponent("Text").text = t;
     local rect = go:GetComponent(typeof(CS.UnityEngine.RectTransform));
 
-    print(type(rect))
-    -- todo 动画还没搞好
-    rect:DOAnchorPosX(11, 2);
+    rect:DOAnchorPosY(100, 1);
     GameObject.Destroy(go, 5);
 end
 

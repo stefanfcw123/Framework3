@@ -71,9 +71,17 @@
 		<type fullname="DG.Tweening.Core.ABSSequentiable" preserve="all"/>
 		<type fullname="DG.Tweening.Core.TweenerCore`3[UnityEngine.Vector3,UnityEngine.Vector3,DG.Tweening.Plugins.Options.VectorOptions]" preserve="all"/>
 		<type fullname="DG.Tweening.Core.TweenerCore`3[UnityEngine.Vector2,UnityEngine.Vector2,DG.Tweening.Plugins.Options.VectorOptions]" preserve="all"/>
+		<type fullname="DG.Tweening.Core.DOTweenComponent" preserve="all"/>
+		<type fullname="DG.Tweening.Core.DOTweenUtils" preserve="all"/>
+		<type fullname="DG.Tweening.Core.DOTweenExternalCommand" preserve="all"/>
 		<type fullname="DG.Tweening.TweenExtensions" preserve="all"/>
 		<type fullname="DG.Tweening.TweenSettingsExtensions" preserve="all"/>
 		<type fullname="DG.Tweening.ShortcutExtensions" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="Assembly-CSharp-firstpass">
+	    <type fullname="DG.Tweening.DOTweenModuleUI" preserve="all"/>
 		
 	</assembly>
 

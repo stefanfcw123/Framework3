@@ -99,9 +99,15 @@ public static class LuaManualConfig
         typeof(DG.Tweening.Core.ABSSequentiable),
 
         typeof(DG.Tweening.Core.TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions>),
+        
         typeof(DG.Tweening.Core.TweenerCore<Vector2, Vector2, DG.Tweening.Plugins.Options.VectorOptions>),
         typeof(DG.Tweening.Core.DOGetter<Vector2>),
         typeof(DG.Tweening.Core.DOSetter<Vector2>),
+        typeof(DG.Tweening.Core.DOTweenComponent),
+        typeof(DG.Tweening.Core.DOTweenUtils),
+        typeof(DG.Tweening.Core.DOTweenExternalCommand),
+        typeof(DG.Tweening.DOTweenModuleUI),
+        typeof(DG.Tweening.Core.TweenerCore<float,float,DG.Tweening.Plugins.Options.VectorOptions>),
 
         typeof(DG.Tweening.TweenCallback),
         typeof(DG.Tweening.TweenExtensions),
