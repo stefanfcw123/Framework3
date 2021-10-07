@@ -12,7 +12,9 @@ function tipPanel:createTip(t)
     local go = GameObject.Instantiate(AF:LoadEffect("tipImage"));
     self:tipGameObjectSetParent(go.transform);
     go.transform:Find("Text"):GetComponent("Text").text = t;
-    local rect = go:GetComponent("RectTransform");
+    local rect = go:GetComponent(typeof(CS.UnityEngine.RectTransform));
+
+    print(type(rect))
     -- todo 动画还没搞好
     rect:DOAnchorPosX(11, 2);
     GameObject.Destroy(go, 5);

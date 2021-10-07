@@ -60,6 +60,7 @@ public static class LuaManualConfig
         typeof(Component),
         typeof(Behaviour),
         typeof(Transform),
+        typeof(RectTransform),
         typeof(Resources),
         typeof(TextAsset),
         typeof(Keyframe),
@@ -100,6 +101,7 @@ public static class LuaManualConfig
         typeof(DG.Tweening.Core.TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions>),
         typeof(DG.Tweening.Core.TweenerCore<Vector2, Vector2, DG.Tweening.Plugins.Options.VectorOptions>),
         typeof(DG.Tweening.Core.DOGetter<Vector2>),
+        typeof(DG.Tweening.Core.DOSetter<Vector2>),
 
         typeof(DG.Tweening.TweenCallback),
         typeof(DG.Tweening.TweenExtensions),
