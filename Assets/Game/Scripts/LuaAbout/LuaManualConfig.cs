@@ -76,6 +76,7 @@ public static class LuaManualConfig
         typeof(System.Collections.Generic.List<int>),
         typeof(Action<string>),
         typeof(UnityEngine.Debug),
+        typeof(LuaSystem),
 
         typeof(DG.Tweening.AutoPlay),
         typeof(DG.Tweening.AxisConstraint),
@@ -97,7 +98,6 @@ public static class LuaManualConfig
         typeof(DG.Tweening.Sequence),
         typeof(DG.Tweening.TweenParams),
         typeof(DG.Tweening.Core.ABSSequentiable),
-
         typeof(DG.Tweening.Core.TweenerCore<Vector3, Vector3, DG.Tweening.Plugins.Options.VectorOptions>),
         
         typeof(DG.Tweening.Core.TweenerCore<Vector2, Vector2, DG.Tweening.Plugins.Options.VectorOptions>),
@@ -113,8 +113,7 @@ public static class LuaManualConfig
         typeof(DG.Tweening.TweenExtensions),
         typeof(DG.Tweening.TweenSettingsExtensions),
         typeof(DG.Tweening.ShortcutExtensions),
-
-
+        
         // typeof(DG.Tweening.ShortcutExtensions43),
         // typeof(DG.Tweening.ShortcutExtensions46),
         // typeof(DG.Tweening.ShortcutExtensions50),
@@ -127,6 +126,9 @@ public static class LuaManualConfig
     //C#静态调用Lua的配置（包括事件的原型），仅可以配delegate，interface
     [CSharpCallLua] public static List<Type> CSharpCallLua = new List<Type>()
     {
+        typeof(LuaMono),
+        typeof(LuaSystem),
+        
         typeof(Action),
         typeof(Func<double, double, double>),
         typeof(Action<string>),
@@ -134,6 +136,7 @@ public static class LuaManualConfig
         typeof(Action<float>),
         typeof(Action<int>),
         typeof(Action<bool>),
+        typeof(Action<LuaTable>),
         typeof(UnityEngine.Events.UnityAction),
         typeof(System.Collections.IEnumerator)
     };

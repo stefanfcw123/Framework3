@@ -110,6 +110,7 @@ public class LuaMono : MonoBehaviour, IPointerClickHandler, IPointerDownHandler,
         {
             _luaUpdate(TableIns);
         }
+
     }
 
     void FixedUpdate()
@@ -126,6 +127,9 @@ public class LuaMono : MonoBehaviour, IPointerClickHandler, IPointerDownHandler,
         {
             _luaOnDestroy(TableIns);
         }
+        
+        LuaClass.Dispose();
+        TableIns.Dispose();
     }
 
     private void OnCollisionEnter2D(Collision2D other)

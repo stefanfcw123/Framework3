@@ -29,7 +29,17 @@ public class LuaArg
 //[DefaultExecutionOrder(1)]
 public class LuaSystem : GameSystem
 {
-    public static readonly LuaEnv LuaEnv = new LuaEnv();
+    public static LuaEnv LuaEnv = new LuaEnv();
+
+    public override void Release()
+    {
+        base.Release();
+
+        if (LuaEnv != null)
+        {
+            LuaEnv = null;
+        }
+    }
 
     public static string LuaRoot()
     {
@@ -72,7 +82,6 @@ public class LuaSystem : GameSystem
             TextAsset file = Factorys.GetAssetFactory().LoadTextAsset(filepath);
             return file.bytes;
 #endif
-
     }
 
     public static LuaTable GetLua(GameObject go, LuaTable baseClass
@@ -220,5 +229,18 @@ public class LuaSystem : GameSystem
     {
         Incident.DeleteEvent<StartPlay>(StartPlayCallback);
         Incident.RigisterEvent<StartPlay>(StartPlayCallback);
+    }
+
+    internal static float lastGCTime = 0;
+    internal const float GCInterval = 1; //1 second 
+
+    public override void EachFrame()
+    {
+        base.EachFrame();
+        if (Time.time - lastGCTime > GCInterval)
+        {
+            LuaSystem.LuaEnv.Tick();
+            lastGCTime = Time.time;
+        }
     }
 }

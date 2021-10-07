@@ -244,7 +244,7 @@ public static class ExampleConfig
     //}
     //--------------end 热补丁自动化配置-------------------------
 
-    //黑名单
+    /*//黑名单
     [BlackList]
     public static List<List<string>> BlackList = new List<List<string>>()  {
                 new List<string>(){"System.Xml.XmlNodeList", "ItemOf"},
@@ -272,7 +272,7 @@ public static class ExampleConfig
                 new List<string>(){"System.IO.DirectoryInfo", "CreateSubdirectory", "System.String", "System.Security.AccessControl.DirectorySecurity"},
                 new List<string>(){"System.IO.DirectoryInfo", "Create", "System.Security.AccessControl.DirectorySecurity"},
                 new List<string>(){"UnityEngine.MonoBehaviour", "runInEditMode"},
-            };
+            };*/
 
 #if UNITY_2018_1_OR_NEWER
     [BlackList]

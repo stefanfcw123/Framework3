@@ -109,6 +109,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.Debug), UnityEngineDebugWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(LuaSystem), LuaSystemWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(DG.Tweening.AutoPlay), DGTweeningAutoPlayWrap.__Register);
         
         
@@ -171,13 +174,13 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(DG.Tweening.Core.TweenerCore<UnityEngine.Vector2, UnityEngine.Vector2, DG.Tweening.Plugins.Options.VectorOptions>), DGTweeningCoreTweenerCore_3_UnityEngineVector2UnityEngineVector2DGTweeningPluginsOptionsVectorOptions_Wrap.__Register);
         
-        
-            translator.DelayWrapLoader(typeof(DG.Tweening.Core.DOTweenComponent), DGTweeningCoreDOTweenComponentWrap.__Register);
-        
         }
         
         static void wrapInit1(LuaEnv luaenv, ObjectTranslator translator)
         {
+        
+            translator.DelayWrapLoader(typeof(DG.Tweening.Core.DOTweenComponent), DGTweeningCoreDOTweenComponentWrap.__Register);
+        
         
             translator.DelayWrapLoader(typeof(DG.Tweening.Core.DOTweenUtils), DGTweeningCoreDOTweenUtilsWrap.__Register);
         
@@ -186,6 +189,9 @@ namespace XLua.CSObjectWrap
         
         
             translator.DelayWrapLoader(typeof(DG.Tweening.DOTweenModuleUI), DGTweeningDOTweenModuleUIWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.VectorOptions>), DGTweeningCoreTweenerCore_3_SystemSingleSystemSingleDGTweeningPluginsOptionsVectorOptions_Wrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(DG.Tweening.TweenExtensions), DGTweeningTweenExtensionsWrap.__Register);

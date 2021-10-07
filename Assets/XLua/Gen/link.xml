@@ -49,6 +49,11 @@
 		
 	</assembly>
 
+	<assembly fullname="Assembly-CSharp">
+	    <type fullname="LuaSystem" preserve="all"/>
+		
+	</assembly>
+
 	<assembly fullname="DOTween">
 	    <type fullname="DG.Tweening.AutoPlay" preserve="all"/>
 		<type fullname="DG.Tweening.AxisConstraint" preserve="all"/>
@@ -74,6 +79,7 @@
 		<type fullname="DG.Tweening.Core.DOTweenComponent" preserve="all"/>
 		<type fullname="DG.Tweening.Core.DOTweenUtils" preserve="all"/>
 		<type fullname="DG.Tweening.Core.DOTweenExternalCommand" preserve="all"/>
+		<type fullname="DG.Tweening.Core.TweenerCore`3[System.Single,System.Single,DG.Tweening.Plugins.Options.VectorOptions]" preserve="all"/>
 		<type fullname="DG.Tweening.TweenExtensions" preserve="all"/>
 		<type fullname="DG.Tweening.TweenSettingsExtensions" preserve="all"/>
 		<type fullname="DG.Tweening.ShortcutExtensions" preserve="all"/>

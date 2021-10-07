@@ -170,6 +170,28 @@ namespace XLua
 #endif
 		}
         
+		public void __Gen_Delegate_Imp7(XLua.LuaTable p0)
+		{
+#if THREAD_SAFE || HOTFIX_ENABLE
+            lock (luaEnv.luaEnvLock)
+            {
+#endif
+                RealStatePtr L = luaEnv.rawL;
+                int errFunc = LuaAPI.pcall_prepare(L, errorFuncRef, luaReference);
+                ObjectTranslator translator = luaEnv.translator;
+                translator.Push(L, p0);
+                
+                PCall(L, 1, 0, errFunc);
+                
+                
+                
+                LuaAPI.lua_settop(L, errFunc - 1);
+                
+#if THREAD_SAFE || HOTFIX_ENABLE
+            }
+#endif
+		}
+        
         
 		static DelegateBridge()
 		{
@@ -217,6 +239,11 @@ namespace XLua
 		    if (type == typeof(System.Action<bool>))
 			{
 			    return new System.Action<bool>(__Gen_Delegate_Imp6);
+			}
+		
+		    if (type == typeof(System.Action<XLua.LuaTable>))
+			{
+			    return new System.Action<XLua.LuaTable>(__Gen_Delegate_Imp7);
 			}
 		
 		    return null;

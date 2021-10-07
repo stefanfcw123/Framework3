@@ -1,5 +1,8 @@
+print("jit", jit, _VERSION)
+
 if jit then
-    jit.off();jit.flush()
+    jit.off();
+    jit.flush()
 end
 
 UnityEngine = CS.UnityEngine;
