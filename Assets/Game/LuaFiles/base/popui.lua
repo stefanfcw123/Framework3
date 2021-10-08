@@ -10,7 +10,8 @@ local popui = class('popui', ui)
 function popui:init()
     self.tier = "AlwaysInFront";
     popui.super.init(self)
-    self.go:GetComponent("Image").color = getColor(0, 0, 0, 100);
+    self.bg = self.go:GetComponent("Image");
+    self.bg.color = getColor(0, 0, 0, 100);
     self.main = self.go.transform:Find("Image");
     local closeBtn = self.main:Find("Button"):GetComponent("Button");
     closeBtn.onClick:AddListener(function()
@@ -21,7 +22,7 @@ end
 function popui:GetAnim()
     local s = DOTween.Sequence();
     s:SetEase(Tweening.Ease.OutBounce)
-    local t1 = self.main:DOScale(1/2, 0);
+    local t1 = self.main:DOScale(1 / 2, 0);
     local t2 = self.main:DOScale(1, POP_SLOW);
     s:Append(t1);
     s:Append(t2);
@@ -34,6 +35,8 @@ end
 function popui:show()
     popui.super.show(self);
     self:GetAnim()
+    self.bg:DOFade(0, 0);
+    self.bg:DOFade(100 / 255, POP_SLOW)
     --[[    if self.mainAnim and self.mainAnim:IsPlaying() then
             self.mainAnim:Complete();
         end]]

@@ -56,7 +56,7 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
-         sendEvent(TIP_MESSAGE, "hello siki")
+        sendEvent(TIP_MESSAGE, "hello siki")
     end
 
     for i, v in pairs(systems) do
@@ -64,6 +64,7 @@ function root:Update()
             v.frame()
         end
     end
+
     for i, v in pairs(uis) do
         if v.is_show then
             v:frame()
@@ -80,6 +81,7 @@ function root:init()
             error("write nil value " .. _, 2)
         end
     });
+
     print "root init"
     math.randomseed(tostring(os.time()):reverse():sub(1, 7));
 
@@ -89,7 +91,7 @@ function root:init()
     slotsManage = root.add_sys("slotsManage");
     shop = root.add_sys("shop");
 
-    local loadPanel = root.add_ui("loadPanel");
+    root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");
     barPanel = root.add_ui("barPanel");
     playPanel = root.add_ui("playPanel")
@@ -101,8 +103,7 @@ function root:init()
 end
 
 function root.set_tier(go, tier)
-    local p = canvasT:Find(tier);
-    go.transform:SetParent(p, false);
+    go.transform:SetParent(canvasT:Find(tier), false);
 end
 
 function root.add_sys(name)
@@ -113,8 +114,7 @@ function root.add_sys(name)
 end
 
 function root.add_ui(name)
-    local go = AF:LoadPanel(name);
-    local go2 = UnityEngine.GameObject.Instantiate(go);
+    local go2 = UnityEngine.GameObject.Instantiate(AF:LoadPanel(name));
     go2.name = name;
     local ui_class = require("ui." .. name);
     local ui_ins = ui_class.new(go2, "Default");

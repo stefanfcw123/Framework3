@@ -27,7 +27,6 @@ function barPanel:init()
         else
             self:coinTextRefresh(string.format_foreign(n2));
         end
-        --print("barPanel", data.chip, n2)
     end)
     addEvent(LOAD_OVER, function()
         self:show();
@@ -50,7 +49,6 @@ end
 function barPanel:gapBonusButtonJump()
     -- TODO 动画没做好不搞了
     local t = self.gapBonusButton.transform;
-    --t:DOMoveY(1,1):SetRelative(true)
 end
 
 function barPanel:gapBonusButtonAction()

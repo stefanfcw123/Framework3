@@ -15,7 +15,7 @@ local function initButton(self)
     for i = 1, #btns do
         btns[i].onClick:AddListener(function()
             sendEvent(WILL_PLAY);
-            print("btn click " .. i)
+            print(" lobbyPanel btn click " .. i)
         end)
     end
 end

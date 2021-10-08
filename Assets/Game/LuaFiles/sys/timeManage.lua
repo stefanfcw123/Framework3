@@ -33,7 +33,7 @@ function timeManage.init()
 end
 
 function timeManage.startSendTimeStamp()
-    local a = cs_coroutine.start(function()
+    cs_coroutine.start(function()
         while true do
             timeManage.SendTIME_STAMP();
             coroutine.yield(CS.UnityEngine.WaitForSeconds(1))

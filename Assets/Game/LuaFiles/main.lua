@@ -3,7 +3,7 @@ if jit then
     jit.flush()
 end
 
-print("jit", jit, _VERSION)
+print( jit,jit.version, _VERSION)
 
 UnityEngine = CS.UnityEngine;
 GameObject = CS.UnityEngine.GameObject;

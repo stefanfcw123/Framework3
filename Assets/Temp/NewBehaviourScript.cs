@@ -24,6 +24,7 @@ public class NewBehaviourScript : MonoBehaviour
         re.DOAnchorPosY(10, 2).SetRelative(true);
         re.DOAnchorPosY(3, 2);
         //re.DOAnchorPos(Vector2.one, 2f)
+        Image g;
     }
 
     // Update is called once per frame

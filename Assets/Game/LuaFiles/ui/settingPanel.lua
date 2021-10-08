@@ -28,12 +28,10 @@ function settingPanel:buyButtonAction(t)
 end
 
 function settingPanel:soundToggleAction(t)
-    --print("setting sound", t)
     data._soundEnable = t;
 end
 
 function settingPanel:musicToggleAction(t)
-    --print("setting music", t)
     data._musicEnable = t;
     audio.switchMusic();
 end
