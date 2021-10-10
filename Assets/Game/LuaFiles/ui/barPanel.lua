@@ -46,11 +46,6 @@ function barPanel:init()
 
 end
 
-function barPanel:gapBonusButtonJump()
-    -- TODO 动画没做好不搞了
-    local t = self.gapBonusButton.transform;
-end
-
 function barPanel:gapBonusButtonAction()
     sendEvent(GET_GAP_BONUS)
     print(" barPanel gapBonusButtonAction click")

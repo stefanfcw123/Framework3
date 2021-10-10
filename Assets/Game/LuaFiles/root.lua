@@ -56,7 +56,8 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
-        sendEvent(TIP_MESSAGE, "hello siki")
+        local item = table.get_random_item( { "a", "b" });
+        sendEvent(TIP_MESSAGE, item);
     end
 
     for i, v in pairs(systems) do

@@ -1,7 +1,7 @@
 -------------------------------------------------------
--- author : sky_allen                                                                                                                  
---  email : 894982165@qq.com      
---   time : 2021/9/16 9:59:31                                                                                           
+-- author : sky_allen
+--  email : 894982165@qq.com
+--   time : 2021/9/16 9:59:31
 -------------------------------------------------------
 -- func
 
@@ -64,6 +64,7 @@ function assert_true(val, msg)
 end
 
 -- arr
+
 function table.real_len(t)
     return table.maxn(t);
 end

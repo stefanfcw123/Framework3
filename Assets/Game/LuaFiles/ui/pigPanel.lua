@@ -17,7 +17,7 @@ end
 
 function pigPanel:buyButtonAction()
     sendEvent(SHOP_BUG)
-    -- todo 购买成功要关闭，或者清空缓存
+    -- todo  Buy success clear cache!
 end
 
 --auto

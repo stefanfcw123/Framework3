@@ -14,8 +14,15 @@ function tipPanel:createTip(t)
     go.transform:Find("Text"):GetComponent("Text").text = t;
     local rect = go:GetComponent(typeof(CS.UnityEngine.RectTransform));
 
-    rect:DOAnchorPosY(100, 1);
-    GameObject.Destroy(go, 5);
+    local s = DOTween.Sequence();
+    s:Append(rect:DOScale(0, 0));
+    s:Append(rect:DOScale(1, POP_SLOW));
+    s:AppendInterval(2);
+    s:Append(rect:DOAnchorPosY(600, 0.5):SetRelative(true));
+    s:OnComplete(function()
+        GameObject.Destroy(go);
+    end)
+
 end
 
 function tipPanel:init()

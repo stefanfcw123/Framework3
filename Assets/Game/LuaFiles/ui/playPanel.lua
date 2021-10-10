@@ -24,7 +24,7 @@ function playPanel:spinButtonAction()
     if reduceSuccess then
         sendEvent(SPIN_START)
     else
-        -- todo 提示金币不够
+        -- todo Tip chip not enough
     end
 end
 
