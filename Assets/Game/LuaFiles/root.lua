@@ -42,6 +42,8 @@ pigPanel = false;
 tipPanel = false;
 ---@type dailyPanel
 dailyPanel = false;
+---@type level
+level = false;
 GameGo = GameObject.Find("Game");
 data = false;
 
@@ -89,6 +91,7 @@ function root:init()
     timeManage = root.add_sys("timeManage");
     slotsManage = root.add_sys("slotsManage");
     shop = root.add_sys("shop");
+    level = root.add_sys("level");
 
     root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");

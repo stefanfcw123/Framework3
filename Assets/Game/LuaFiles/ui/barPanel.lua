@@ -43,6 +43,9 @@ function barPanel:init()
     end)
 
     save.addChip(0);
+    local lv, ratio = level.friendlyLevelMessage(data.levelExp);
+    self:levelTextRefresh(lv);
+    self.levelSlider.value = ratio;
 
 end
 
@@ -78,11 +81,12 @@ function barPanel:ctor(go, tier)
     self.backButton = self.go.transform:Find("backButton"):GetComponent('Button');
     self.coinText = self.go.transform:Find("Image/coinText"):GetComponent('Text');
     self.buyButton = self.go.transform:Find("buyButton"):GetComponent('Button');
-    self.setButton = self.go.transform:Find("setButton"):GetComponent('Button');
     self.levelSlider = self.go.transform:Find("levelSlider"):GetComponent('Slider');
+    self.levelText = self.go.transform:Find("levelSlider/Image (1)/levelText"):GetComponent('Text');
+    self.pigButton = self.go.transform:Find("pigButton"):GetComponent('Button');
+    self.setButton = self.go.transform:Find("setButton"):GetComponent('Button');
     self.gapBonusButton = self.go.transform:Find("gapBonusButton"):GetComponent('Button');
     self.gapBonusText = self.go.transform:Find("gapBonusButton/gapBonusText"):GetComponent('Text');
-    self.pigButton = self.go.transform:Find("pigButton"):GetComponent('Button');
 
     self.backButton.onClick:AddListener(function()
         self:backButtonAction()
@@ -90,23 +94,26 @@ function barPanel:ctor(go, tier)
     self.buyButton.onClick:AddListener(function()
         self:buyButtonAction()
     end);
-    self.setButton.onClick:AddListener(function()
-        self:setButtonAction()
-    end);
     self.levelSlider.onValueChanged:AddListener(function(t)
         self:levelSliderAction(t)
     end);
-    self.gapBonusButton.onClick:AddListener(function()
-        self:gapBonusButtonAction()
-    end);
     self.pigButton.onClick:AddListener(function()
         self:pigButtonAction()
+    end);
+    self.setButton.onClick:AddListener(function()
+        self:setButtonAction()
+    end);
+    self.gapBonusButton.onClick:AddListener(function()
+        self:gapBonusButtonAction()
     end);
 
 end
 
 function barPanel:coinTextRefresh(t)
     self.coinText.text = t;
+end
+function barPanel:levelTextRefresh(t)
+    self.levelText.text = t;
 end
 function barPanel:gapBonusTextRefresh(t)
     self.gapBonusText.text = t;

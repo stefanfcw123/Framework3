@@ -46,7 +46,8 @@ function save.load()
             chip = 10000,
             _musicEnable = true,
             _soundEnable = true,
-            gapBonusStamp = 0
+            gapBonusStamp = 0,
+            levelExp=0,
         }
     else
         data = string.unserialize(data_str);

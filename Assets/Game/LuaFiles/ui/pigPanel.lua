@@ -10,6 +10,7 @@ local pigPanel = class('pigPanel', popui)
 function pigPanel:init()
     pigPanel.super.init(self)
     self:pigTextRefresh(string.format_foreign(shop.getPigChip()))
+    --todo There refresh will it be outdated?
     addEvent(SPIN_START,function()
         self:pigTextRefresh(string.format_foreign(shop.getPigChip()))
     end)

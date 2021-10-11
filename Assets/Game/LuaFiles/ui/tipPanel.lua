@@ -28,7 +28,7 @@ end
 function tipPanel:init()
     self.tier = "Guide"
     tipPanel.super.init(self)
-    print("tip panel init")
+    print("tipPanel init")
 
     addEvent(TIP_MESSAGE, function(i)
         self:createTip(i);

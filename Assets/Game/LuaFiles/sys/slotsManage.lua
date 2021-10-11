@@ -12,11 +12,14 @@ function slotsManage.init()
     addEvent(SPIN_START, function()
         slotsManage.Spin();
     end)
+    addEvent(SPIN_OVER,function()
+        print("slotsManage SPIN_OVER")
+    end)
 end
 
 function slotsManage.Spin()
     print("slotsManage SPIN_START")
-    print("等待了一秒然后游戏结束")
+    print("Slots spin will over!")
     sendEvent(SPIN_OVER);
 end
 

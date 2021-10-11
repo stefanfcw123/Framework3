@@ -3,7 +3,7 @@
 	Chinese='请领取奖金',
 	},{ID=2,
 	English='versions',
-	Chinese='版本',
+	Chinese='版本啊',
 	},{ID=3,
 	English='',
 	Chinese='',
