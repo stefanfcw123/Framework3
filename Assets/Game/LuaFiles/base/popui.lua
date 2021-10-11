@@ -15,7 +15,10 @@ function popui:init()
     self.main = self.go.transform:Find("Image");
     local closeBtn = self.main:Find("Button"):GetComponent("Button");
     closeBtn.onClick:AddListener(function()
-        self:hide();
+        self.bg:DOFade(0, 0)
+        self.main:DOScale(0, POP_SLOW):OnComplete(function()
+            self:hide();
+        end)
     end)
 end
 

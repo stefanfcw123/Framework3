@@ -17,8 +17,8 @@ function tipPanel:createTip(t)
     local s = DOTween.Sequence();
     s:Append(rect:DOScale(0, 0));
     s:Append(rect:DOScale(1, POP_SLOW));
-    s:AppendInterval(2);
-    s:Append(rect:DOAnchorPosY(600, 0.5):SetRelative(true));
+    s:AppendInterval(TIP_SAVE);
+    s:Append(rect:DOAnchorPosY(600, TIP_LEAVE):SetRelative(true));
     s:OnComplete(function()
         GameObject.Destroy(go);
     end)

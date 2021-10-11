@@ -10,6 +10,10 @@ function save.init()
     save.load();
 end
 
+function save.addLevelExp(exp)
+    data.levelExp = data.levelExp + exp;
+end
+
 function save.addChip(n)
     local success;
     if n >= 0 then
@@ -47,7 +51,7 @@ function save.load()
             _musicEnable = true,
             _soundEnable = true,
             gapBonusStamp = 0,
-            levelExp=0,
+            levelExp = 9,
         }
     else
         data = string.unserialize(data_str);

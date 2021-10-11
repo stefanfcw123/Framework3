@@ -27,7 +27,7 @@ function timeManage.init()
     end)
     addEvent(GET_GAP_BONUS, function()
         data.gapBonusStamp = nowTimeStamp()
-        save.save();
+        save.save();-- todo 调换时序更优雅的处理?
     end)
 
 end

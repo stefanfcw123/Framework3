@@ -43,10 +43,43 @@ function barPanel:init()
     end)
 
     save.addChip(0);
-    local lv, ratio = level.friendlyLevelMessage(data.levelExp);
-    self:levelTextRefresh(lv);
-    self.levelSlider.value = ratio;
 
+    self:RefreshSlider(false);
+    print(self:coinImageWorldPosition())
+end
+
+function barPanel:coinImageWorldPosition()
+    local v3 = self.coinImage.transform.position;
+    return Vector2(v3.x, v3.y);
+end
+
+function barPanel:RefreshSlider(needAnim)
+    local lv, ratio = level.friendlyLevelMessage();
+    self:levelTextRefresh(lv);
+    if not needAnim then
+        self.levelSlider.value = ratio;
+    else
+        DOTween.To(function(f)
+            self.levelSlider.value = f;
+        end, self.levelSlider.value, ratio, GIGITAL_SLOW);
+    end
+
+end
+
+function barPanel:levelAwardAnim(awardTipText, callback)
+    local rect = self.levelAwardTipImage:GetComponent("RectTransform");
+    self:levelAwardTipTextRefresh(awardTipText)
+    local s = DOTween.Sequence();
+    local perDistance = 260;
+    local perCost = TIP_LEAVE;
+
+    s:Append(rect:DOAnchorPosY(-perDistance, perCost):SetRelative(true));
+    s:AppendInterval(TIP_SAVE / 2);
+    s:AppendCallback(function()
+        callback();
+    end);
+    s:AppendInterval(TIP_SAVE / 2);
+    s:Append(rect:DOAnchorPosY(perDistance, perCost):SetRelative(true));
 end
 
 function barPanel:gapBonusButtonAction()
@@ -80,9 +113,12 @@ function barPanel:ctor(go, tier)
     barPanel.super.ctor(self, go, tier)
     self.backButton = self.go.transform:Find("backButton"):GetComponent('Button');
     self.coinText = self.go.transform:Find("Image/coinText"):GetComponent('Text');
+    self.coinImage = self.go.transform:Find("Image/coinImage"):GetComponent('Image');
     self.buyButton = self.go.transform:Find("buyButton"):GetComponent('Button');
     self.levelSlider = self.go.transform:Find("levelSlider"):GetComponent('Slider');
     self.levelText = self.go.transform:Find("levelSlider/Image (1)/levelText"):GetComponent('Text');
+    self.levelAwardTipImage = self.go.transform:Find("levelSlider/levelAwardTipImage"):GetComponent('Image');
+    self.levelAwardTipText = self.go.transform:Find("levelSlider/levelAwardTipImage/levelAwardTipText"):GetComponent('Text');
     self.pigButton = self.go.transform:Find("pigButton"):GetComponent('Button');
     self.setButton = self.go.transform:Find("setButton"):GetComponent('Button');
     self.gapBonusButton = self.go.transform:Find("gapBonusButton"):GetComponent('Button');
@@ -112,8 +148,17 @@ end
 function barPanel:coinTextRefresh(t)
     self.coinText.text = t;
 end
+function barPanel:coinImageRefresh(t)
+    self.coinImage.sprite = t;
+end
 function barPanel:levelTextRefresh(t)
     self.levelText.text = t;
+end
+function barPanel:levelAwardTipImageRefresh(t)
+    self.levelAwardTipImage.sprite = t;
+end
+function barPanel:levelAwardTipTextRefresh(t)
+    self.levelAwardTipText.text = t;
 end
 function barPanel:gapBonusTextRefresh(t)
     self.gapBonusText.text = t;

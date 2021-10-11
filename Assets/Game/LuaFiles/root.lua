@@ -44,6 +44,8 @@ tipPanel = false;
 dailyPanel = false;
 ---@type level
 level = false;
+---@type thingFly
+thingFly=false;
 GameGo = GameObject.Find("Game");
 data = false;
 
@@ -92,6 +94,7 @@ function root:init()
     slotsManage = root.add_sys("slotsManage");
     shop = root.add_sys("shop");
     level = root.add_sys("level");
+    thingFly=root.add_sys("thingFly")
 
     root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");
@@ -102,7 +105,6 @@ function root:init()
     pigPanel = root.add_ui("pigPanel")
     tipPanel = root.add_ui("tipPanel")
     dailyPanel = root.add_ui("dailyPanel")
-
 end
 
 function root.set_tier(go, tier)

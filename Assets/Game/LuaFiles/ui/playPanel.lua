@@ -17,6 +17,7 @@ function playPanel:init()
     end)
     self:betTextRefresh(slotsManage.getBet());
     self:winTextRefresh(0)
+
 end
 
 function playPanel:spinButtonAction()
