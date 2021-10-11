@@ -56,8 +56,6 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
-        local item = table.get_random_item( { "a", "b" });
-        sendEvent(TIP_MESSAGE, item);
     end
 
     for i, v in pairs(systems) do
@@ -101,6 +99,7 @@ function root:init()
     pigPanel = root.add_ui("pigPanel")
     tipPanel = root.add_ui("tipPanel")
     dailyPanel = root.add_ui("dailyPanel")
+
 end
 
 function root.set_tier(go, tier)
