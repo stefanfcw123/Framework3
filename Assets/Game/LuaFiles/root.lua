@@ -13,6 +13,7 @@ ui = require("base.ui")
 popui = require("base.popui")
 require("functions.event2")
 cs_coroutine = (require 'functions.cs_coroutine');
+require("functions.objPool")
 
 ---@class root
 root = class('root')
@@ -45,7 +46,7 @@ dailyPanel = false;
 ---@type level
 level = false;
 ---@type thingFly
-thingFly=false;
+thingFly = false;
 GameGo = GameObject.Find("Game");
 data = false;
 
@@ -60,6 +61,7 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
+        barPanel:gapBonusButtonAnim()
     end
 
     for i, v in pairs(systems) do
@@ -94,7 +96,7 @@ function root:init()
     slotsManage = root.add_sys("slotsManage");
     shop = root.add_sys("shop");
     level = root.add_sys("level");
-    thingFly=root.add_sys("thingFly")
+    thingFly = root.add_sys("thingFly")
 
     root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");

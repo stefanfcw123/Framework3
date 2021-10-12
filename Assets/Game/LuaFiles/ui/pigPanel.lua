@@ -17,7 +17,7 @@ function pigPanel:init()
 end
 
 function pigPanel:buyButtonAction()
-    sendEvent(SHOP_BUG)
+    sendEvent(SHOP_BUY)
     -- todo  Buy success clear cache!
 end
 

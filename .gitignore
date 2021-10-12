@@ -72,5 +72,7 @@ crashlytics-build.properties
 
 # My
 .idea/
+Idea/
 MyOther/*.aab
 MyOther/*.apk
+MyOther/*.ipa

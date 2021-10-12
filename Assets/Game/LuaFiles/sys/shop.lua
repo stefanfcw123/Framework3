@@ -11,7 +11,7 @@ local pigChip = 1200;
 
 function shop.init()
     print("shop init")
-    addEvent(SHOP_BUG, function()
+    addEvent(SHOP_BUY, function()
         shop.buy();
     end)
     addEvent(SPIN_START, function()

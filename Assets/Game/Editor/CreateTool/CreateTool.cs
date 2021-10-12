@@ -730,6 +730,11 @@ return $table$
 
 ---@class $table$
 local $table$ = class('$table$')
+
+function $table$.init()
+    print('$table$ init')
+end
+
 return $table$
 ";
         CreateTool.CrateAssetsTxtFile(".lua", fileContain: head);

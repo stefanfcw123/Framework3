@@ -33,9 +33,11 @@ function barPanel:init()
     end)
     addEvent(TIME_STAMP, function(c1)
         local canGapBonus = timeManage.canGapBonus(c1);
+        local gapBonusAward = level.gapBonusAward();
         if canGapBonus then
             self.gapBonusButton.interactable = true;
-            self:gapBonusTextRefresh(localize(1));
+            self:gapBonusTextRefresh(localize(1) .. string.format_foreign(gapBonusAward));
+            self:gapBonusButtonAnim();
         else
             self.gapBonusButton.interactable = false;
             self:gapBonusTextRefresh(CS.TimeHelper.GetTimeSpanFormat(c1));
@@ -45,12 +47,46 @@ function barPanel:init()
     save.addChip(0);
 
     self:RefreshSlider(false);
-    print(self:coinImageWorldPosition())
+end
+
+function barPanel:gapBonusButtonAnim()
+    local totalCost = 0.6;
+    local offset = 35;
+    local rect = self.gapBonusButton:GetComponent("RectTransform");
+    local s = DOTween.Sequence();
+    s:Append(rect:DOAnchorPosY(offset, totalCost / 2):SetRelative(true));
+    s:Append(rect:DOAnchorPosY(-offset, totalCost / 2):SetRelative(true):SetEase(Ease.OutBounce));
+end
+
+function barPanel:gapBonusButtonAction()
+    sendEvent(GET_GAP_BONUS)
+    print(" barPanel gapBonusButtonAction click")
+    timeManage.SendTIME_STAMP();
+    thingFly.fly(self:gapBonusButtonWorldPosition())
+end
+
+function barPanel:gapBonusButtonWorldPosition()
+    return self:worldPosition(self.gapBonusButton);
+end
+
+function barPanel:pigButtonBigSmall()
+    self:bigSmall(self.pigButton.transform, 0.5);
+end
+
+function barPanel:coinImageBigSmall()
+    self:bigSmall(self.coinImage.transform, FLY_DELAY / 2);
+end
+
+function barPanel:levelAwardTipImageWorldPosition()
+    return self:worldPosition(self.levelAwardTipImage);
+end
+
+function barPanel:pigButtonWorldPosition()
+    return self:worldPosition(self.pigButton);
 end
 
 function barPanel:coinImageWorldPosition()
-    local v3 = self.coinImage.transform.position;
-    return Vector2(v3.x, v3.y);
+    return self:worldPosition(self.coinImage);
 end
 
 function barPanel:RefreshSlider(needAnim)
@@ -62,6 +98,8 @@ function barPanel:RefreshSlider(needAnim)
         DOTween.To(function(f)
             self.levelSlider.value = f;
         end, self.levelSlider.value, ratio, GIGITAL_SLOW);
+
+        thingFly.pigFly()
     end
 
 end
@@ -80,12 +118,6 @@ function barPanel:levelAwardAnim(awardTipText, callback)
     end);
     s:AppendInterval(TIP_SAVE / 2);
     s:Append(rect:DOAnchorPosY(perDistance, perCost):SetRelative(true));
-end
-
-function barPanel:gapBonusButtonAction()
-    sendEvent(GET_GAP_BONUS)
-    print(" barPanel gapBonusButtonAction click")
-    timeManage.SendTIME_STAMP();
 end
 
 function barPanel:levelSliderAction(t)

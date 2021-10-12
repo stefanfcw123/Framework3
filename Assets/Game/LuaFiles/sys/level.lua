@@ -13,8 +13,17 @@ local function getExpByLevel(lv)
     return 10 ^ lv;
 end
 
+function level.curLV()
+    return curLV;
+end
+
 function level.levelUpAward()
     return curLV * 100;
+end
+
+function level.gapBonusAward()
+    local res = curLV * 500 + math.min(data.chip * 0.01, 1000);
+    return integer10(res);
 end
 
 function level.init()
@@ -27,6 +36,7 @@ function level.init()
         local award = level.levelUpAward();
         local callback = function()
             save.addChip(award);
+            thingFly.fly(barPanel:levelAwardTipImageWorldPosition())
         end
         barPanel:levelAwardAnim(string.format_foreign(award), callback)
     end)

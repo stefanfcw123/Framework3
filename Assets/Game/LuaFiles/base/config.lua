@@ -7,9 +7,10 @@
 TIP_SAVE = 2;
 TIP_LEAVE = 0.5;
 
-GIGITAL_SLOW = 1-- 数字缓动时间
-POP_SLOW = 1 / 4;
+GIGITAL_SLOW = 1.5-- 数字缓动时间
+POP_SLOW = 1 / 5;
 BTN_SCALE = 1 / 20;
+FLY_DELAY =0.085;
 
 SECOND = 1;
 MINUTE = SECOND * 60;

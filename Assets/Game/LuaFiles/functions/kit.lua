@@ -3,65 +3,6 @@
 --  email : 894982165@qq.com
 --   time : 2021/9/16 9:59:31
 -------------------------------------------------------
--- func
-
-function localize(id)
-    return Language[id][LANGUAGE_KEY];
-end
-
-function readOnlyTable(t)
-    local res = {}
-    setmetatable(res, {
-        __index = t,
-        __newindex = function(t, _)
-            error("Readonly " .. _, 2);
-        end
-    })
-    return res;
-end
-
-function global(key, val)
-    if rawget(_G, key) == false then
-        rawset(_G, key, val or false);
-    else
-        print("The same name.", val);
-    end
-end
-
-function getColor(a, b, c, d)
-    return Color(a / 255, b / 255, c / 255, d / 255);
-end
-
-function uiActive(ui, arg)
-    if arg == nil then
-        ui.gameObject:SetActive(true);
-    elseif arg == false then
-        ui.gameObject:SetActive(false);
-    end
-end
-
-function array2table(mono, uiType)
-    local res = {};
-    local array = mono:GetComponentsInChildren(typeof(uiType))
-    for i = 1, array.Length do
-        table.insert(res, array[i - 1]);
-    end
-    return res;
-end
-
-function create_enum_table(tbl, idx)
-    local res = {}
-    local index = idx or 0
-
-    for i, v in ipairs(tbl) do
-        res[v] = index + i
-    end
-    return readOnlyTable(res);
-end
-
-function assert_true(val, msg)
-    assert(val, msg)
-end
 
 -- arr
 
@@ -391,4 +332,88 @@ end
 function string.percent(n)
     local N = n * 100;
     return string.format("%.0f%%", N)
+end
+
+-- global func
+
+function int(num)
+    return math.modf(num);
+end
+
+function integer10(num)
+    assert(type(num) == "number")
+    num = int(num);
+    local numStr = tostring(num);
+    local charArr = string.to_char_arr(numStr);
+    charArr[#charArr] = "0";
+    return tonumber(table.concat(charArr));
+end
+
+--[[print(integer10(2));
+print(integer10(12));
+print(integer10(112));
+print(integer10(16002));
+print(integer10(16233));
+print(integer10(2));
+print(integer10(-12));
+print(integer10(-112));
+print(integer10(-16002));
+print(integer10(-16233));]]
+
+function localize(id)
+    return Language[id][LANGUAGE_KEY];
+end
+
+function readOnlyTable(t)
+    local res = {}
+    setmetatable(res, {
+        __index = t,
+        __newindex = function(t, _)
+            error("Readonly " .. _, 2);
+        end
+    })
+    return res;
+end
+
+function global(key, val)
+    if rawget(_G, key) == false then
+        rawset(_G, key, val or false);
+    else
+        print("The same name.", val);
+    end
+end
+
+function getColor(a, b, c, d)
+    return Color(a / 255, b / 255, c / 255, d / 255);
+end
+
+function uiActive(ui, arg)
+    if arg == nil then
+        ui.gameObject:SetActive(true);
+    elseif arg == false then
+        ui.gameObject:SetActive(false);
+    end
+end
+
+function array2table(mono, uiType)
+    local res = {};
+    local array = mono:GetComponentsInChildren(typeof(uiType))
+    for i = 1, array.Length do
+        table.insert(res, array[i - 1]);
+    end
+    return res;
+end
+
+function create_enum_table(tbl, idx)
+    local res = {}
+    local index = idx or 0
+
+    for i, v in ipairs(tbl) do
+        res[v] = index + i
+    end
+    return readOnlyTable(res);
+end
+
+function assert_true(val, msg)
+    assert(val, msg)
 end

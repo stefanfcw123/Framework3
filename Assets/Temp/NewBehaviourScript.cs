@@ -22,9 +22,11 @@ public class NewBehaviourScript : MonoBehaviour
         k.IsPlaying();
         RectTransform re = transform as RectTransform;
         re.DOAnchorPosY(10, 2).SetRelative(true);
-        re.DOAnchorPosY(3, 2);
+        re.DOAnchorPosY(3, 2).SetSpeedBased(true).SetEase(Ease.Flash);
         //re.DOAnchorPos(Vector2.one, 2f)
         Image g;
+        GameObject go;
+        Button b;
     }
 
     // Update is called once per frame

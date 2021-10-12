@@ -40,6 +40,17 @@ function ui:init()
     end
 end
 
+function ui:bigSmall(transform, perCost)
+    transform:DOScale(1.15, perCost):OnComplete(function()
+        transform:DOScale(1, perCost);
+    end)
+end
+
+function ui:worldPosition(uiElement)
+    local v3 = uiElement.transform.position;
+    return Vector3(v3.x, v3.y, 0);
+end
+
 function ui:over()
     self:hide()
 end

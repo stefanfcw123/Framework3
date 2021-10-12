@@ -3,7 +3,7 @@ if jit then
     jit.flush()
 end
 
-print( jit,jit.version, _VERSION)
+print(jit, jit.version, _VERSION)
 
 UnityEngine = CS.UnityEngine;
 GameObject = CS.UnityEngine.GameObject;
@@ -18,6 +18,7 @@ AudioSource = CS.UnityEngine.AudioSource;
 Resources = CS.UnityEngine.Resources;
 Color = CS.UnityEngine.Color;
 Tweening = CS.DG.Tweening;
+Ease = Tweening.Ease;
 DOTween = CS.DG.Tweening.DOTween
 SpriteRenderer = CS.UnityEngine.SpriteRenderer;
 UI = CS.UnityEngine.UI;
@@ -27,9 +28,12 @@ InputField = UnityEngine.UI.InputField;
 Image = UI.Image;
 Text = UI.Text;
 Slider = UI.Slider;
-WaitForSeconds =CS.UnityEngine.WaitForSeconds;
-WaitForEndOfFrame =CS.UnityEngine.WaitForEndOfFrame;
-WaitUntil =CS.UnityEngine.WaitUntil;
+WaitForSeconds = CS.UnityEngine.WaitForSeconds;
+WaitForEndOfFrame = CS.UnityEngine.WaitForEndOfFrame;
+WaitUntil = CS.UnityEngine.WaitUntil;
 AF = CS.Factorys.GetAssetFactory();
+
+-- todo 倍率
+-- todo 每日登录
 
 
