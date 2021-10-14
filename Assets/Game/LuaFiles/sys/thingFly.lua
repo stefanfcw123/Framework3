@@ -8,23 +8,23 @@
 local thingFly = class('thingFly')
 
 function thingFly.fly(startPos)
-    local flyNum = 18;
+    local flyNum = 14;
     local initPos = Vector3(startPos.x, startPos.y, 0);
     local finalPos = barPanel:coinImageWorldPosition()
-    local flySpeed = 16.5;
-    local secondOffset = 1.2;
+    local flySpeed = 22.5;
+    local secondOffset = 0.75;
 
     cs_coroutine.start(function()
         for i = 1, flyNum do
             coroutine.yield(WaitForSeconds(FLY_DELAY));
-            local go = GameObject.Instantiate(AF:LoadEffect("flyGO"))
+            local go = Spawn("flyGO");
             go.transform.position = initPos;
             local secondPos = Vector3(initPos.x + Random.insideUnitCircle.x * secondOffset, initPos.y + Random.insideUnitCircle.y * secondOffset, 0);
             local s = DOTween.Sequence();
             s:Append(go.transform:DOMove(secondPos, (Vector3.Distance(initPos, secondPos)) / flySpeed));
             s:Append(go.transform:DOMove(finalPos, (Vector3.Distance(secondPos, finalPos)) / flySpeed));
             s:OnComplete(function()
-                UnityEngine.GameObject.Destroy(go);
+                Recycle(go);
                 barPanel:coinImageBigSmall();
             end)
         end
@@ -41,11 +41,11 @@ function thingFly.pigFly()
     cs_coroutine.start(function()
         for i = 1, flyNum do
             coroutine.yield(WaitForSeconds(0.1))
-            local go = GameObject.Instantiate(AF:LoadEffect("flyGO"));
+            local go = Spawn("flyGO"); --GameObject.Instantiate(AF:LoadEffect("flyGO"));
             initPos = Vector3(finalPos.x + Random.insideUnitCircle.x * offset, finalPos.y + Random.insideUnitCircle.y * offset, 0);
             go.transform.position = initPos;
             go.transform:DOMove(finalPos, 0.25):OnComplete(function()
-                UnityEngine.GameObject.Destroy(go);
+                Recycle(go);-- UnityEngine.GameObject.Destroy(go);
             end)
         end
         barPanel:pigButtonBigSmall()

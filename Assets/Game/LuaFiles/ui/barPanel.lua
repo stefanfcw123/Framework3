@@ -32,7 +32,7 @@ function barPanel:init()
         self:show();
     end)
     addEvent(TIME_STAMP, function(c1)
-        local canGapBonus = timeManage.canGapBonus(c1);
+        local canGapBonus = c1 <= 0 and true or false;
         local gapBonusAward = level.gapBonusAward();
         if canGapBonus then
             self.gapBonusButton.interactable = true;

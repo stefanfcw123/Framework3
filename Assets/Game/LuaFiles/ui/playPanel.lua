@@ -6,21 +6,33 @@
 
 ---@class playPanel
 local playPanel = class('playPanel', ui)
-
+local curUI = nil;
 function playPanel:init()
     playPanel.super.init(self)
-    addEvent(WILL_PLAY, function()
+    addEvent(WILL_PLAY, function(n)
         self:show()
+        curUI = require("base.machine.slotsUI" .. tostring(n)).new(n);
+        --  print("curUI", curUI)
     end)
     addEvent(BACK_LOBBY, function()
         self:hide()
     end)
-    addEvent(SPIN_OVER, function()
+    addEvent(SPIN_OVER, function(isWin, award)
+        if isWin then
+            DOTween                     .To(function(f)
+                self:winTextRefresh(string.format_foreign(f))
+            end, 0, award, GIGITAL_SLOW):OnComplete(function()
+                save.addChip(award);
+            end)
+        end
+    end)
+    addEvent(SPIN_START, function()
+        self:winTextRefresh(0)
+    end)
+    self:winTextRefresh(0)
+    addEvent(LOAD_OVER, function()
         self:betTextRefresh2();
     end)
-    self:betTextRefresh2();
-    self:winTextRefresh(0)
-
 end
 
 function playPanel:betTextRefresh2()
@@ -37,7 +49,7 @@ function playPanel:spinButtonAction()
 end
 
 function playPanel:tipButtonAction()
-
+    guidePanel:show()
 end
 
 function playPanel:reduceButtonAction()
@@ -52,12 +64,12 @@ end
 
 function playPanel:ctor(go, tier)
     playPanel.super.ctor(self, go, tier)
-    self.betText = self.go.transform:Find("Image/GameObject/Image/betText"):GetComponent('Text');
-    self.winText = self.go.transform:Find("Image/GameObject/Image (1)/winText"):GetComponent('Text');
-    self.spinButton = self.go.transform:Find("Image/GameObject/spinButton"):GetComponent('Button');
-    self.tipButton = self.go.transform:Find("Image/GameObject/tipButton"):GetComponent('Button');
-    self.reduceButton = self.go.transform:Find("Image/GameObject/reduceButton"):GetComponent('Button');
-    self.addButton = self.go.transform:Find("Image/GameObject/addButton"):GetComponent('Button');
+    self.betText = self.go.transform:Find("GameObject/Image/betText"):GetComponent('Text');
+    self.winText = self.go.transform:Find("GameObject/Image (1)/winText"):GetComponent('Text');
+    self.spinButton = self.go.transform:Find("GameObject/spinButton"):GetComponent('Button');
+    self.tipButton = self.go.transform:Find("GameObject/tipButton"):GetComponent('Button');
+    self.reduceButton = self.go.transform:Find("GameObject/reduceButton"):GetComponent('Button');
+    self.addButton = self.go.transform:Find("GameObject/addButton"):GetComponent('Button');
 
     self.spinButton.onClick:AddListener(function()
         self:spinButtonAction()

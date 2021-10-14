@@ -308,7 +308,11 @@ end
 
 function string.get_pure_number(str)
     local temp = string.gsub(str, "%D+", "");
-    return tonumber(temp);
+    if temp == "" then
+        return 0;
+    else
+        return tonumber(temp);
+    end
 end
 
 function string.format_foreign(digit)
@@ -349,17 +353,6 @@ function integer10(num)
     return tonumber(table.concat(charArr));
 end
 
---[[print(integer10(2));
-print(integer10(12));
-print(integer10(112));
-print(integer10(16002));
-print(integer10(16233));
-print(integer10(2));
-print(integer10(-12));
-print(integer10(-112));
-print(integer10(-16002));
-print(integer10(-16233));]]
-
 function localize(id)
     return Language[id][LANGUAGE_KEY];
 end
@@ -395,11 +388,26 @@ function uiActive(ui, arg)
     end
 end
 
-function array2table(mono, uiType)
+function array2table(mono, uiType, isAll, func)
     local res = {};
-    local array = mono:GetComponentsInChildren(typeof(uiType))
+    local array = nil;
+    if isAll then
+        array = mono:GetComponentsInChildren(typeof(uiType))
+    else
+        array = mono.transform:GetChildArray();
+        print(array.Length)
+    end
+
     for i = 1, array.Length do
-        table.insert(res, array[i - 1]);
+        local ui = array[i - 1];
+        if uiType == Button then
+            ui.onClick:AddListener(function()
+                if func then
+                    func(ui);
+                end
+            end)
+        end
+        table.insert(res, ui);
     end
     return res;
 end

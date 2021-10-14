@@ -51,6 +51,8 @@ function save.load()
             _musicEnable = true,
             _soundEnable = true,
             gapBonusStamp = 0,
+            loginStamp = 0,
+            loginLv = 0,
             levelExp = 9,
         }
     else

@@ -10,11 +10,10 @@ local lobbyPanel = class('lobbyPanel', ui)
 local btns = {};
 
 local function initButton(self)
-    btns = array2table(self.CGameObject, Button);
-
+    btns = array2table(self.CGameObject, Button, true);
     for i = 1, #btns do
         btns[i].onClick:AddListener(function()
-            sendEvent(WILL_PLAY);
+            sendEvent(WILL_PLAY, i);
             print(" lobbyPanel btn click " .. i)
         end)
     end

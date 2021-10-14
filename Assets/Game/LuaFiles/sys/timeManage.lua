@@ -8,29 +8,73 @@
 local timeManage = class('timeManage')
 
 local gapBonusInterval;
+local loginInterval;
 
 local function nowTimeStamp()
     return math.floor(CS.TimeHelper.GetNowTimeStamp());
 end
 
+local login = false;
+local loginMaxLv = 7;
 function timeManage.init()
     print("timeManage init")
 
     if GAPBONUS_QUICK then
-        gapBonusInterval = MINUTE;
+        gapBonusInterval = 35;
     else
         gapBonusInterval = HOUR;
     end
 
+    if LOGIN_QUICK then
+        loginInterval = 5;
+    else
+        loginInterval = DAY;
+    end
+
     addEvent(LOAD_OVER, function()
         timeManage.startSendTimeStamp();
+        if data.loginLv < loginMaxLv then
+            timeManage.showLogin()
+        end
     end)
     addEvent(GET_GAP_BONUS, function()
         data.gapBonusStamp = nowTimeStamp()
         save.save();-- todo 调换时序更优雅的处理?
         save.addChip(level.gapBonusAward());
     end)
+    --login = require("base.login").new();
+end
 
+function timeManage.collectAward()
+    data.loginLv = data.loginLv + 1;
+    data.loginStamp = nowTimeStamp();
+    save.addChip(timeManage.loginTotalBonus());
+    save.save();
+end
+
+function timeManage.loginDayNum()
+    return data.loginLv + 1;
+end
+
+function timeManage.loginBonus()
+    return 500;
+end
+
+function timeManage.loginMultiple()
+    return timeManage.loginDayNum() * 1;
+end
+
+function timeManage.loginTotalBonus()
+    return timeManage.loginBonus() * timeManage.loginMultiple();
+end
+
+function timeManage.showLogin()
+    local stampFixed = loginInterval - (nowTimeStamp() - data.loginStamp);
+    local isShow = stampFixed <= 0 and true or false;
+
+    if isShow then
+        loginPanel:show();
+    end
 end
 
 function timeManage.startSendTimeStamp()
@@ -46,13 +90,6 @@ function timeManage.SendTIME_STAMP()
     local osTime = nowTimeStamp();
     sendEvent(TIME_STAMP, gapBonusInterval - (osTime - data.gapBonusStamp))
     --print(osTime, data.gapBonusStamp, gapBonusInterval - (osTime - data.gapBonusStamp))
-end
-
-function timeManage.canGapBonus(residueTimeStamp)
-    if residueTimeStamp <= 0 then
-        return true;
-    end
-    return false;
 end
 
 return timeManage

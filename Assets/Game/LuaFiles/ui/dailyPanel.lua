@@ -7,7 +7,7 @@
 
 ---@class dailyPanel
 local dailyPanel = class('dailyPanel',popui)
-
+-- todo 要删除这些没用到的文件呢
 function dailyPanel:init()
     dailyPanel.super.init(self)
     print("dailyPanel init")

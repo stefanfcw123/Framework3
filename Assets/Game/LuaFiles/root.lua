@@ -27,6 +27,10 @@ timeManage = false;
 shop = false
 ---@type slotsManage
 slotsManage = false;
+---@type level
+level = false;
+---@type thingFly
+thingFly = false;
 ---@type lobbyPanel
 lobbyPanel = false;
 ---@type barPanel
@@ -43,10 +47,12 @@ pigPanel = false;
 tipPanel = false;
 ---@type dailyPanel
 dailyPanel = false;
----@type level
-level = false;
----@type thingFly
-thingFly = false;
+---@type loginPanel
+loginPanel = false;
+---@type netPanel
+netPanel = false;
+---@type guidePanel
+guidePanel = false;
 GameGo = GameObject.Find("Game");
 data = false;
 
@@ -61,7 +67,16 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
-        barPanel:gapBonusButtonAnim()
+--[[        Spawn("Cube", function(c)
+            cs_coroutine.start(function()
+                c.transform.position = Vector3.zero;
+                coroutine.yield(WaitForSeconds(3))
+                Recycle(c)
+            end)
+        end)]]
+    end
+    if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.S) then
+        sendEvent(NET_PANEL, false);
     end
 
     for i, v in pairs(systems) do
@@ -107,6 +122,9 @@ function root:init()
     pigPanel = root.add_ui("pigPanel")
     tipPanel = root.add_ui("tipPanel")
     dailyPanel = root.add_ui("dailyPanel")
+    loginPanel = root.add_ui("loginPanel");
+    netPanel = root.add_ui("netPanel")
+    guidePanel = root.add_ui("guidePanel")
 end
 
 function root.set_tier(go, tier)

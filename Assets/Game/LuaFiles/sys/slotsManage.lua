@@ -10,6 +10,8 @@ local slotsManage = class('slotsManage')
 local betLv = 1;
 local maxLv = 4;
 local minLv = 1;
+local curBet = 0;
+local curMachine = nil;
 
 function slotsManage.init()
     print("slots init")
@@ -18,18 +20,32 @@ function slotsManage.init()
     end)
     addEvent(SPIN_OVER, function()
         print("slotsManage SPIN_OVER")
+        curMachine:over()
+    end)
+    addEvent(LOAD_OVER, function()
+        slotsManage.setBet()
+    end)
+    addEvent(WILL_PLAY, function(i)
+        curMachine = require("base.machine.slotsMachine" .. tostring(i)).new();
+        print("curMachine", curMachine)
     end)
 end
 
 function slotsManage.Spin()
     print("slotsManage SPIN_START")
     print("Slots spin will over!")
-    for i = 1, 1000 do
-        local isWin = slotsManage.isWin();
-        print(isWin)
+
+    curMachine:spin();
+
+    local isWin = slotsManage.isWin();
+    local winAward = 2000;
+    if isWin then
+        print("Slots win")
+    else
+        print("Slots lose")
     end
 
-    sendEvent(SPIN_OVER);
+    sendEvent(SPIN_OVER, isWin, winAward);
 end
 
 function slotsManage.isWin()
@@ -48,6 +64,7 @@ function slotsManage.changeBetLv(n)
             betLv = betLv - 1;
         end
     end
+    slotsManage.setBet();
     playPanel:betTextRefresh2()
 end
 
@@ -55,8 +72,7 @@ function slotsManage.getWin()
 
 end
 
--- todo 解决当前bet缓存问题，不然是非常不好的设计，玩家误以为有bug
-function slotsManage.getBet()
+function slotsManage.setBet()
     -- todo 取整要整50呢？
     local liteChip = data.chip * 0.1;
     local baseNum = 50;
@@ -65,8 +81,12 @@ function slotsManage.getBet()
     local lvAbout = baseNum * level.curLV() + chipAbout * 0.1;
     local res = chipAbout + lvAbout;
     local intRes = integer10(res);
-    --print("curLv", level.curLV(), "chipAbout", chipAbout, "lvAbout", lvAbout);
-    return intRes
+    --print("curLv", level.curLV(), "chipAbout", chipAbout, "lvAbout", lvAbout,"initRes",intRes);
+    curBet = intRes;
+end
+
+function slotsManage.getBet()
+    return curBet;
 end
 
 function slotsManage.getPig()

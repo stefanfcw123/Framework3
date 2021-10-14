@@ -12,11 +12,17 @@ function ui:ctor(go, tier)
     self.tier = tier
     self.is_show = false;
     self.go:SetActive(false)
+    --self.canvas = self.go:AddComponent(typeof(Canvas));
 end
 
 function ui:show()
     self.go:SetActive(true)
     self.is_show = true;
+
+    --[[    if not self.canvas.overrideSorting then
+            self.canvas.overrideSorting = true;
+            self.canvas.sortingOrder = self.go.transform.parent:GetSiblingIndex();
+        end]]
 end
 
 function ui:hide()
@@ -29,7 +35,7 @@ function ui:init()
     root.set_tier(self.go, self.tier)
     self.go:GetComponent("Image").color = getColor(255, 255, 255, 255);
 
-    local buttons = array2table(self.go, Button);
+    local buttons = array2table(self.go, Button, true);
     for i, v in ipairs(buttons) do
         v.onClick:AddListener(function()
             audio.PlaySound("btnClick")
@@ -38,6 +44,8 @@ function ui:init()
             end);
         end)
     end
+
+
 end
 
 function ui:bigSmall(transform, perCost)
@@ -56,6 +64,7 @@ function ui:over()
 end
 
 function ui:frame()
+
 end
 
 return ui;
