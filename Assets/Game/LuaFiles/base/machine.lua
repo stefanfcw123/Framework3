@@ -7,17 +7,16 @@
 ---@class machine
 local machine = class('machine')
 
-function machine:ctor()
+function machine:ctor(lv)
+    self.lv = lv;
     self.wheelNum = 3;
     self.wheelPatternNum = 3;
 end
 
-function machine:spin()
-    print("machine:spin")
+function machine:spinStart()
 end
 
-function machine:over()
-
+function machine:spinOver()
 end
 
 return machine

@@ -19,6 +19,11 @@ public class rotateImage : MonoBehaviour
         rect = GetComponent<RectTransform>();
         initY = rect.anchoredPosition.y;
         origin = initY;
+
+        List<string> list = new List<string>() {"a", "b", "b", "c", "d"};
+        print(list.Exists(item => item == "b"));
+        var g = list.FindAll(item => item == "b");
+        print(g.Count);
     }
 
     // Update is called once per frame

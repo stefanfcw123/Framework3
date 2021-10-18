@@ -6,6 +6,10 @@
 
 -- arr
 
+function table.removeFirst(t)
+    table.remove(t, 1);
+end
+
 function table.real_len(t)
     return table.maxn(t);
 end
@@ -18,6 +22,24 @@ function table.index_of(arr, val)
         end
     end
 
+    return nil;
+end
+
+function table.exists(arr, fn)
+    for i, v in ipairs(arr) do
+        if fn(v) then
+            return true;
+        end
+    end
+    return false;
+end
+
+function table.find(arr, fn)
+    for i, v in ipairs(arr) do
+        if fn(v) then
+            return v;
+        end
+    end
     return nil;
 end
 
@@ -395,7 +417,6 @@ function array2table(mono, uiType, isAll, func)
         array = mono:GetComponentsInChildren(typeof(uiType))
     else
         array = mono.transform:GetChildArray();
-        print(array.Length)
     end
 
     for i = 1, array.Length do

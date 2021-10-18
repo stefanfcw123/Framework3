@@ -12,7 +12,6 @@ function buyPanel:init()
     local btns = array2table(self.pImage, Button, true, function(btn)
         local i = string.get_pure_number(btn.name)
         print("buyPanel btn clicked:", i)
-        print(btn.transform:GetSiblingIndex())
     end);
 
 end

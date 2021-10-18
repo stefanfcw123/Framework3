@@ -11,31 +11,36 @@ local betLv = 1;
 local maxLv = 4;
 local minLv = 1;
 local curBet = 0;
-local curMachine = nil;
+
+slotsManage.curMachine = nil;
 
 function slotsManage.init()
     print("slots init")
     addEvent(SPIN_START, function()
-        slotsManage.Spin();
+        slotsManage.spinStart();
     end)
     addEvent(SPIN_OVER, function()
-        print("slotsManage SPIN_OVER")
-        curMachine:over()
+        slotsManage.spinOver();
     end)
     addEvent(LOAD_OVER, function()
         slotsManage.setBet()
     end)
     addEvent(WILL_PLAY, function(i)
-        curMachine = require("base.machine.slotsMachine" .. tostring(i)).new();
-        print("curMachine", curMachine)
+        slotsManage.curMachine = require("base.machine.slotsMachine" .. tostring(i)).new(i);
+        print(slotsManage.curMachine, "slotsManage.curMachine")
     end)
 end
 
-function slotsManage.Spin()
+function slotsManage.spinOver()
+    print("slotsManage SPIN_OVER")
+    slotsManage.curMachine:spinOver()
+end
+
+function slotsManage.spinStart()
     print("slotsManage SPIN_START")
     print("Slots spin will over!")
 
-    curMachine:spin();
+    slotsManage.curMachine:spinStart();
 
     local isWin = slotsManage.isWin();
     local winAward = 2000;

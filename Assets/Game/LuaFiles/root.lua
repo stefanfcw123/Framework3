@@ -67,16 +67,8 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
---[[        Spawn("Cube", function(c)
-            cs_coroutine.start(function()
-                c.transform.position = Vector3.zero;
-                coroutine.yield(WaitForSeconds(3))
-                Recycle(c)
-            end)
-        end)]]
     end
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.S) then
-        sendEvent(NET_PANEL, false);
     end
 
     for i, v in pairs(systems) do

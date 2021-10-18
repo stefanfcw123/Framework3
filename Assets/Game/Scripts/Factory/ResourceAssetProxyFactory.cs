@@ -8,9 +8,17 @@ public class ResourceAssetProxyFactory : IAssetFactory
 {
     private readonly Dictionary<string, AudioClip> m_Audios;
     private readonly Dictionary<string, Object> m_Effects;
+
     private readonly ResourceAssetFactory m_ResFactory; // 實際負責載入的AssetFactory
+
     //private readonly QFResourceAssetFactory m_QFFactory; 
     private readonly Dictionary<string, Sprite> m_Sprites;
+
+    public Sprite[] LoadSprites(int lv)
+    {
+        Sprite[] res = Resources.LoadAll<Sprite>($"Level{lv}");
+        return res;
+    }
 
     public ResourceAssetProxyFactory()
     {
@@ -51,6 +59,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
             var res = m_ResFactory.LoadSprite(SpriteName);
             m_Sprites.Add(SpriteName, res);
         }
+
         return m_Sprites[SpriteName];
 
         //return m_QFFactory.LoadSprite(spriteName);
