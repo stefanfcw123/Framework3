@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OtherTest : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        GFG.Main();
+        IOHelpLua.CreateText(IOHelpLua.GetLVFullPath(1), "hello");
+        Button b = default;
+        b.onClick.RemoveAllListeners();
     }
 
     // Update is called once per frame

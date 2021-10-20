@@ -67,8 +67,43 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
+--[[        self.x = { "a", "b", "c" };
+        local t = self.x;
+        table.filterItems(t, { "b" });
+        table.print_arr(self.x);]]
+
+        --[[        local t = {
+                    { "w1", "w1", "w1" },
+                    { "w1", "w1", "w1" },
+                    { "w1", "w1", "w1" },
+                }
+                local t2 = {
+                    { "w2", "w2", "w2" },
+                    { "w1", "w1", "w1" },
+                    { "w1", "w1", "w1" },
+                }
+                local t3 = {
+                    { "w3", "w3", "w3" },
+                    { "w1", "w1", "w1" },
+                    { "w1", "w1", "w1" },
+                }
+                local bigT = {};
+                table.insert(bigT, t);
+                table.insert(bigT, t2);
+                table.insert(bigT, t3);
+
+                CS.IOHelpLua.CreateTemp(string.serialize(bigT));
+                ]]
+        print("press key a")
     end
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.S) then
+        local txt = AF:LoadTextAsset("Lv1/1")
+        local g = string.unserialize(txt.text);
+
+        for i, v in ipairs(g) do
+            table.print_nest_arr(v);
+        end
+        print("press key s")
     end
 
     for i, v in pairs(systems) do
@@ -95,7 +130,6 @@ function root:init()
     });
 
     print "root init"
-    math.randomseed(tostring(os.time()):reverse():sub(1, 7));
 
     save = root.add_sys("save");
     audio = root.add_sys("audio");

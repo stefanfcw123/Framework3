@@ -20,7 +20,7 @@ function machine:ctor(lv)
             }
     );
     self.winningPatterns = {};
-
+    self.writeDatas = {};
 end
 
 function machine:addMatrix(m)
@@ -31,16 +31,11 @@ function machine:addMatrix(m)
     table.insert(self.matrixTable, m);
 end
 
-function machine:finalPatterns()
-    return {
-        { "s1", "s1", "s1" },
-        { "s1", "s1", "s1" },
-        { "s1", "s1", "s1" },
-    }
-end
+function machine:calculateLines(finalPatterns)
+    --todo 验证这里有没有从左向右的bug，刚想了下也许后面的模式有问题
 
-function machine:calculateLine()
-    local finalPatterns = self:finalPatterns();
+
+    local finalPatterns = finalPatterns;
 
     local fL = #finalPatterns;
     local f1L = #finalPatterns[1];
@@ -60,6 +55,8 @@ function machine:calculateLine()
         end
         table.insert(self.winningPatterns, tempPatterns);
     end
+
+    self:whetherWinning(finalPatterns);
 end
 
 function machine:knightAward(t, princess, knight)
@@ -88,7 +85,7 @@ function machine:combinationAward(t, awardPool)
 end
 
 local function isWildItem(str)
-    return string.value_of(v, 1) == "w";
+    return string.value_of(str, 1) == "w";
 end
 
 function machine:WildPatterns(t)
@@ -120,7 +117,7 @@ function machine:calculateNotWild(v)
     elseif self:allSameAward(v, "b2") then
         return 5;
     elseif self:combinationAward(v, { "b1", "s1" }) then
-        return 3;
+        return 4;
     elseif self:combinationAward(v, { "b1", "b2", "b3", "s1" }) then
         return 2;
     else
@@ -145,7 +142,7 @@ function machine:fixedCopyV(copyV, NotWildPatternTable)
     end
 end
 
-function machine:whetherWinning()
+function machine:whetherWinning(finalPatterns)
     local resRatio = 0;
     for i, v in ipairs(self.winningPatterns) do
         local ratio = 0;
@@ -181,11 +178,37 @@ function machine:whetherWinning()
         end
 
         resRatio = resRatio + ratio;
+        print("machine perRatio:", ratio);
     end
 
     print("machine totalRatio:", resRatio)
 
+    --table.print_nest_arr(finalPatterns)
+    self:writeData(resRatio, finalPatterns);
+
     return resRatio;
+end
+
+function machine:writeData(resRatio, finalPatterns)
+    local datas = self.writeDatas;
+    local key = tostring(resRatio);
+    if not table.contains_key(datas, key) then
+        local t = {}
+        table.insert(t, finalPatterns);
+        datas[key] = t;
+    else
+        table.insert(datas[key], finalPatterns);
+    end
+
+--[[    print("--------------------")
+    for i, v in pairs(self.writeDatas) do
+        print(string.format("now is %s bet", i))
+        for i2, v2 in ipairs(v) do
+            table.print_nest_arr(v2)
+            print("---")
+        end
+    end
+    print("--------------------")]]
 end
 
 function machine:spinStart()

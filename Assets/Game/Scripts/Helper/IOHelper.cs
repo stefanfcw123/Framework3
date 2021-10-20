@@ -8,6 +8,12 @@ using System.Text.RegularExpressions;
 
 public class IOHelper
 {
+
+    public static void CreateText(string path, string content)
+    {
+        File.WriteAllText(path,content,Encoding.UTF8);
+    }
+
     public static string GetFileName(string filePath)
     {
         FileInfo f = new FileInfo(filePath);

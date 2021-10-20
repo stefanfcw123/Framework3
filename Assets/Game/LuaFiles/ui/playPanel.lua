@@ -40,10 +40,15 @@ function playPanel:betTextRefresh2()
     self:betTextRefresh(string.format_foreign(slotsManage.getBet()));
 end
 
+function playPanel:reduceSuccess()
+    randomSeed();
+    sendEvent(SPIN_START)
+end
+
 function playPanel:spinButtonAction()
     local reduceSuccess = save.addChip(-slotsManage.getBet());
     if reduceSuccess then
-        sendEvent(SPIN_START)
+        self:reduceSuccess();
     else
         -- todo Tip chip not enough
     end

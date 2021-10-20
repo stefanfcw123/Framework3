@@ -41,7 +41,7 @@ public class ResourceAssetFactory : IAssetFactory
 
     public override TextAsset LoadTextAsset(string name)
     {
-        return Resources.Load(name) as TextAsset;
+       return Resources.Load<TextAsset>($"Text/{name}");
     }
 
     public override SpriteAtlas LoadSpriteAtlas(string name)

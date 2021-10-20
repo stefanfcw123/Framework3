@@ -43,10 +43,8 @@ public static class LuaManualConfig
     };*/
 
     //lua中要使用到C#库的配置，比如C#标准库，或者Unity API，第三方库等。
-    [ReflectionUse]
-    [LuaCallCSharp] public static List<Type> LuaCallCSharp = new List<Type>()
+    [ReflectionUse] [LuaCallCSharp] public static List<Type> LuaCallCSharp = new List<Type>()
     {
-      
         typeof(System.Object),
         typeof(UnityEngine.Object),
         typeof(Vector2),
@@ -125,9 +123,12 @@ public static class LuaManualConfig
         //dotween pro 的功能
         //typeof(DG.Tweening.DOTweenPath),
         //typeof(DG.Tweening.DOTweenVisualManager)
-        
+
         typeof(System.Func<bool>),
         typeof(LuaMono),
+
+        typeof(IOHelper),
+        typeof(IOHelpLua)
     };
 
     //C#静态调用Lua的配置（包括事件的原型），仅可以配delegate，interface
@@ -147,7 +148,7 @@ public static class LuaManualConfig
         typeof(Action<LuaTable>),
         typeof(UnityEngine.Events.UnityAction),
         typeof(System.Collections.IEnumerator),
-        
+
         typeof(Func<bool>)
     };
 

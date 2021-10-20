@@ -326,7 +326,7 @@ return $table$
                         $"{findStr}self.{name}=self.go.transform:Find(\"{childPath}\"):GetComponent(\'{type}\');{format}";
                     funcStr = $"{funcStr}function {className}:{name}Refresh(t)self.{name}.text=t;end{format}";
                     break;
-                case PanelUIType.Button:
+                case PanelUIType.Button:  //todo 有空把button更改sprite的函数一块做了吧哈哈，如果有xxImageButton名字的话
                     findStr =
                         $"{findStr}self.{name}=self.go.transform:Find(\"{childPath}\"):GetComponent(\'{type}\');{format}";
 

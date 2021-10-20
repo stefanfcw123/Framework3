@@ -247,6 +247,15 @@ function table.copy(t)
     return res;
 end
 
+function table.selectItems(t, str)
+
+    local res = {};
+    for i, v in ipairs(t) do
+        res[i] = v[str]
+    end
+    return res;
+end
+
 
 -- hash
 function table.print_hash(hash)
@@ -474,4 +483,8 @@ end
 
 function assert_true(val, msg)
     assert(val, msg)
+end
+
+function randomSeed()
+    math.randomseed(tostring(os.time()):reverse():sub(1, 7));
 end

@@ -4,8 +4,7 @@
 --   time : 2021/9/26 14:39:58                                                                                           
 -------------------------------------------------------
 
--- todo 后期衔接create_data模式
-CREATE_DATA = true;
+SPIN_QUICK_TIME = 0.2;
 
 NET_TIMEOUT = 4;
 
@@ -27,4 +26,7 @@ LANGUAGE_KEY = "Chinese";
 
 LOAD_QUICK = true;
 GAPBONUS_QUICK = false;
-LOGIN_QUICK = true;
+LOGIN_QUICK = false;
+PATTERNS_QUICK = false;
+SPIN_QUICK = true;
+CREATE_DATA = true;-- todo 后期衔接create_data模式

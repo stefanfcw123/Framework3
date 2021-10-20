@@ -12,67 +12,95 @@ function uiMachine:ctor(lv)
     self.lv = lv;
     self.go = playPanel.go.transform:Find("Image" .. self.lv).gameObject;
     self.go:GetComponent("Image").sprite = AF:LoadSprite("bg" .. self.lv);
-    self.wheels = array2table(self.go.transform:Find("Image/Image"), RectTransform, false)
-    self.bigPatternTableIns = {}
-    print("uiMachine ctor")
+    local luaMonos = array2table(self.go.transform:Find("Image/Image"), RectTransform, false);
+    self.wheels = {};
+    local allSprites = self:loadAllSprite();
 
-    for i, v in ipairs(self.wheels) do
-        local patternRects = array2table(v, RectTransform, false);
-        local patternMonoTableIns = {}
-        for i = 1, #patternRects do
-            patternMonoTableIns[i] = patternRects[i]:GetComponent(typeof(CS.LuaMono)).TableIns;
+    for i, v in ipairs(luaMonos) do
+        table.insert(self.wheels, v:GetComponent(typeof(CS.LuaMono)).TableIns);
+        local resSp = nil;
+        if i == 1 then
+            resSp = self:fixedAllSprite(allSprites, { "w3", "w4", "w5" })
+        elseif i == 2 then
+            resSp = self:fixedAllSprite(allSprites, { "w2" })
+        elseif i == 3 then
+            resSp = self:fixedAllSprite(allSprites, { "w3", "w4", "w5" })
         end
-        self.bigPatternTableIns[i] = patternMonoTableIns;
+        -- print(#resSp)
+
+        self.wheels[i]:init(resSp);
     end
+    print("uiMachine ctor")
+end
 
-    self:loadAllSprite();
-    self:randomSetAllPattern();
+function uiMachine:fixedAllSprite(allSprites, fT)
+    local sp = table.copy(allSprites);
 
-    --print(slotsManage.curMachine, " from uiMachine")
+    for i, v in ipairs(fT) do
+        local sv, si = table.find(sp, function(item)
+            return item.name == v
+        end)
+        if si == nil then
+            error("Don't find!")
+        else
+            table.remove(sp, si);
+        end
+    end
+    return sp;
 end
 
 -- todo 也需要判断字符串是否含有trim()
 function uiMachine:loadAllSprite()
     local arr = AF:LoadSprites(self.lv);
 
-    self.sprites = {}
+    local res = {}
     for i = 1, arr.Length do
         local s = arr[i - 1];
-        table.insert(self.sprites, s);
+        table.insert(res, s);
     end
+    table.insert(res, AF:LoadSprite("Empty"))
 
-    -- self.sprites[#self.sprites + 1] = AF:LoadSprite("Empty");
-end
-
-function uiMachine:getRandomSprite()
-    local randomLuaIndex = math.random(#self.sprites);--产生[1-#self.sprites]之间的索引
-    return self.sprites[randomLuaIndex];
-end
-
-function uiMachine:randomSetAllPattern()
-    for i, v in ipairs(self.bigPatternTableIns) do
-        for i2, v2 in ipairs(v) do
-            v2:setImage(self:getRandomSprite(), self)
-        end
-    end
+    return res;
 end
 
 function uiMachine:rollAll()
+    local w1 = WaitForSeconds(1.2);
+    local w2 = WaitForSeconds(0.4);
+
+    if SPIN_QUICK then
+        w1 = SPIN_QUICK_TIME
+        w2 = SPIN_QUICK_TIME / #self.wheels;
+    end
+
     local s = cs_coroutine.start(function()
         for i, v in ipairs(self.wheels) do
             self:roll(i, true);
         end
 
-        coroutine.yield(WaitForSeconds(1.2));
+        coroutine.yield(w1);
 
         for i, v in ipairs(self.wheels) do
-            coroutine.yield(WaitForSeconds(1 / 2.5))
             self:roll(i, false)
+            coroutine.yield(w2)
         end
 
+        self:randomSetImage();
         local matrix = self:getMapPatterns();
-        table.print_nest_arr(matrix)
+        if PATTERNS_QUICK then
+            matrix = {
+                { "b1", "b1", "w2" },
+                { "w2", "w5", "w2" },
+                { "w2", "b1", "b1" },
+            }
+        end
+        slotsManage.curMachine:calculateLines(matrix);
     end)
+end
+
+function uiMachine:randomSetImage()
+    for i, v in ipairs(self.wheels) do
+        v:randomSetImage();
+    end
 end
 
 -- todo 单元测试row和col要数据统一
@@ -80,13 +108,8 @@ end
 function uiMachine:getMapPatterns(row, col)
 
     local bigT = {};
-    for i, v in ipairs(self.bigPatternTableIns) do
-        local t = {};
-        for i2, v2 in ipairs(v) do
-            if i2 ~= 1 then
-                table.insert(t, v2:GetPatternImageName());
-            end
-        end
+    for i, v in ipairs(self.wheels) do
+        local t = v:getPatterns();
         table.insert(bigT, t);
     end
 
@@ -106,12 +129,11 @@ function uiMachine:getMapPatterns(row, col)
 end
 
 function uiMachine:roll(index, isStart)
-    for i, v in ipairs(self.bigPatternTableIns[index]) do
-        if isStart then
-            v:spinStart();
-        else
-            v:spinOver();
-        end
+    local wheel = self.wheels[index];
+    if isStart then
+        wheel:spinStart();
+    else
+        wheel:spinOver();
     end
 end
 

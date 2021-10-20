@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Policy;
 using QFramework;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -7,7 +8,7 @@ using UnityEngine.U2D;
 public class ResourceAssetProxyFactory : IAssetFactory
 {
     private readonly Dictionary<string, AudioClip> m_Audios;
-    private readonly Dictionary<string, Object> m_Effects;
+    private readonly Dictionary<string, GameObject> m_Effects;
 
     private readonly ResourceAssetFactory m_ResFactory; // 實際負責載入的AssetFactory
 
@@ -25,7 +26,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
         /*ResKit.Init();
         m_QFFactory = new QFResourceAssetFactory();*/
         m_ResFactory = new ResourceAssetFactory();
-        m_Effects = new Dictionary<string, Object>();
+        m_Effects = new Dictionary<string, GameObject>();
         m_Audios = new Dictionary<string, AudioClip>();
         m_Sprites = new Dictionary<string, Sprite>();
     }
@@ -33,37 +34,34 @@ public class ResourceAssetProxyFactory : IAssetFactory
     // 產生特效
     public override GameObject LoadEffect(string AssetName)
     {
-        /*if (m_Effects.ContainsKey(AssetName) == false)
+        if (m_Effects.ContainsKey(AssetName) == false)
         {
-            var res =
-                m_ResFactory.LoadGameObjectFromResourcePath(ResourceAssetFactory.EffectPath + AssetName);
-            m_Effects.Add(AssetName, res);
+            m_Effects.Add(AssetName, m_ResFactory.LoadEffect(AssetName));
         }
 
-        return Object.Instantiate(m_Effects[AssetName]) as GameObject;*/
-
-        return m_ResFactory.LoadEffect(AssetName);
+        return m_Effects[AssetName];
     }
 
     // 產生AudioClip
     public override AudioClip LoadAudioClip(string ClipName)
     {
-        return m_ResFactory.LoadAudioClip(ClipName);
+        if (m_Audios.ContainsKey(ClipName) == false)
+        {
+            m_Audios.Add(ClipName, m_ResFactory.LoadAudioClip(ClipName));
+        }
+
+        return m_Audios[ClipName];
     }
 
     // 產生Sprite
     public override Sprite LoadSprite(string SpriteName)
     {
-        /*if (m_Sprites.ContainsKey(SpriteName) == false)
+        if (m_Sprites.ContainsKey(SpriteName) == false)
         {
-            var res = m_ResFactory.LoadSprite(SpriteName);
-            m_Sprites.Add(SpriteName, res);
+            m_Sprites.Add(SpriteName, m_ResFactory.LoadSprite(SpriteName));
         }
 
-        return m_Sprites[SpriteName];*/
-
-        //return m_QFFactory.LoadSprite(spriteName);
-        return m_ResFactory.LoadSprite(SpriteName);
+        return m_Sprites[SpriteName];
     }
 
     public override Material LoadMaterial(string name)
@@ -78,6 +76,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
 
     public override TextAsset LoadTextAsset(string name)
     {
+        //TODO 缓存
         return m_ResFactory.LoadTextAsset(name);
     }
 

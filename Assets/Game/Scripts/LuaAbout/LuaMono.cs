@@ -8,7 +8,7 @@ using XLua;
 using XLua.LuaDLL;
 
 //[DefaultExecutionOrder(2)]
-public class LuaMono : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+public class LuaMono : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler,IPointerExitHandler
 {
     public string FilePath;
     public List<LuaArg> Args;
@@ -31,6 +31,7 @@ public class LuaMono : MonoBehaviour, IPointerClickHandler, IPointerDownHandler,
     private Action<LuaTable, PointerEventData> _luaClickHandler;
     private Action<LuaTable, PointerEventData> _luaDownHandler;
     private Action<LuaTable, PointerEventData> _luaUpHandler;
+    private Action<LuaTable, PointerEventData> _luaExitHandler;
 
     private void Awake()
     {
@@ -85,6 +86,7 @@ public class LuaMono : MonoBehaviour, IPointerClickHandler, IPointerDownHandler,
         LuaClass.Get("OnPointerClick", out _luaClickHandler);
         LuaClass.Get("OnPointerDown", out _luaDownHandler);
         LuaClass.Get("OnPointerUp", out _luaUpHandler);
+        LuaClass.Get("OnPointerExit", out _luaExitHandler);
     }
 
     void Start()
@@ -168,6 +170,14 @@ public class LuaMono : MonoBehaviour, IPointerClickHandler, IPointerDownHandler,
         if (_luaUpHandler != null)
         {
             _luaUpHandler(TableIns, eventData);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (_luaExitHandler != null)
+        {
+            _luaExitHandler(TableIns, eventData);
         }
     }
 }

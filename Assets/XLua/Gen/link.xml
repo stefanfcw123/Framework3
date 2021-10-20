@@ -85,9 +85,13 @@
 	    <type fullname="LuaSystem" preserve="all"/>
 		<type fullname="TransformExpand" preserve="all"/>
 		<type fullname="LuaMono" preserve="all"/>
+		<type fullname="IOHelper" preserve="all"/>
+		<type fullname="IOHelpLua" preserve="all"/>
 		<type fullname="LuaSystem" preserve="all"/>
 		<type fullname="TransformExpand" preserve="all"/>
 		<type fullname="LuaMono" preserve="all"/>
+		<type fullname="IOHelper" preserve="all"/>
+		<type fullname="IOHelpLua" preserve="all"/>
 		
 	</assembly>
 
