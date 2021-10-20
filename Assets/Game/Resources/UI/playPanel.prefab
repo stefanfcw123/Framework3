@@ -1520,6 +1520,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 9206262946272653567, guid: 875a15ef5dd99c244a19e85bbcdde143,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 965e8c9c848f3144f887346700d1ae66,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 875a15ef5dd99c244a19e85bbcdde143, type: 3}
 --- !u!224 &7676981130611267775 stripped

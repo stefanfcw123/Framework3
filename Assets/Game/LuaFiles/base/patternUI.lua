@@ -18,8 +18,16 @@ function patternUI:Start()
     self.initY = self.curY;
 end
 
+function patternUI:GetPatternImage()
+    return self.transform:GetComponent(typeof(Image));
+end
+
+function patternUI:GetPatternImageName()
+    return self:GetPatternImage().sprite.name;
+end
+
 function patternUI:setImage(s, uiInstance)
-    self.transform:GetComponent(typeof(Image)).sprite = s;
+    self:GetPatternImage() .sprite = s;
     self.uiInstance = uiInstance;
     -- print(self.uiInstance, "form patternUI")
 end

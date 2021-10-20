@@ -38,7 +38,6 @@ end
 
 function slotsManage.spinStart()
     print("slotsManage SPIN_START")
-    print("Slots spin will over!")
 
     slotsManage.curMachine:spinStart();
 

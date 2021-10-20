@@ -16,7 +16,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
 
     public Sprite[] LoadSprites(int lv)
     {
-        Sprite[] res = Resources.LoadAll<Sprite>($"Level{lv}");
+        Sprite[] res = Resources.LoadAll<Sprite>($"Sprite/Level{lv}");
         return res;
     }
 
@@ -54,15 +54,16 @@ public class ResourceAssetProxyFactory : IAssetFactory
     // 產生Sprite
     public override Sprite LoadSprite(string SpriteName)
     {
-        if (m_Sprites.ContainsKey(SpriteName) == false)
+        /*if (m_Sprites.ContainsKey(SpriteName) == false)
         {
             var res = m_ResFactory.LoadSprite(SpriteName);
             m_Sprites.Add(SpriteName, res);
         }
 
-        return m_Sprites[SpriteName];
+        return m_Sprites[SpriteName];*/
 
         //return m_QFFactory.LoadSprite(spriteName);
+        return m_ResFactory.LoadSprite(SpriteName);
     }
 
     public override Material LoadMaterial(string name)

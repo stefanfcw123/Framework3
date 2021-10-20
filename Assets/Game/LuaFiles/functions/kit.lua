@@ -37,10 +37,21 @@ end
 function table.find(arr, fn)
     for i, v in ipairs(arr) do
         if fn(v) then
-            return v;
+            return v, i;
         end
     end
-    return nil;
+    return nil, nil;
+end
+
+function table.removeVal(arr, val)
+    local _, i = table.find(arr, function(item)
+        return item == val
+    end)
+    if not i then
+        error("Arr don't contain the val " .. tostring(val), 2);
+    else
+        table.remove(arr, i)
+    end
 end
 
 function table.find_all(arr, fn)
@@ -218,6 +229,24 @@ end
 function table.get_random_item(arr)
     return arr[math.random(#arr)];
 end
+
+function table.filterItems(t, fT)
+    --删除元素,双方table都没有重复项,并且fT是t子集
+    for i, v in ipairs(fT) do
+        table.removeVal(t, v);
+    end
+end
+
+function table.copy(t)
+    local res = {}
+
+    for i, v in ipairs(t) do
+        res[i] = v;
+    end
+
+    return res;
+end
+
 
 -- hash
 function table.print_hash(hash)
