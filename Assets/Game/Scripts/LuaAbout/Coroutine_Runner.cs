@@ -19,12 +19,14 @@ namespace XLuaTest
             get
             {
                 return new List<Type>()
-            {
-                typeof(WaitForSeconds),
-                typeof(WWW),
-                typeof(WaitUntil),
-                typeof(WaitForEndOfFrame),
-            };
+                {
+                    typeof(WaitForSeconds),
+                    typeof(WWW),
+                    typeof(WaitUntil),
+                    typeof(WaitForEndOfFrame),
+                    typeof(Coroutine),
+                    typeof(IEnumerator)
+                };
             }
         }
     }

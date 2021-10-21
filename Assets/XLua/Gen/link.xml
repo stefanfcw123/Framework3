@@ -7,8 +7,10 @@
 		<type fullname="System.Collections.Generic.List`1[System.Int32]" preserve="all"/>
 		<type fullname="System.Action`1[System.String]" preserve="all"/>
 		<type fullname="System.Func`1[System.Boolean]" preserve="all"/>
+		<type fullname="System.Collections.IEnumerator" preserve="all"/>
 		<type fullname="System.Object" preserve="all"/>
 		<type fullname="System.Collections.Generic.List`1[System.Int32]" preserve="all"/>
+		<type fullname="System.Collections.IEnumerator" preserve="all"/>
 		
 	</assembly>
 
@@ -38,6 +40,7 @@
 		<type fullname="UnityEngine.Light" preserve="all"/>
 		<type fullname="UnityEngine.Mathf" preserve="all"/>
 		<type fullname="UnityEngine.Debug" preserve="all"/>
+		<type fullname="UnityEngine.Coroutine" preserve="all"/>
 		<type fullname="UnityEngine.Object" preserve="all"/>
 		<type fullname="UnityEngine.Vector2" preserve="all"/>
 		<type fullname="UnityEngine.Vector3" preserve="all"/>
@@ -63,6 +66,7 @@
 		<type fullname="UnityEngine.Light" preserve="all"/>
 		<type fullname="UnityEngine.Mathf" preserve="all"/>
 		<type fullname="UnityEngine.Debug" preserve="all"/>
+		<type fullname="UnityEngine.Coroutine" preserve="all"/>
 		<type fullname="UnityEngine.WaitForSeconds" preserve="all"/>
 		<type fullname="UnityEngine.WaitUntil" preserve="all"/>
 		<type fullname="UnityEngine.WaitForEndOfFrame" preserve="all"/>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Collections;
 using UnityEngine;
 using XLua;
 
@@ -128,7 +129,9 @@ public static class LuaManualConfig
         typeof(LuaMono),
 
         typeof(IOHelper),
-        typeof(IOHelpLua)
+        typeof(IOHelpLua),
+        typeof(Coroutine),
+        typeof(IEnumerator)
     };
 
     //C#静态调用Lua的配置（包括事件的原型），仅可以配delegate，interface

@@ -11,9 +11,6 @@ function playPanel:init()
     playPanel.super.init(self)
     addEvent(WILL_PLAY, function(n)
         self:show()
-        -- todo 这里让我卡了很久吐了
-        --curUI = require("base.machine.slotsUI" .. tostring(n)).new(n);
-        --  print("curUI", curUI)
     end)
     addEvent(BACK_LOBBY, function()
         self:hide()
@@ -45,13 +42,17 @@ function playPanel:reduceSuccess()
     sendEvent(SPIN_START)
 end
 
-function playPanel:spinButtonAction()
+function playPanel:spinButtonAction2()
+    print("spinButtonAction2")
     local reduceSuccess = save.addChip(-slotsManage.getBet());
     if reduceSuccess then
         self:reduceSuccess();
     else
         -- todo Tip chip not enough
     end
+end
+
+function playPanel:spinButtonAction()
 end
 
 function playPanel:tipButtonAction()
@@ -67,25 +68,36 @@ function playPanel:addButtonAction()
 end
 
 --auto
-   
+
 function playPanel:ctor(go, tier)
     playPanel.super.ctor(self, go, tier)
-	self.tipButton=self.go.transform:Find("Image/tipButton"):GetComponent('Button');
-	self.reduceButton=self.go.transform:Find("Image/Image/reduceButton"):GetComponent('Button');
-	self.addButton=self.go.transform:Find("Image/Image/addButton"):GetComponent('Button');
-	self.betText=self.go.transform:Find("Image/Image/betText"):GetComponent('Text');
-	self.winText=self.go.transform:Find("Image/Image (1)/winText"):GetComponent('Text');
-	self.spinButton=self.go.transform:Find("Image/spinButton"):GetComponent('Button');
-	
-    self.tipButton.onClick:AddListener(function()self:tipButtonAction()end);
-	self.reduceButton.onClick:AddListener(function()self:reduceButtonAction()end);
-	self.addButton.onClick:AddListener(function()self:addButtonAction()end);
-	self.spinButton.onClick:AddListener(function()self:spinButtonAction()end);
-	
+    self.tipButton = self.go.transform:Find("Image/tipButton"):GetComponent('Button');
+    self.reduceButton = self.go.transform:Find("Image/Image/reduceButton"):GetComponent('Button');
+    self.addButton = self.go.transform:Find("Image/Image/addButton"):GetComponent('Button');
+    self.betText = self.go.transform:Find("Image/Image/betText"):GetComponent('Text');
+    self.winText = self.go.transform:Find("Image/Image (1)/winText"):GetComponent('Text');
+    self.spinButton = self.go.transform:Find("Image/spinButton"):GetComponent('Button');
+
+    self.tipButton.onClick:AddListener(function()
+        self:tipButtonAction()
+    end);
+    self.reduceButton.onClick:AddListener(function()
+        self:reduceButtonAction()
+    end);
+    self.addButton.onClick:AddListener(function()
+        self:addButtonAction()
+    end);
+    self.spinButton.onClick:AddListener(function()
+        self:spinButtonAction()
+    end);
+
 end
-	
-    function playPanel:betTextRefresh(t)self.betText.text=t;end
-	function playPanel:winTextRefresh(t)self.winText.text=t;end
-	    
+
+function playPanel:betTextRefresh(t)
+    self.betText.text = t;
+end
+function playPanel:winTextRefresh(t)
+    self.winText.text = t;
+end
 
 return playPanel

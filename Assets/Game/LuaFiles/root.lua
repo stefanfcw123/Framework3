@@ -67,10 +67,12 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
---[[        self.x = { "a", "b", "c" };
-        local t = self.x;
-        table.filterItems(t, { "b" });
-        table.print_arr(self.x);]]
+
+
+        --[[        self.x = { "a", "b", "c" };
+                local t = self.x;
+                table.filterItems(t, { "b" });
+                table.print_arr(self.x);]]
 
         --[[        local t = {
                     { "w1", "w1", "w1" },
@@ -151,6 +153,8 @@ function root:init()
     loginPanel = root.add_ui("loginPanel");
     netPanel = root.add_ui("netPanel")
     guidePanel = root.add_ui("guidePanel")
+
+
 end
 
 function root.set_tier(go, tier)

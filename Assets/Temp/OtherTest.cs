@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,14 +9,22 @@ public class OtherTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        IOHelpLua.CreateText(IOHelpLua.GetLVFullPath(1), "hello");
-        Button b = default;
-        b.onClick.RemoveAllListeners();
+        var go = GameObject.Find("Cube");
+        go.transform.DOLocalMoveY(3, 1).SetSpeedBased().OnComplete(() =>
+        {
+            print(Time.time);
+        });
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    private IEnumerator Wait(Tween _tweener)
     {
+        yield return _tweener.WaitForCompletion();
+        //执行玩2次之后
+        //yield return _tweener.WaitForElapsedLoops(2);
+        //等等动画执行几秒后执行
+        //yield return _tweener.WaitForPosition();
+        //yield return _tweener.WaitForRewind();
+        //yield return _tweener.WaitForStart();
     }
 }
 

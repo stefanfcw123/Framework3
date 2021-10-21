@@ -31,6 +31,22 @@ function slotsManage.init()
     end)
 end
 
+--[[function slotsManage.autoOpen()
+    if slotsManage.autoMode == false then
+        slotsManage.autoMode = true;
+        print("auto open")
+        sendEvent(AUTO_MODE,slotsManage.autoMode)
+    end
+end
+
+function slotsManage.autoClose()
+    if slotsManage.autoMode == true then
+        slotsManage.autoMode = false;
+        print("auto close")
+        sendEvent(AUTO_MODE,slotsManage.autoMode)
+    end
+end]]
+
 function slotsManage.spinOver()
     print("slotsManage SPIN_OVER")
     slotsManage.curMachine:spinOver()

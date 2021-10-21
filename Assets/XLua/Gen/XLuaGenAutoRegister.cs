@@ -218,6 +218,12 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(IOHelpLua), IOHelpLuaWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(UnityEngine.Coroutine), UnityEngineCoroutineWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(System.Collections.IEnumerator), SystemCollectionsIEnumeratorWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(UnityEngine.WaitForSeconds), UnityEngineWaitForSecondsWrap.__Register);
         
         

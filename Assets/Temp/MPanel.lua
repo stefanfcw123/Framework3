@@ -12,6 +12,17 @@ function MPanel:init()
     MPanel.super.init(self)
     self:show()
 
+    --[[
+    print(Time.time,1);
+    local go = GameObject.Find("Cube");
+    cs_coroutine.start(function()
+        coroutine.yield(go.transform:DOLocalMoveY(3, 1):SetSpeedBased():OnComplete(function()
+            print(Time.time,2);
+        end):WaitForCompletion());
+        print(Time.time,3)
+    end)
+    ]]
+
     --[[    local s = DOTween.Sequence();
         s:AppendInterval(3);
         local t = self.go.transform:DOMoveX(10,3);

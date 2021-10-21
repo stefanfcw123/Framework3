@@ -56,9 +56,9 @@ function patternUI:spinOver()
 
     local perCost = 0.1;
 
-    if SPIN_QUICK then
+--[[    if SPIN_QUICK then
         perCost = 0.1 / 2;
-    end
+    end]]
 
     s:Append(self.rect:DOAnchorPosY(-offset, perCost):SetRelative(true))
     s:Append(self.rect:DOAnchorPosY(offset, perCost):SetRelative(true))

@@ -429,11 +429,7 @@ function readOnlyTable(t)
 end
 
 function global(key, val)
-    if rawget(_G, key) == false then
-        rawset(_G, key, val or false);
-    else
-        print("The same name.", val);
-    end
+    rawset(_G, key, val or false);
 end
 
 function getColor(a, b, c, d)
