@@ -36,10 +36,12 @@ function barPanel:init()
         local gapBonusAward = level.gapBonusAward();
         if canGapBonus then
             self.gapBonusButton.interactable = true;
-            self:gapBonusTextRefresh(localize(1) .. string.format_foreign(gapBonusAward));
+            self:gapBonusTipTextRefresh(("collect Bonus:"):upper())
+            self:gapBonusTextRefresh(string.format_foreign(gapBonusAward));
             self:gapBonusButtonAnim();
         else
             self.gapBonusButton.interactable = false;
+            self:gapBonusTipTextRefresh(("hourly Bonus:"):upper())
             self:gapBonusTextRefresh(CS.TimeHelper.GetTimeSpanFormat(c1));
         end
     end)
@@ -47,6 +49,10 @@ function barPanel:init()
     save.addChip(0);
 
     self:RefreshSlider(false);
+end
+
+function barPanel:videoButtonAction()
+    
 end
 
 function barPanel:gapBonusButtonAnim()
@@ -92,6 +98,7 @@ end
 function barPanel:RefreshSlider(needAnim)
     local lv, ratio = level.friendlyLevelMessage();
     self:levelTextRefresh(lv);
+    self:level2TextRefresh(lv);
     if not needAnim then
         self.levelSlider.value = ratio;
     else
@@ -108,7 +115,7 @@ function barPanel:levelAwardAnim(awardTipText, callback)
     local rect = self.levelAwardTipImage:GetComponent("RectTransform");
     self:levelAwardTipTextRefresh(awardTipText)
     local s = DOTween.Sequence();
-    local perDistance = 260;
+    local perDistance = 460;
     local perCost = TIP_LEAVE;
 
     s:Append(rect:DOAnchorPosY(-perDistance, perCost):SetRelative(true));
@@ -140,60 +147,45 @@ function barPanel:pigButtonAction()
 end
 
 --auto
-
+   
 function barPanel:ctor(go, tier)
     barPanel.super.ctor(self, go, tier)
-    self.backButton = self.go.transform:Find("backButton"):GetComponent('Button');
-    self.coinText = self.go.transform:Find("Image/coinText"):GetComponent('Text');
-    self.coinImage = self.go.transform:Find("Image/coinImage"):GetComponent('Image');
-    self.buyButton = self.go.transform:Find("buyButton"):GetComponent('Button');
-    self.levelSlider = self.go.transform:Find("levelSlider"):GetComponent('Slider');
-    self.levelText = self.go.transform:Find("levelSlider/Image (1)/levelText"):GetComponent('Text');
-    self.levelAwardTipImage = self.go.transform:Find("levelSlider/levelAwardTipImage"):GetComponent('Image');
-    self.levelAwardTipText = self.go.transform:Find("levelSlider/levelAwardTipImage/levelAwardTipText"):GetComponent('Text');
-    self.pigButton = self.go.transform:Find("pigButton"):GetComponent('Button');
-    self.setButton = self.go.transform:Find("setButton"):GetComponent('Button');
-    self.gapBonusButton = self.go.transform:Find("gapBonusButton"):GetComponent('Button');
-    self.gapBonusText = self.go.transform:Find("gapBonusButton/gapBonusText"):GetComponent('Text');
-
-    self.backButton.onClick:AddListener(function()
-        self:backButtonAction()
-    end);
-    self.buyButton.onClick:AddListener(function()
-        self:buyButtonAction()
-    end);
-    self.levelSlider.onValueChanged:AddListener(function(t)
-        self:levelSliderAction(t)
-    end);
-    self.pigButton.onClick:AddListener(function()
-        self:pigButtonAction()
-    end);
-    self.setButton.onClick:AddListener(function()
-        self:setButtonAction()
-    end);
-    self.gapBonusButton.onClick:AddListener(function()
-        self:gapBonusButtonAction()
-    end);
-
+	self.backButton=self.go.transform:Find("backButton"):GetComponent('Button');
+	self.coinText=self.go.transform:Find("Image/coinText"):GetComponent('Text');
+	self.coinImage=self.go.transform:Find("Image/coinImage"):GetComponent('Image');
+	self.pigButton=self.go.transform:Find("pigButton"):GetComponent('Button');
+	self.buyButton=self.go.transform:Find("buyButton"):GetComponent('Button');
+	self.levelSlider=self.go.transform:Find("levelSlider"):GetComponent('Slider');
+	self.levelText=self.go.transform:Find("levelSlider/Image (1)/levelText"):GetComponent('Text');
+	self.levelAwardTipImage=self.go.transform:Find("levelSlider/levelAwardTipImage"):GetComponent('Image');
+	self.levelAwardTipText=self.go.transform:Find("levelSlider/levelAwardTipImage/levelAwardTipText"):GetComponent('Text');
+	self.level2Text=self.go.transform:Find("levelSlider/levelAwardTipImage/level2Text"):GetComponent('Text');
+	self.setButton=self.go.transform:Find("setButton"):GetComponent('Button');
+	self.gapBonusButton=self.go.transform:Find("gapBonusButton"):GetComponent('Button');
+	self.gapBonusTipText=self.go.transform:Find("gapBonusButton/gapBonusTipText"):GetComponent('Text');
+	self.gapBonusText=self.go.transform:Find("gapBonusButton/gapBonusText"):GetComponent('Text');
+	self.videoButton=self.go.transform:Find("videoButton"):GetComponent('Button');
+	self.adText=self.go.transform:Find("videoButton/adText"):GetComponent('Text');
+	
+    self.backButton.onClick:AddListener(function()self:backButtonAction()end);
+	self.pigButton.onClick:AddListener(function()self:pigButtonAction()end);
+	self.buyButton.onClick:AddListener(function()self:buyButtonAction()end);
+	self.levelSlider.onValueChanged:AddListener(function(t)self:levelSliderAction(t)end);
+	self.setButton.onClick:AddListener(function()self:setButtonAction()end);
+	self.gapBonusButton.onClick:AddListener(function()self:gapBonusButtonAction()end);
+	self.videoButton.onClick:AddListener(function()self:videoButtonAction()end);
+	
 end
-
-function barPanel:coinTextRefresh(t)
-    self.coinText.text = t;
-end
-function barPanel:coinImageRefresh(t)
-    self.coinImage.sprite = t;
-end
-function barPanel:levelTextRefresh(t)
-    self.levelText.text = t;
-end
-function barPanel:levelAwardTipImageRefresh(t)
-    self.levelAwardTipImage.sprite = t;
-end
-function barPanel:levelAwardTipTextRefresh(t)
-    self.levelAwardTipText.text = t;
-end
-function barPanel:gapBonusTextRefresh(t)
-    self.gapBonusText.text = t;
-end
+	
+    function barPanel:coinTextRefresh(t)self.coinText.text=t;end
+	function barPanel:coinImageRefresh(t)self.coinImage.sprite=t;end
+	function barPanel:levelTextRefresh(t)self.levelText.text=t;end
+	function barPanel:levelAwardTipImageRefresh(t)self.levelAwardTipImage.sprite=t;end
+	function barPanel:levelAwardTipTextRefresh(t)self.levelAwardTipText.text=t;end
+	function barPanel:level2TextRefresh(t)self.level2Text.text=t;end
+	function barPanel:gapBonusTipTextRefresh(t)self.gapBonusTipText.text=t;end
+	function barPanel:gapBonusTextRefresh(t)self.gapBonusText.text=t;end
+	function barPanel:adTextRefresh(t)self.adText.text=t;end
+	    
 
 return barPanel

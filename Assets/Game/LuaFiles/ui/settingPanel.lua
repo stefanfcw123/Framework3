@@ -22,6 +22,10 @@ function settingPanel:init()
     setToggleState(data._musicEnable, self.musicToggle);
 end
 
+function settingPanel:supportButtonAction()
+    UnityEngine.Application.OpenURL("http://www.superwinslots.com")
+end
+
 function settingPanel:buyButtonAction(t)
     print("setting buyButton")
     buyPanel:show()
@@ -40,18 +44,22 @@ end
 
 function settingPanel:ctor(go, tier)
     settingPanel.super.ctor(self, go, tier)
-    self.soundToggle = self.go.transform:Find("Image/soundToggle"):GetComponent('Toggle');
     self.musicToggle = self.go.transform:Find("Image/musicToggle"):GetComponent('Toggle');
+    self.soundToggle = self.go.transform:Find("Image/soundToggle"):GetComponent('Toggle');
     self.buyButton = self.go.transform:Find("Image/buyButton"):GetComponent('Button');
+    self.supportButton = self.go.transform:Find("Image/supportButton"):GetComponent('Button');
 
-    self.soundToggle.onValueChanged:AddListener(function(t)
-        self:soundToggleAction(t)
-    end);
     self.musicToggle.onValueChanged:AddListener(function(t)
         self:musicToggleAction(t)
     end);
+    self.soundToggle.onValueChanged:AddListener(function(t)
+        self:soundToggleAction(t)
+    end);
     self.buyButton.onClick:AddListener(function()
         self:buyButtonAction()
+    end);
+    self.supportButton.onClick:AddListener(function()
+        self:supportButtonAction()
     end);
 
 end

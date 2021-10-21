@@ -54,17 +54,11 @@ function patternUI:spinOver()
     local s = DOTween.Sequence()
     local offset = 30
 
-    local perCost = 0.1;
-
---[[    if SPIN_QUICK then
-        perCost = 0.1 / 2;
-    end]]
-
-    s:Append(self.rect:DOAnchorPosY(-offset, perCost):SetRelative(true))
-    s:Append(self.rect:DOAnchorPosY(offset, perCost):SetRelative(true))
-    s:OnComplete(function()
-        -- print("over")
-    end)
+    s:Append(self.rect:DOAnchorPosY(-offset, R3 / 2):SetRelative(true))
+    s:Append(self.rect:DOAnchorPosY(offset, R3 / 2):SetRelative(true))
+    --[[    s:OnComplete(function()
+            print(Time.time, "gird")
+        end)]]
 end
 
 function patternUI:Update()
@@ -72,11 +66,13 @@ function patternUI:Update()
         return ;
     end
 
+    if SPIN_QUICK then
+        return ;
+    end
+
     self.curY = self.curY - self.spinSpeed;
     if self.curY <= -400 then
-        if not SPIN_QUICK then
-            self:randomSetImage();
-        end
+        self:randomSetImage();
         self.curY = 400;
     end
 

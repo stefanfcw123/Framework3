@@ -53,6 +53,7 @@ loginPanel = false;
 netPanel = false;
 ---@type guidePanel
 guidePanel = false;
+pig2Panel = false;
 GameGo = GameObject.Find("Game");
 data = false;
 
@@ -153,7 +154,7 @@ function root:init()
     loginPanel = root.add_ui("loginPanel");
     netPanel = root.add_ui("netPanel")
     guidePanel = root.add_ui("guidePanel")
-
+    pig2Panel = root.add_ui("pig2Panel");
 
 end
 

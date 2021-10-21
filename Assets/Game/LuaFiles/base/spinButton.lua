@@ -11,10 +11,11 @@ function spinButton:setImg(name)
     self.img.sprite = AF:LoadSprite(name);
 end
 
+local reduceSuccess = false;
 local isDown = false;
 local timer = 0;
-local targetTime = 1
-local auto;
+local targetTime = R4
+global("auto", false)
 
 function spinButton:Start()
     self.img = self.transform:GetComponent(typeof(Image));
@@ -23,10 +24,13 @@ function spinButton:Start()
 
 end
 
+--todo 双击快速效果等待制作
 function spinButton:longPress()
     if not auto then
-        auto = true; --todo 这里的循环是要等待所以携程结束
-        self:setImg("auto");
+        if reduceSuccess then
+            auto = true; --todo 这里的循环是要等待所以携程结束
+            self:setImg("auto");
+        end
     else
     end
     --print("long press")
@@ -52,7 +56,7 @@ function spinButton:OnPointerDown(eventData)
 
     if not auto then
         self:setImg("spin2");
-        playPanel:spinButtonAction2()
+        reduceSuccess = playPanel:spinButtonAction2()
     else
         auto = false;
         self:setImg("spin2")

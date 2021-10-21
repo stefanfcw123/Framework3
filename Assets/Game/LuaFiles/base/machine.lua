@@ -56,7 +56,7 @@ function machine:calculateLines(finalPatterns)
         table.insert(self.winningPatterns, tempPatterns);
     end
 
-    self:whetherWinning(finalPatterns);
+    return self:whetherWinning(finalPatterns);
 end
 
 function machine:knightAward(t, princess, knight)
@@ -75,6 +75,7 @@ function machine:allSameAward(t, samePattern)
     return true;
 end
 
+--todo 后面还有限制个数比如2的写法，是否可以自洽
 function machine:combinationAward(t, awardPool)
     for i, v in ipairs(t) do
         if not table.contains(awardPool, v) then
@@ -200,15 +201,15 @@ function machine:writeData(resRatio, finalPatterns)
         table.insert(datas[key], finalPatterns);
     end
 
---[[    print("--------------------")
-    for i, v in pairs(self.writeDatas) do
-        print(string.format("now is %s bet", i))
-        for i2, v2 in ipairs(v) do
-            table.print_nest_arr(v2)
-            print("---")
+    --[[    print("--------------------")
+        for i, v in pairs(self.writeDatas) do
+            print(string.format("now is %s bet", i))
+            for i2, v2 in ipairs(v) do
+                table.print_nest_arr(v2)
+                print("---")
+            end
         end
-    end
-    print("--------------------")]]
+        print("--------------------")]]
 end
 
 function machine:spinStart()

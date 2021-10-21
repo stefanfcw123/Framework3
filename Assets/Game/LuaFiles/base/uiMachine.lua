@@ -64,27 +64,24 @@ function uiMachine:loadAllSprite()
 end
 
 function uiMachine:rollAll()
-    local w1 = WaitForSeconds(1.2);
-    local w2 = WaitForSeconds(0.4);
-
-    if SPIN_QUICK then
-        w1 = SPIN_QUICK_TIME
-        w2 = SPIN_QUICK_TIME / #self.wheels;
-    end
 
     local s = cs_coroutine.start(function()
+
+        if SPIN_QUICK then
+            self:randomSetImage();
+        end
+
         for i, v in ipairs(self.wheels) do
             self:roll(i, true);
         end
 
-        coroutine.yield(w1);
+        coroutine.yield(WaitForSeconds(R1));
 
         for i, v in ipairs(self.wheels) do
             self:roll(i, false)
-            coroutine.yield(w2)
+            coroutine.yield(WaitForSeconds(R2))
         end
 
-        self:randomSetImage();
         local matrix = self:getMapPatterns();
         if PATTERNS_QUICK then
             matrix = {
@@ -93,7 +90,16 @@ function uiMachine:rollAll()
                 { "w2", "b1", "b1" },
             }
         end
-        slotsManage.curMachine:calculateLines(matrix);
+        local bet = slotsManage.curMachine:calculateLines(matrix);
+
+        --todo 验证快速动画过程中金币会少加吗？
+        sendEvent(SPIN_OVER, bet ~= 0, slotsManage.getTotalAward(bet))
+        -- print(Time.time, "over")
+
+        if auto then
+            playPanel:spinButtonAction2()
+        else
+        end
     end)
 end
 

@@ -17,11 +17,13 @@ function playPanel:init()
     end)
     addEvent(SPIN_OVER, function(isWin, award)
         if isWin then
-            DOTween                     .To(function(f)
+            DOTween.To(function(f)
                 self:winTextRefresh(string.format_foreign(f))
-            end, 0, award, GIGITAL_SLOW):OnComplete(function()
-                save.addChip(award);
-            end)
+            end, 0, award, GIGITAL_SLOW);
+            if LOSE_QUICK then
+                return ;
+            end
+            save.addChip(award)
         end
     end)
     addEvent(SPIN_START, function()
@@ -48,8 +50,13 @@ function playPanel:spinButtonAction2()
     if reduceSuccess then
         self:reduceSuccess();
     else
+        if auto then
+            auto = false;
+            self.spinButton:GetComponent("Image").sprite = AF:LoadSprite("spin1");
+        end
         -- todo Tip chip not enough
     end
+    return reduceSuccess;
 end
 
 function playPanel:spinButtonAction()

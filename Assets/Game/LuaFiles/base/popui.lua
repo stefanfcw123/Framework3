@@ -16,13 +16,17 @@ function popui:init()
     self. canvasGroup = self.main.gameObject:AddComponent(typeof(CanvasGroup));
     self. closeBtn = self.main:Find("Button"):GetComponent("Button");
     self. closeBtn.onClick:AddListener(function()
-        self.bg:DOFade(0, 0)
-        local s = DOTween.Sequence();
-        s:Append(self.main:DOScale(0, POP_SLOW));
-        s:Insert(0, self.canvasGroup:DOFade(0, POP_SLOW));
-        s:OnComplete(function()
-            self:hide();
-        end)
+        self:closeAnim();
+    end)
+end
+
+function popui:closeAnim()
+    self.bg:DOFade(0, 0)
+    local s = DOTween.Sequence();
+    s:Append(self.main:DOScale(0, POP_SLOW));
+    s:Insert(0, self.canvasGroup:DOFade(0, POP_SLOW));
+    s:OnComplete(function()
+        self:hide();
     end)
 end
 

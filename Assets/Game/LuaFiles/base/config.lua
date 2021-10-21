@@ -4,7 +4,6 @@
 --   time : 2021/9/26 14:39:58                                                                                           
 -------------------------------------------------------
 
-SPIN_QUICK_TIME = 0.2;
 
 NET_TIMEOUT = 4;
 
@@ -28,5 +27,18 @@ LOAD_QUICK = true;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
 PATTERNS_QUICK = false;
-SPIN_QUICK = true;
-CREATE_DATA = true;-- todo 后期衔接create_data模式
+LOSE_QUICK = true;
+SPIN_QUICK = false;-- todo 也许这里关联的太多了
+
+R1 = 1.2;--旋转方面的时间
+R2 = 0.4;
+R3 = 0.2;
+R4 = 1;--hold的检查时长
+
+local rSpeed =2;
+if SPIN_QUICK then
+    R1 = R1 / rSpeed;
+    R2 = R2 / rSpeed;
+    R3 = R3 / rSpeed;
+    R4 = R4 / rSpeed;
+end

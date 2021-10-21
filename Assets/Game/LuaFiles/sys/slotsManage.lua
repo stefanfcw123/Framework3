@@ -17,10 +17,12 @@ slotsManage.curMachine = nil;
 function slotsManage.init()
     print("slots init")
     addEvent(SPIN_START, function()
-        slotsManage.spinStart();
+        print("slotsManage SPIN_START")
+        slotsManage.curMachine:spinStart();
     end)
-    addEvent(SPIN_OVER, function()
-        slotsManage.spinOver();
+    addEvent(SPIN_OVER, function(bet)
+        print("slotsManage SPIN_OVER")
+        slotsManage.curMachine:spinOver()
     end)
     addEvent(LOAD_OVER, function()
         slotsManage.setBet()
@@ -31,47 +33,8 @@ function slotsManage.init()
     end)
 end
 
---[[function slotsManage.autoOpen()
-    if slotsManage.autoMode == false then
-        slotsManage.autoMode = true;
-        print("auto open")
-        sendEvent(AUTO_MODE,slotsManage.autoMode)
-    end
-end
-
-function slotsManage.autoClose()
-    if slotsManage.autoMode == true then
-        slotsManage.autoMode = false;
-        print("auto close")
-        sendEvent(AUTO_MODE,slotsManage.autoMode)
-    end
-end]]
-
-function slotsManage.spinOver()
-    print("slotsManage SPIN_OVER")
-    slotsManage.curMachine:spinOver()
-end
-
-function slotsManage.spinStart()
-    print("slotsManage SPIN_START")
-
-    slotsManage.curMachine:spinStart();
-
-    local isWin = slotsManage.isWin();
-    local winAward = 2000;
-    if isWin then
-        print("Slots win")
-    else
-        print("Slots lose")
-    end
-
-    sendEvent(SPIN_OVER, isWin, winAward);
-end
-
-function slotsManage.isWin()
-    local randomVal = math.random();
-    local res = randomVal >= 0.5 and true or false;
-    return res;
+function slotsManage.getTotalAward(bet)
+    return curBet / (#slotsManage.curMachine.matrixTable) * bet;
 end
 
 function slotsManage.changeBetLv(n)
