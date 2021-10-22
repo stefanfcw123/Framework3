@@ -8,7 +8,16 @@
 local shop = class('shop')
 
 local pigChip = 1200;
-local doller = 1.99;
+local pigDoller = 1.99;
+
+local shopMessages = {
+    { 25000000, 99.99 },
+    { 9500000, 49.99 },
+    { 3000000, 19.99 },
+    { 1300000, 9.99 },
+    { 540000, 4.99 },
+    { 200000, 1.99 },
+}
 
 function shop.init()
     print("shop init")
@@ -20,12 +29,19 @@ function shop.init()
     end)
 end
 
-function shop.doller()
-    return doller;
+function shop.pigDoller()
+    return pigDoller;
+end
+
+function shop.shopMessage(id)
+    return shopMessages[id];
 end
 
 function shop.buy(id)
     print("shop.buy")
+    if id < 7 then
+        save.addChip(shop.shopMessage(id)[1]);
+    end
     if id == 7 then
         cs_coroutine.start(function()
             pig2Panel:show();

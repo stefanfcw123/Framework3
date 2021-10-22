@@ -436,10 +436,10 @@ function getColor(a, b, c, d)
     return Color(a / 255, b / 255, c / 255, d / 255);
 end
 
-function uiActive(ui, arg)
-    if arg == nil then
+function SetActive(ui, arg)
+    if arg then
         ui.gameObject:SetActive(true);
-    elseif arg == false then
+    else
         ui.gameObject:SetActive(false);
     end
 end

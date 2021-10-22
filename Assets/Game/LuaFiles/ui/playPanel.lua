@@ -11,8 +11,10 @@ function playPanel:init()
     playPanel.super.init(self)
     addEvent(WILL_PLAY, function(n)
         self:show()
+        --print("will paly1")
     end)
     addEvent(BACK_LOBBY, function()
+        --  playPanel:closeAuto();
         self:hide()
     end)
     addEvent(SPIN_OVER, function(isWin, award)
@@ -50,13 +52,19 @@ function playPanel:spinButtonAction2()
     if reduceSuccess then
         self:reduceSuccess();
     else
-        if auto then
-            auto = false;
-            self.spinButton:GetComponent("Image").sprite = AF:LoadSprite("spin1");
-        end
+        self:closeAuto();
+        buyPanel:show();
         -- todo Tip chip not enough
     end
     return reduceSuccess;
+end
+
+function playPanel:closeAuto()
+    --todo 不知道为啥self.spinButton为nil了
+    if auto then
+        auto = false;
+        self.spinButton:GetComponent("Image").sprite = AF:LoadSprite("spin1");
+    end
 end
 
 function playPanel:spinButtonAction()

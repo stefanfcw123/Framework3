@@ -10,14 +10,19 @@ local barPanel = class('barPanel', ui)
 function barPanel:init()
     self.tier = "PopUp"
     barPanel.super.init(self)
-    uiActive(self.backButton, false)
     self.levelSlider.interactable = false;
+    self.backButtonImage = self.backButton:GetComponent("Image");
 
     addEvent(BACK_LOBBY, function()
-        uiActive(self.backButton, false)
+        self.backButtonImage .sprite = AF:LoadSprite("exit");
+        SetActive(self.videoButton, true);
+        SetActive(self.gapBonusButton, true);
     end)
     addEvent(WILL_PLAY, function()
-        uiActive(self.backButton)
+        -- todo 处理自动旋转时候如果点击了返回键怎么办
+        self.backButtonImage.sprite = AF:LoadSprite("dt");
+        SetActive(self.videoButton);
+        SetActive(self.gapBonusButton);
     end)
     addEvent(CHIP_CHANGE, function(n1, n2, needAnim)
         if needAnim then
@@ -49,10 +54,12 @@ function barPanel:init()
     save.addChip(0);
 
     self:RefreshSlider(false);
+
+    self:adTextRefresh(string.format_foreign(ad.getChip()))
 end
 
 function barPanel:videoButtonAction()
-    
+    ad.playVideo();
 end
 
 function barPanel:gapBonusButtonAnim()
@@ -69,6 +76,10 @@ function barPanel:gapBonusButtonAction()
     print(" barPanel gapBonusButtonAction click")
     timeManage.SendTIME_STAMP();
     thingFly.fly(self:gapBonusButtonWorldPosition())
+end
+
+function barPanel:videoButtonWorldPosition()
+    return self:worldPosition(self.videoButton);
 end
 
 function barPanel:gapBonusButtonWorldPosition()
@@ -135,7 +146,13 @@ function barPanel:setButtonAction()
 end
 
 function barPanel:backButtonAction()
-    sendEvent(BACK_LOBBY)
+    local isFight = self.backButtonImage.sprite.name == "dt";
+    if isFight then
+        sendEvent(BACK_LOBBY)
+    else
+        UnityEngine.Application.Quit();
+        print("application quit")
+    end
 end
 
 function barPanel:buyButtonAction()
@@ -147,45 +164,76 @@ function barPanel:pigButtonAction()
 end
 
 --auto
-   
+
 function barPanel:ctor(go, tier)
     barPanel.super.ctor(self, go, tier)
-	self.backButton=self.go.transform:Find("backButton"):GetComponent('Button');
-	self.coinText=self.go.transform:Find("Image/coinText"):GetComponent('Text');
-	self.coinImage=self.go.transform:Find("Image/coinImage"):GetComponent('Image');
-	self.pigButton=self.go.transform:Find("pigButton"):GetComponent('Button');
-	self.buyButton=self.go.transform:Find("buyButton"):GetComponent('Button');
-	self.levelSlider=self.go.transform:Find("levelSlider"):GetComponent('Slider');
-	self.levelText=self.go.transform:Find("levelSlider/Image (1)/levelText"):GetComponent('Text');
-	self.levelAwardTipImage=self.go.transform:Find("levelSlider/levelAwardTipImage"):GetComponent('Image');
-	self.levelAwardTipText=self.go.transform:Find("levelSlider/levelAwardTipImage/levelAwardTipText"):GetComponent('Text');
-	self.level2Text=self.go.transform:Find("levelSlider/levelAwardTipImage/level2Text"):GetComponent('Text');
-	self.setButton=self.go.transform:Find("setButton"):GetComponent('Button');
-	self.gapBonusButton=self.go.transform:Find("gapBonusButton"):GetComponent('Button');
-	self.gapBonusTipText=self.go.transform:Find("gapBonusButton/gapBonusTipText"):GetComponent('Text');
-	self.gapBonusText=self.go.transform:Find("gapBonusButton/gapBonusText"):GetComponent('Text');
-	self.videoButton=self.go.transform:Find("videoButton"):GetComponent('Button');
-	self.adText=self.go.transform:Find("videoButton/adText"):GetComponent('Text');
-	
-    self.backButton.onClick:AddListener(function()self:backButtonAction()end);
-	self.pigButton.onClick:AddListener(function()self:pigButtonAction()end);
-	self.buyButton.onClick:AddListener(function()self:buyButtonAction()end);
-	self.levelSlider.onValueChanged:AddListener(function(t)self:levelSliderAction(t)end);
-	self.setButton.onClick:AddListener(function()self:setButtonAction()end);
-	self.gapBonusButton.onClick:AddListener(function()self:gapBonusButtonAction()end);
-	self.videoButton.onClick:AddListener(function()self:videoButtonAction()end);
-	
+    self.backButton = self.go.transform:Find("backButton"):GetComponent('Button');
+    self.coinText = self.go.transform:Find("Image/coinText"):GetComponent('Text');
+    self.coinImage = self.go.transform:Find("Image/coinImage"):GetComponent('Image');
+    self.pigButton = self.go.transform:Find("pigButton"):GetComponent('Button');
+    self.buyButton = self.go.transform:Find("buyButton"):GetComponent('Button');
+    self.levelSlider = self.go.transform:Find("levelSlider"):GetComponent('Slider');
+    self.levelText = self.go.transform:Find("levelSlider/Image (1)/levelText"):GetComponent('Text');
+    self.levelAwardTipImage = self.go.transform:Find("levelSlider/levelAwardTipImage"):GetComponent('Image');
+    self.levelAwardTipText = self.go.transform:Find("levelSlider/levelAwardTipImage/levelAwardTipText"):GetComponent('Text');
+    self.level2Text = self.go.transform:Find("levelSlider/levelAwardTipImage/level2Text"):GetComponent('Text');
+    self.setButton = self.go.transform:Find("setButton"):GetComponent('Button');
+    self.gapBonusButton = self.go.transform:Find("gapBonusButton"):GetComponent('Button');
+    self.gapBonusTipText = self.go.transform:Find("gapBonusButton/gapBonusTipText"):GetComponent('Text');
+    self.gapBonusText = self.go.transform:Find("gapBonusButton/gapBonusText"):GetComponent('Text');
+    self.videoButton = self.go.transform:Find("videoButton"):GetComponent('Button');
+    self.adText = self.go.transform:Find("videoButton/adText"):GetComponent('Text');
+
+    self.backButton.onClick:AddListener(function()
+        self:backButtonAction()
+    end);
+    self.pigButton.onClick:AddListener(function()
+        self:pigButtonAction()
+    end);
+    self.buyButton.onClick:AddListener(function()
+        self:buyButtonAction()
+    end);
+    self.levelSlider.onValueChanged:AddListener(function(t)
+        self:levelSliderAction(t)
+    end);
+    self.setButton.onClick:AddListener(function()
+        self:setButtonAction()
+    end);
+    self.gapBonusButton.onClick:AddListener(function()
+        self:gapBonusButtonAction()
+    end);
+    self.videoButton.onClick:AddListener(function()
+        self:videoButtonAction()
+    end);
+
 end
-	
-    function barPanel:coinTextRefresh(t)self.coinText.text=t;end
-	function barPanel:coinImageRefresh(t)self.coinImage.sprite=t;end
-	function barPanel:levelTextRefresh(t)self.levelText.text=t;end
-	function barPanel:levelAwardTipImageRefresh(t)self.levelAwardTipImage.sprite=t;end
-	function barPanel:levelAwardTipTextRefresh(t)self.levelAwardTipText.text=t;end
-	function barPanel:level2TextRefresh(t)self.level2Text.text=t;end
-	function barPanel:gapBonusTipTextRefresh(t)self.gapBonusTipText.text=t;end
-	function barPanel:gapBonusTextRefresh(t)self.gapBonusText.text=t;end
-	function barPanel:adTextRefresh(t)self.adText.text=t;end
-	    
+
+function barPanel:coinTextRefresh(t)
+    self.coinText.text = t;
+end
+function barPanel:coinImageRefresh(t)
+    self.coinImage.sprite = t;
+end
+function barPanel:levelTextRefresh(t)
+    self.levelText.text = t;
+end
+function barPanel:levelAwardTipImageRefresh(t)
+    self.levelAwardTipImage.sprite = t;
+end
+function barPanel:levelAwardTipTextRefresh(t)
+    self.levelAwardTipText.text = t;
+end
+function barPanel:level2TextRefresh(t)
+    self.level2Text.text = t;
+end
+function barPanel:gapBonusTipTextRefresh(t)
+    self.gapBonusTipText.text = t;
+end
+function barPanel:gapBonusTextRefresh(t)
+    self.gapBonusText.text = t;
+end
+function barPanel:adTextRefresh(t)
+    self.adText.text = t;
+end
 
 return barPanel

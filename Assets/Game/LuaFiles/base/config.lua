@@ -21,9 +21,9 @@ HOUR = MINUTE * 60;
 DAY = HOUR * 24;
 WEEK = DAY * 7;
 
-LANGUAGE_KEY = "Chinese";
+LANGUAGE_KEY = "English";
 
-LOAD_QUICK = true;
+LOAD_QUICK = false;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
 PATTERNS_QUICK = false;
@@ -32,7 +32,7 @@ SPIN_QUICK = false;-- todo 也许这里关联的太多了
 
 R1 = 1.2;--旋转方面的时间
 R2 = 0.4;
-R3 = 0.2;
+R3 = 0.15;
 R4 = 1;--hold的检查时长
 
 local rSpeed =2;

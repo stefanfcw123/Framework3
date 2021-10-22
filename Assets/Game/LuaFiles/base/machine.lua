@@ -23,6 +23,14 @@ function machine:ctor(lv)
     self.writeDatas = {};
 end
 
+function machine:WheelNumber()
+    return self.wheelNum;
+end
+
+function machine:PatternWheelNumber()
+    return self.wheelPatternNum;
+end
+
 function machine:addMatrix(m)
     assert(#m == self.wheelPatternNum);
     for i, v in ipairs(m) do

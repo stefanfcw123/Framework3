@@ -12,13 +12,40 @@ function wheelUI:Start()
 end
 
 function wheelUI:init(spritePool)
+    local height = self.transform.parent:GetComponent(typeof(RectTransform)).rect.height;
+    local perHeight = height / slotsManage.curMachine:PatternWheelNumber();
+    --  print(height, perHeight)
     self.patterns = {};
-    local luaMonos = array2table(self.transform, RectTransform, false);
+    local t = self.transform:Find("Image");
+    local luaMonos = array2table(t, RectTransform, false);
+    self.perHeight = perHeight;
+    self.luaMonos = luaMonos;
 
     for i, v in ipairs(luaMonos) do
         table.insert(self.patterns, v:GetComponent(typeof(CS.LuaMono)).TableIns);
-        self.patterns[i]:init(spritePool)
+        self.patterns[i]:init(spritePool, self.perHeight, self, self:GetPosFirst(), self:GetPosSecond())
     end
+
+    -- print("first",self:GetPosFirst());
+    --  print("second",self:GetPosSecond());
+end
+
+--todo 警惕写不好可能的bug哦
+function wheelUI:GetPos(index)
+    local len = #self. luaMonos;
+    local minIndex = len / 2;
+    local offset = minIndex - index;
+    return self.perHeight * offset;
+end
+
+function wheelUI:GetPosFirst()
+    local res = self:GetPos(#self.luaMonos);
+    return res;
+end
+
+--todo 如果增加反，正效果会有bug
+function wheelUI:GetPosSecond()
+    return self:GetPos(0);
 end
 
 function wheelUI:randomSetImage()

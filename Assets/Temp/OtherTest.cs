@@ -9,13 +9,15 @@ public class OtherTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var go = GameObject.Find("Cube");
-        go.transform.DOLocalMoveY(3, 1).SetSpeedBased().OnComplete(() =>
-        {
-            print(Time.time);
-        });
+        Image img = GameObject.Find("Canvas/Image").GetComponent<Image>();
+        var s = Resources.Load<Sprite>("bar1");
+        print(s.rect.width);
+        print(s.rect.height);
+        img.sprite = s;
+        img.SetNativeSize();
+        Text t = default;
     }
-    
+
     private IEnumerator Wait(Tween _tweener)
     {
         yield return _tweener.WaitForCompletion();

@@ -22,6 +22,7 @@ function loadPanel:init()
     end
     local s = string.format("%s: %s", localize(2), UnityEngine.Application.version)
     self:verTextRefresh(s)
+    self.loading2Text:DOText("...", 0.6):SetLoops(-1);
 end
 
 function loadPanel:frame()
@@ -42,6 +43,8 @@ function loadPanel:ctor(go, tier)
     loadPanel.super.ctor(self, go, tier)
     self.progressSlider = self.go.transform:Find("progressSlider"):GetComponent('Slider');
     self.progressText = self.go.transform:Find("progressSlider/progressText"):GetComponent('Text');
+    self.loadingText = self.go.transform:Find("progressSlider/loadingText"):GetComponent('Text');
+    self.loading2Text = self.go.transform:Find("progressSlider/loadingText/loading2Text"):GetComponent('Text');
     self.verText = self.go.transform:Find("verText"):GetComponent('Text');
 
     self.progressSlider.onValueChanged:AddListener(function(t)
@@ -52,6 +55,12 @@ end
 
 function loadPanel:progressTextRefresh(t)
     self.progressText.text = t;
+end
+function loadPanel:loadingTextRefresh(t)
+    self.loadingText.text = t;
+end
+function loadPanel:loading2TextRefresh(t)
+    self.loading2Text.text = t;
 end
 function loadPanel:verTextRefresh(t)
     self.verText.text = t;

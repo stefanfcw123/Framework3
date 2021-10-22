@@ -28,9 +28,15 @@ function slotsManage.init()
         slotsManage.setBet()
     end)
     addEvent(WILL_PLAY, function(i)
-        slotsManage.curMachine = require("base.machine.slotsMachine" .. tostring(i)).new(i);
-        print(slotsManage.curMachine, "slotsManage.curMachine")
+        slotsManage.curMachineInit(i);
     end)
+end
+
+function slotsManage.curMachineInit(i)
+    slotsManage.curMachine = require("base.machine.slotsMachine" .. tostring(i)).new(i);
+    print(slotsManage.curMachine, "slotsManage.curMachine")
+    --print("will paly2")
+    slotsManage.curMachine:initMachineUI();
 end
 
 function slotsManage.getTotalAward(bet)

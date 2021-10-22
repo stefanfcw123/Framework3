@@ -14,7 +14,7 @@ function pigPanel:init()
     addEvent(SPIN_START, function()
         self:pigTextRefresh(string.format_foreign(shop.getPigChip()))
     end)
-    self:buyTextRefresh(string.format("Break Now For $%s", shop.doller()))
+    self:buyTextRefresh(string.format("Break Now For $%s", shop.pigDoller()))
 end
 
 function pigPanel:buyButtonAction()

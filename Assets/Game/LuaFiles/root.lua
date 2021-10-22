@@ -45,8 +45,6 @@ buyPanel = false;
 pigPanel = false;
 ---@type tipPanel
 tipPanel = false;
----@type dailyPanel
-dailyPanel = false;
 ---@type loginPanel
 loginPanel = false;
 ---@type netPanel
@@ -54,6 +52,10 @@ netPanel = false;
 ---@type guidePanel
 guidePanel = false;
 pig2Panel = false;
+---@type ad;
+ad = false;
+---@type evaluatePanel
+evaluatePanel =false;
 GameGo = GameObject.Find("Game");
 data = false;
 
@@ -97,6 +99,7 @@ function root:Update()
 
                 CS.IOHelpLua.CreateTemp(string.serialize(bigT));
                 ]]
+        evaluatePanel:show()
         print("press key a")
     end
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.S) then
@@ -141,6 +144,7 @@ function root:init()
     shop = root.add_sys("shop");
     level = root.add_sys("level");
     thingFly = root.add_sys("thingFly")
+    ad = root.add_sys("ad");
 
     root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");
@@ -150,11 +154,13 @@ function root:init()
     buyPanel = root.add_ui("buyPanel")
     pigPanel = root.add_ui("pigPanel")
     tipPanel = root.add_ui("tipPanel")
-    dailyPanel = root.add_ui("dailyPanel")
     loginPanel = root.add_ui("loginPanel");
     netPanel = root.add_ui("netPanel")
     guidePanel = root.add_ui("guidePanel")
     pig2Panel = root.add_ui("pig2Panel");
+    evaluatePanel =root.add_ui("evaluatePanel")
+
+    --todo 赢家、结算、评价界面
 
 end
 
