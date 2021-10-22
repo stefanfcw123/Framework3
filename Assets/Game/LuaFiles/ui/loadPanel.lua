@@ -22,7 +22,7 @@ function loadPanel:init()
     end
     local s = string.format("%s: %s", localize(2), UnityEngine.Application.version)
     self:verTextRefresh(s)
-    self.loading2Text:DOText("...", 0.6):SetLoops(-1);
+    self.loading2Text:DOText("....", 0.7):SetLoops(-1);
 end
 
 function loadPanel:frame()
