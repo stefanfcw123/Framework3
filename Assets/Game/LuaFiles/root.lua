@@ -5,7 +5,7 @@
 -------------------------------------------------------
 
 require("functions.functions");
-require("data.Language")
+Language = require("data.Language")
 require("base.config")
 require("functions.kit");
 sys = require("base.sys")
@@ -14,6 +14,7 @@ popui = require("base.popui")
 require("functions.event2")
 cs_coroutine = (require 'functions.cs_coroutine');
 require("functions.objPool")
+weight = (require("functions.weight"));
 
 ---@class root
 root = class('root')
@@ -55,9 +56,10 @@ pig2Panel = false;
 ---@type ad;
 ad = false;
 ---@type evaluatePanel
-evaluatePanel =false;
+evaluatePanel = false;
 GameGo = GameObject.Find("Game");
 data = false;
+channels = create_enum_table({ "google", "amazon", "apple" })
 
 local canvasT = GameGo.transform:Find("Canvas");
 local uis = {}
@@ -70,7 +72,6 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
-
 
         --[[        self.x = { "a", "b", "c" };
                 local t = self.x;
@@ -99,17 +100,22 @@ function root:Update()
 
                 CS.IOHelpLua.CreateTemp(string.serialize(bigT));
                 ]]
-        evaluatePanel:show()
+        -- evaluatePanel:show()
+
+       -- slotsManage.curMachine:dataWrite()
+
         print("press key a")
     end
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.S) then
-        local txt = AF:LoadTextAsset("Lv1/1")
-        local g = string.unserialize(txt.text);
+        --[[        local txt = AF:LoadTextAsset("Lv1/1")
+                local g = string.unserialize(txt.text);
 
-        for i, v in ipairs(g) do
-            table.print_nest_arr(v);
-        end
-        print("press key s")
+                for i, v in ipairs(g) do
+                    table.print_nest_arr(v);
+                end]]
+
+
+       slotsManage.curMachine:getWeightItem();
     end
 
     for i, v in pairs(systems) do
@@ -158,7 +164,7 @@ function root:init()
     netPanel = root.add_ui("netPanel")
     guidePanel = root.add_ui("guidePanel")
     pig2Panel = root.add_ui("pig2Panel");
-    evaluatePanel =root.add_ui("evaluatePanel")
+    evaluatePanel = root.add_ui("evaluatePanel")
 
     --todo 赢家、结算、评价界面
 

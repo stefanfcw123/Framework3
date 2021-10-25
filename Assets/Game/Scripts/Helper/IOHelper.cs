@@ -8,10 +8,9 @@ using System.Text.RegularExpressions;
 
 public class IOHelper
 {
-
     public static void CreateText(string path, string content)
     {
-        File.WriteAllText(path,content,Encoding.UTF8);
+        File.WriteAllText(path, content, new UTF8Encoding(false));
     }
 
     public static string GetFileName(string filePath)

@@ -9,8 +9,36 @@ local level = class('level')
 
 local curLV = 0;
 
+level.locks = {
+    1,
+    3,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    70,
+    75,
+    80,
+    85,
+    90,
+    95
+}
+
 local function getExpByLevel(lv)
     return 10 ^ lv;
+end
+
+function level.needLv(index)
+    return level.locks[index];
 end
 
 function level.curLV()

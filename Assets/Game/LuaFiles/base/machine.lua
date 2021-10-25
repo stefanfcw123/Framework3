@@ -20,7 +20,75 @@ function machine:ctor(lv)
             }
     );
     self.winningPatterns = {};
-    self.writeDatas = {};
+    if not SPIN_QUICK then
+        local str = AF:LoadLuaDatas(self.lv);
+        self.writeDatas = string.unserialize(str);
+        self.levelData = require("data.Level" .. self.lv);
+        self:dealWithLevelData(self:printDatas2());
+    else
+        self.writeDatas = {};
+    end
+
+
+    --print("levelDatalen", #self.levelData)
+end
+
+function machine:dealWithLevelData(keyArr)
+
+    local f = function(str)
+        local res = {};
+        res = string.split(str, ",")
+        return res;
+    end
+
+    local data = self.levelData[1];
+    local strArr = {};
+    local weightArr = {};
+    for i, v in pairs(data) do
+        if string.starts_with(i, "arr") then
+            local index = string.get_pure_number(i) + 1;
+            local isW;
+            if string.value_of(i, #i) == "w" then
+                isW = true;
+                weightArr[index] = int(v * 1000);
+            else
+                isW = false;
+                strArr[index] = f(v);
+            end
+        end
+    end
+    assert(#weightArr == #strArr);
+    assert(table.sum(weightArr) >= 1);
+
+    local otherKeyArr = {}
+    for i, v in ipairs(strArr) do
+        for i2, v2 in ipairs(v) do
+            table.insert(otherKeyArr, tonumber(v2));
+        end
+    end
+
+    assert(table.contentsEqual(keyArr, otherKeyArr));
+    -- table.print_arr(weightArr)
+    -- table.print_nest_arr(strArr)
+    local w = weight.new(weightArr, strArr);
+    self.weights = w;
+end
+
+function machine:getWeightItem()
+    local res = self.weights:GetItemByNumber();
+    return res;
+end
+
+function machine:getRandomMatrix()
+    local randomKeys = self:getWeightItem();
+    local key = table.get_random_item(randomKeys);
+    local res = table.get_random_item(self.writeDatas[key]);
+    print('-----------start')
+    table.print_arr(randomKeys);
+    print("key", key)
+    table.print_nest_arr(res);
+    print('-----------end')
+    return res;
 end
 
 function machine:WheelNumber()
@@ -187,18 +255,20 @@ function machine:whetherWinning(finalPatterns)
         end
 
         resRatio = resRatio + ratio;
-        print("machine perRatio:", ratio);
+        --  print("machine perRatio:", ratio);
     end
 
     print("machine totalRatio:", resRatio)
 
     --table.print_nest_arr(finalPatterns)
-    self:writeData(resRatio, finalPatterns);
+    if SPIN_QUICK then
+        self:addData(resRatio, finalPatterns);
+    end
 
     return resRatio;
 end
 
-function machine:writeData(resRatio, finalPatterns)
+function machine:addData(resRatio, finalPatterns)
     local datas = self.writeDatas;
     local key = tostring(resRatio);
     if not table.contains_key(datas, key) then
@@ -209,15 +279,35 @@ function machine:writeData(resRatio, finalPatterns)
         table.insert(datas[key], finalPatterns);
     end
 
-    --[[    print("--------------------")
-        for i, v in pairs(self.writeDatas) do
-            print(string.format("now is %s bet", i))
-            for i2, v2 in ipairs(v) do
-                table.print_nest_arr(v2)
-                print("---")
-            end
+
+    -- self:dataWrite();
+end
+
+function machine:printDatas2()
+    local t = {}
+    for i, v in pairs(self.writeDatas) do
+        table.insert(t, tonumber(i));
+    end
+    table.sort(t);
+    return t;
+end
+
+function machine:printDatas()
+    print("---------Datas-----------")
+    for i, v in pairs(self.writeDatas) do
+        print(string.format("DatasItem %sBet:", i))
+        for i2, v2 in ipairs(v) do
+            print("DatasItemPerMatrix:")
+            table.print_nest_arr(v2)
         end
-        print("--------------------")]]
+    end
+    print("---------Datas-----------")
+end
+
+function machine:dataWrite()
+    print("machine dataWrite")
+    local datas = self.writeDatas;
+    CS.IOHelpLua.CreateLevelDatas(self.lv, string.serialize(datas));
 end
 
 function machine:spinStart()

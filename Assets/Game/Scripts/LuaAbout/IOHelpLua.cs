@@ -18,14 +18,11 @@ public static class IOHelpLua
         return Path.Combine(GetFullPath(), str);
     }
 
-    public static void CreateText(string path, string content)
+    public static void CreateLevelDatas(int lv, string content)
     {
+        Log.LogParas("开始写入");
+        string path = Path.Combine(GetLVFullPath(lv), "datas.txt");
         IOHelper.CreateText(path, content);
-    }
-
-    public static void CreateTemp(string content)
-    {
-        string path = Path.Combine(GetLVFullPath(1), "1.txt");
-        IOHelper.CreateText(path, content);
+        Log.LogParas("写入完成了");
     }
 }

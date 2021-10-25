@@ -15,6 +15,12 @@ public class ResourceAssetProxyFactory : IAssetFactory
     //private readonly QFResourceAssetFactory m_QFFactory; 
     private readonly Dictionary<string, Sprite> m_Sprites;
 
+    public string LoadLuaDatas(int lv)
+    {
+        var txt = LoadTextAsset($"Lv{lv}/datas");
+        return txt.text;
+    }
+
     public Sprite[] LoadSprites(int lv)
     {
         Sprite[] res = Resources.LoadAll<Sprite>($"Sprite/Level{lv}");

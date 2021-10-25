@@ -24,15 +24,15 @@ function patternUI:init(spritePool, pH, wheelUI, first, second)
 
     self.curY = self.rect.anchoredPosition.y;
     self.initY = self.curY;
-    self.spinSpeed = 35;--这里不能超过规定高度
+    self.spinSpeed = pH / 4;--这里不能超过规定高度
 
     self.spritePool = spritePool;
-    --todo 这里图片数据每次进入都要重置
+    --todo 检查这里图片数据每次进入都要重置
     self:randomSetImage()
 
     self.first = first;
     self.second = second;
-    print("f,s", self.first, self.second);
+    -- print("f,s", self.first, self.second);
 end
 
 function patternUI:setHeight(number)
@@ -49,10 +49,29 @@ function patternUI:GetPatternImageName()
     return self:GetPatternImage().sprite.name;
 end
 
-function patternUI:randomSetImage()
-    self:GetPatternImage() .sprite = table.get_random_item(self.spritePool);
+function patternUI:SetImageByName(name)
+    local s = nil;
+    for i, v in ipairs(self.spritePool) do
+        if v.name == name then
+            s = v;
+            break ;
+        end
+    end
+    if s == nil then
+        error("The sprite don't find in self.spritePool")
+    end
+
+    self:SetImage(s);
+end
+
+function patternUI:SetImage(s)
+    self:GetPatternImage() .sprite = s;
     self:GetPatternImage():SetNativeSize();
     self:GetPatternImage().transform.localScale = Vector3.one * 0.6;
+end
+
+function patternUI:randomSetImage()
+    self:SetImage(table.get_random_item(self.spritePool))
 end
 
 function patternUI:spinStart()

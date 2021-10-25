@@ -49,6 +49,13 @@ function uiMachine:fixedAllSprite(allSprites, fT)
     return sp;
 end
 
+function uiMachine:SetImageByName(nameLists)
+    for i, v in ipairs(self.wheels) do
+        v:SetImageByName(nameLists[i]);
+    end
+end
+
+
 -- todo 也需要判断字符串是否含有trim()
 function uiMachine:loadAllSprite()
     local arr = AF:LoadSprites(self.lv);
@@ -67,9 +74,7 @@ function uiMachine:rollAll()
 
     local s = cs_coroutine.start(function()
 
-        if SPIN_QUICK then
-            self:randomSetImage();
-        end
+        local mC = self:matrixChange(slotsManage.curMachine:getRandomMatrix())
 
         for i, v in ipairs(self.wheels) do
             self:roll(i, true);
@@ -78,18 +83,16 @@ function uiMachine:rollAll()
         coroutine.yield(WaitForSeconds(R1));
 
         for i, v in ipairs(self.wheels) do
-            self:roll(i, false)
+            self:roll(i, false, mC)
             coroutine.yield(WaitForSeconds(R2))
         end
 
-        local matrix = self:getMapPatterns();
-        if PATTERNS_QUICK then
-            matrix = {
-                { "b1", "b1", "w2" },
-                { "w2", "w5", "w2" },
-                { "w2", "b1", "b1" },
-            }
+        if SPIN_QUICK then
+            self:randomSetImage();
+        else
         end
+
+        local matrix = self:getMapPatterns();
         local bet = slotsManage.curMachine:calculateLines(matrix);
 
         --todo 验证快速动画过程中金币会少加吗？
@@ -112,34 +115,38 @@ end
 -- todo 单元测试row和col要数据统一
 -- todo 限定生成池，不要222，目前第一款游戏哦
 function uiMachine:getMapPatterns(row, col)
-
     local bigT = {};
     for i, v in ipairs(self.wheels) do
         local t = v:getPatterns();
         table.insert(bigT, t);
     end
 
-    local normalT = {
-        {},
-        {},
-        {},
-    }
+    return self:matrixChange(bigT);
+end
 
-    for i, v in ipairs(bigT) do
+function uiMachine:matrixChange(matrix)
+    local res = {};
+
+    for i, v in ipairs(matrix) do
+        res[i] = {};
+    end
+
+    for i, v in ipairs(matrix) do
         for i2, v2 in ipairs(v) do
-            normalT[i2][i] = v2;
+            res[i2][i] = v2;
         end
     end
 
-    return normalT;
+    return res;
 end
 
-function uiMachine:roll(index, isStart)
+function uiMachine:roll(index, isStart, mC)
     local wheel = self.wheels[index];
     if isStart then
         wheel:spinStart();
     else
         wheel:spinOver();
+        wheel:SetImageByName(mC[index]);
     end
 end
 

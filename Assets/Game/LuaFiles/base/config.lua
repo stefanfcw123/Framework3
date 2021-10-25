@@ -5,6 +5,7 @@
 -------------------------------------------------------
 
 
+
 NET_TIMEOUT = 4;
 
 TIP_SAVE = 2;
@@ -23,11 +24,11 @@ WEEK = DAY * 7;
 
 LANGUAGE_KEY = "English";
 
-LOAD_QUICK = false;
+LOAD_QUICK = true;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
 PATTERNS_QUICK = false;
-LOSE_QUICK = true;
+LOSE_QUICK = false;
 SPIN_QUICK = false;-- todo 也许这里关联的太多了
 
 R1 = 1.2;--旋转方面的时间
@@ -35,7 +36,7 @@ R2 = 0.4;
 R3 = 0.15;
 R4 = 1;--hold的检查时长
 
-local rSpeed =2;
+local rSpeed = 2;
 if SPIN_QUICK then
     R1 = R1 / rSpeed;
     R2 = R2 / rSpeed;

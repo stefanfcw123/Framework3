@@ -18,6 +18,10 @@ function playPanel:init()
         self:hide()
     end)
     addEvent(SPIN_OVER, function(isWin, award)
+        if SPIN_QUICK then
+            return ;
+        end
+
         if isWin then
             DOTween.To(function(f)
                 self:winTextRefresh(string.format_foreign(f))
@@ -47,8 +51,15 @@ function playPanel:reduceSuccess()
 end
 
 function playPanel:spinButtonAction2()
-    print("spinButtonAction2")
-    local reduceSuccess = save.addChip(-slotsManage.getBet());
+    --print("spinButtonAction2")
+    local reduceSuccess;
+
+    if SPIN_QUICK then
+        reduceSuccess = true;
+    else
+        reduceSuccess = save.addChip(-slotsManage.getBet());
+    end
+
     if reduceSuccess then
         self:reduceSuccess();
     else

@@ -67,6 +67,16 @@ function wheelUI:getPatterns()
     return res;
 end
 
+function wheelUI:SetImageByName(names)
+    --print(self.transform.gameObject.name)
+    -- table.print_arr(names);
+    for i, v in ipairs(self.patterns) do
+        if i ~= 1 then
+            v:SetImageByName(names[i - 1])
+        end
+    end
+end
+
 function wheelUI:spinStart()
     for i, v in ipairs(self.patterns) do
         v:spinStart();

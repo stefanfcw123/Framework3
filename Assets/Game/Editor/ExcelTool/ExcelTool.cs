@@ -298,7 +298,7 @@ public class ExcelTool : EditorWindow
         }*/
 
         StringBuilder sb = new StringBuilder();
-        sb.Append($"{FileName}={{");
+        sb.Append($"local {FileName}={{");
 
         for (var i = 1; i < row; i++)
         {
@@ -339,6 +339,8 @@ public class ExcelTool : EditorWindow
         }
 
         sb.Append("}");
+
+        sb.Append($"return {FileName}");
 
         var path = $"{Path.Combine(LuaSystem.LuaRoot(), "data")}/{FileName}.lua";
         IOHelper.CreateFileByStream(path, sb.ToString());

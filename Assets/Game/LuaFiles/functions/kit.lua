@@ -289,6 +289,22 @@ function table.values(hash)
     return res;
 end
 
+function table.contentsEqual(t1, t2)
+    if #t1 ~= #t2 then
+        return false;
+    else
+        table.sort(t1);
+        table.sort(t2)
+
+        for i, v in ipairs(t1) do
+            if t1[i] ~= t2[i] then
+                return false;
+            end
+        end
+        return true;
+    end
+end
+
 function table.contains_key(hash, key)
     return hash[key] ~= nil;
 end
@@ -310,6 +326,10 @@ function string.index_of(str, char)
         end
     end
     return nil;
+end
+
+function string.starts_with(str, start)
+    return str:sub(1, #start) == start;
 end
 
 function string.to_char_arr(str)

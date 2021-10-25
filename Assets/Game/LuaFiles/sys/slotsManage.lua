@@ -17,11 +17,11 @@ slotsManage.curMachine = nil;
 function slotsManage.init()
     print("slots init")
     addEvent(SPIN_START, function()
-        print("slotsManage SPIN_START")
+       -- print("slotsManage SPIN_START")
         slotsManage.curMachine:spinStart();
     end)
     addEvent(SPIN_OVER, function(bet)
-        print("slotsManage SPIN_OVER")
+       -- print("slotsManage SPIN_OVER")
         slotsManage.curMachine:spinOver()
     end)
     addEvent(LOAD_OVER, function()
