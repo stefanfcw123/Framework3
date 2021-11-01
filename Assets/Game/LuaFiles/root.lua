@@ -6,8 +6,8 @@
 
 require("functions.functions");
 Language = require("data.Language")
-require("base.config")
 require("functions.kit");
+require("base.config")
 sys = require("base.sys")
 ui = require("base.ui")
 popui = require("base.popui")
@@ -57,6 +57,9 @@ pig2Panel = false;
 ad = false;
 ---@type evaluatePanel
 evaluatePanel = false;
+---@type analysis
+analysis = false;
+
 GameGo = GameObject.Find("Game");
 data = false;
 channels = create_enum_table({ "google", "amazon", "apple" })
@@ -151,6 +154,7 @@ function root:init()
     level = root.add_sys("level");
     thingFly = root.add_sys("thingFly")
     ad = root.add_sys("ad");
+    analysis =root.add_sys("analysis");
 
     root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");
@@ -166,8 +170,11 @@ function root:init()
     pig2Panel = root.add_ui("pig2Panel");
     evaluatePanel = root.add_ui("evaluatePanel")
 
-    --todo 赢家、结算、评价界面
+    --todo 赢家,规则
 
+     --todo LuaFile路径替换了，包括loader也要更换了。
+    global("auto", false)
+    global("rotate",false);
 end
 
 function root.set_tier(go, tier)

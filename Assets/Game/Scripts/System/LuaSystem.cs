@@ -58,30 +58,33 @@ public class LuaSystem : GameSystem
 
     private byte[] CustomLoader(ref string filepath)
     {
-#if UNITY_EDITOR
-        if (Game.VData.Debug == false)
+        if (Differences.Ediotr())
         {
-            /*var full = filepath.Split('.');
-            var name = $"{full[full.Length - 1]}";
-            TextAsset txt = Factorys.GetAssetFactory().LoadTextAsset($"{name}.lua");
-            return System.Text.Encoding.UTF8.GetBytes(txt.text);*/
+            if (Game.VData.Debug == false)
+            {
+                /*var full = filepath.Split('.');
+                var name = $"{full[full.Length - 1]}";
+                TextAsset txt = Factorys.GetAssetFactory().LoadTextAsset($"{name}.lua");
+                return System.Text.Encoding.UTF8.GetBytes(txt.text);*/
 
-            filepath = "LuaFiles/" + filepath.Replace('.', '/') + ".lua";
-            TextAsset file = Factorys.GetAssetFactory().LoadTextAsset(filepath);
-            return file.bytes;
+                filepath = "LuaFiles/" + filepath.Replace('.', '/') + ".lua";
+                TextAsset file = Factorys.GetAssetFactory().LoadTextAsset(filepath);
+                return file.bytes;
+            }
+            else
+            {
+                filepath = Application.dataPath + "/Game/LuaFiles/" + filepath.Replace('.', '/') + ".lua";
+                return File.ReadAllBytes(filepath);
+            }
         }
         else
         {
-            filepath = Application.dataPath + "/Game/LuaFiles/" + filepath.Replace('.', '/') + ".lua";
-            return File.ReadAllBytes(filepath);
-        }
-#endif
-
-#if !UNITY_EDITOR
             filepath = "LuaFiles/" + filepath.Replace('.', '/') + ".lua";
+            Debug.Log("filePath:" + filepath);
             TextAsset file = Factorys.GetAssetFactory().LoadTextAsset(filepath);
+            Debug.Log(file);
             return file.bytes;
-#endif
+        }
     }
 
     public static LuaTable GetLua(GameObject go, LuaTable baseClass

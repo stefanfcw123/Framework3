@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using System.Collections;
+using Coffee.UIEffects;
 using UnityEngine;
 using XLua;
 
@@ -132,6 +133,10 @@ public static class LuaManualConfig
         typeof(IOHelpLua),
         typeof(Coroutine),
         typeof(IEnumerator)
+        ,
+        typeof(Coffee.UIExtensions.UIParticle),
+        typeof(UIEffect),
+        typeof(Differences)
     };
 
     //C#静态调用Lua的配置（包括事件的原型），仅可以配delegate，interface

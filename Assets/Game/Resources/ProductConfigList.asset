@@ -15,7 +15,7 @@ MonoBehaviour:
   list:
   - ID: 
     CompanyName: SkyAllen
-    ProductName: MemoryBread
+    ProductName: ClassicSlots
     ScreenLong: 2400
     ScreenShort: 1080
     LandScape: 1

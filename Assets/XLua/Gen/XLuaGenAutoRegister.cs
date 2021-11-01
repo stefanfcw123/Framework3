@@ -224,6 +224,15 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(System.Collections.IEnumerator), SystemCollectionsIEnumeratorWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(Coffee.UIExtensions.UIParticle), CoffeeUIExtensionsUIParticleWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(Coffee.UIEffects.UIEffect), CoffeeUIEffectsUIEffectWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(Differences), DifferencesWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(UnityEngine.WaitForSeconds), UnityEngineWaitForSecondsWrap.__Register);
         
         

@@ -44,6 +44,7 @@ public class VersionTool : EditorWindow
             }
         }
 
+        //todo 苹果ipad分辨率的适配，不然会被老板堆
         if (GUILayout.Button(new GUIContent("开始移动各种文件")))
         {
             MoveVersionFile();
@@ -70,6 +71,7 @@ public class VersionTool : EditorWindow
 
         PlayerSettings.Android.bundleVersionCode += 1;
         PlayerSettings.bundleVersion = StringHelper.GetFormatVersion(GetLastVersion());
+        PlayerSettings.iOS.buildNumber = PlayerSettings.bundleVersion;
 
         EditorGame.CopyToBoard(e);
         Log.LogPrint("Set Success");

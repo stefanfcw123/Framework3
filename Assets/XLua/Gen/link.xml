@@ -91,11 +91,13 @@
 		<type fullname="LuaMono" preserve="all"/>
 		<type fullname="IOHelper" preserve="all"/>
 		<type fullname="IOHelpLua" preserve="all"/>
+		<type fullname="Differences" preserve="all"/>
 		<type fullname="LuaSystem" preserve="all"/>
 		<type fullname="TransformExpand" preserve="all"/>
 		<type fullname="LuaMono" preserve="all"/>
 		<type fullname="IOHelper" preserve="all"/>
 		<type fullname="IOHelpLua" preserve="all"/>
+		<type fullname="Differences" preserve="all"/>
 		
 	</assembly>
 
@@ -171,6 +173,18 @@
 	<assembly fullname="Assembly-CSharp-firstpass">
 	    <type fullname="DG.Tweening.DOTweenModuleUI" preserve="all"/>
 		<type fullname="DG.Tweening.DOTweenModuleUI" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="Coffee.UIParticle">
+	    <type fullname="Coffee.UIExtensions.UIParticle" preserve="all"/>
+		<type fullname="Coffee.UIExtensions.UIParticle" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="UIEffect">
+	    <type fullname="Coffee.UIEffects.UIEffect" preserve="all"/>
+		<type fullname="Coffee.UIEffects.UIEffect" preserve="all"/>
 		
 	</assembly>
 
