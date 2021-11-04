@@ -7,6 +7,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
 {
     private readonly Dictionary<string, AudioClip> m_Audios;
     private readonly Dictionary<string, GameObject> m_Effects;
+    private readonly Dictionary<string, TextAsset> m_TextAsset;
 
     private readonly ResourceAssetFactory m_ResFactory; // 實際負責載入的AssetFactory
 
@@ -33,6 +34,7 @@ public class ResourceAssetProxyFactory : IAssetFactory
         m_Effects = new Dictionary<string, GameObject>();
         m_Audios = new Dictionary<string, AudioClip>();
         m_Sprites = new Dictionary<string, Sprite>();
+        m_TextAsset = new Dictionary<string, TextAsset>();
     }
 
     // 產生特效
@@ -80,8 +82,12 @@ public class ResourceAssetProxyFactory : IAssetFactory
 
     public override TextAsset LoadTextAsset(string name)
     {
-        //TODO 缓存
-        return m_ResFactory.LoadTextAsset(name);
+        if (m_TextAsset.ContainsKey(name) == false)
+        {
+            m_TextAsset.Add(name, m_ResFactory.LoadTextAsset(name));
+        }
+
+        return m_TextAsset[name];
     }
 
     public override SpriteAtlas LoadSpriteAtlas(string name)

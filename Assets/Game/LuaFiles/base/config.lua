@@ -5,6 +5,7 @@
 -------------------------------------------------------
 
 
+NEAR_MISS_RATIO = 0.3;
 
 NET_TIMEOUT = 4;
 
@@ -28,12 +29,13 @@ CHANEL = ANDROID_CHANEL.Google;
 LANGUAGE_KEY = "English";
 
 LOAD_QUICK = true;
+LEVEL_CONFIG_TEST = true;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
 PATTERNS_QUICK = false;
 LOSE_QUICK = false;
 SPIN_QUICK = false;-- todo 也许这里关联的太多了
-ANALYSIS = true;
+ANALYSIS = false;
 
 R1 = 1.2;--旋转方面的时间
 R2 = 0.4;

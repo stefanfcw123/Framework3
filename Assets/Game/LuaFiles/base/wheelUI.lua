@@ -30,7 +30,7 @@ function wheelUI:init(spritePool)
     --  print("second",self:GetPosSecond());
 end
 
---todo 警惕写不好可能的bug哦
+--todo 警惕是否通用
 function wheelUI:GetPos(index)
     local len = #self. luaMonos;
     local minIndex = len / 2;

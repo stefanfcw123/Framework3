@@ -23,23 +23,31 @@ function playPanel:init()
         end
 
         if isWin then
-            DOTween.To(function(f)
-                self:winTextRefresh(string.format_foreign(f))
-            end, 0, award, GIGITAL_SLOW);
+            DOTween                     .To(function(f)
+                local fStr = string.format_foreign(f)
+                self:winTextRefresh(fStr)
+                self:hightWinTextRefresh(fStr);
+            end, 0, award, GIGITAL_SLOW):OnComplete(function()
+                cs_coroutine.start(function()
+                    coroutine.yield(WaitForSeconds(0.25));
+                    if self.hightWinImage.gameObject.activeInHierarchy then
+                        if math.ratio(0.02) then
+                            evaluatePanel:show();
+                        end
+                    end
+                    self.hightWinImage.gameObject:SetActive(false);
+                end)
+            end);
             if LOSE_QUICK then
                 return ;
             end
             save.addChip(award)
             analysis.addInChip(award);
 
-            if math.random() > 0.8123 then
-                evaluatePanel:show();
-            end
         end
         self:ReturnRateTextRefresh("实际返还率:" .. analysis.returnRate());
         self:targetReturnRateTextRefresh("理论返还率:" .. analysis.getTargetReturnRate());
         self:ConfigEnumTextRefresh("当前配置是:" .. slotsManage.GetConfigEnum());
-
 
 
     end)
@@ -56,6 +64,8 @@ function playPanel:init()
     else
         self.TipGameObject:SetActive(false);
     end
+
+    self.hightWinImage.gameObject:SetActive(false);
 end
 
 function playPanel:betTextRefresh2()
@@ -65,6 +75,17 @@ end
 function playPanel:reduceSuccess()
     randomSeed();
     sendEvent(SPIN_START)
+end
+
+function playPanel:showHightWinImage(lv)
+    self.hightWinImage.gameObject:SetActive(true);
+    self.hightWinImage.gameObject.transform:DOShakeScale(1, 0.1, 8, 80);
+    local sp = AF:LoadSprite("winLv" .. lv);
+    self:hightWinImageRefresh(sp);
+end
+
+function playPanel:hideHightWinImage()
+    self.hightWinImage.gameObject:SetActive(false);
 end
 
 function playPanel:spinButtonAction2()
@@ -84,12 +105,12 @@ function playPanel:spinButtonAction2()
     else
         self:closeAuto();
         buyPanel:show();
-        -- todo Tip chip not enough
     end
     return reduceSuccess;
 end
 
 function playPanel:closeAuto()
+    print(self.spinButton,"sssssssssssssksddssd")
     --todo 不知道为啥self.spinButton为nil了
     if auto then
         auto = false;
@@ -126,6 +147,8 @@ function playPanel:ctor(go, tier)
     self.ReturnRateText = self.go.transform:Find("TipGameObject/ReturnRateText"):GetComponent('Text');
     self.targetReturnRateText = self.go.transform:Find("TipGameObject/targetReturnRateText"):GetComponent('Text');
     self.ConfigEnumText = self.go.transform:Find("TipGameObject/ConfigEnumText"):GetComponent('Text');
+    self.hightWinImage = self.go.transform:Find("hightWinImage"):GetComponent('Image');
+    self.hightWinText = self.go.transform:Find("hightWinImage/hightWinText"):GetComponent('Text');
 
     self.tipButton.onClick:AddListener(function()
         self:tipButtonAction()
@@ -159,6 +182,12 @@ function playPanel:targetReturnRateTextRefresh(t)
 end
 function playPanel:ConfigEnumTextRefresh(t)
     self.ConfigEnumText.text = t;
+end
+function playPanel:hightWinImageRefresh(t)
+    self.hightWinImage.sprite = t;
+end
+function playPanel:hightWinTextRefresh(t)
+    self.hightWinText.text = t;
 end
 
 return playPanel

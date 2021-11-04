@@ -16,6 +16,8 @@ public class OtherTest : MonoBehaviour
         img.sprite = s;
         img.SetNativeSize();
         Text t = default;
+        GameObject s22 = null;
+        print(s22.activeInHierarchy);
     }
 
     private IEnumerator Wait(Tween _tweener)

@@ -14,7 +14,7 @@ local curBet = 0;
 
 slotsManage.curMachine = nil;
 slotsManage.configEnum = nil;
-local t = { "S", "M", "L" }
+local configs = { "S", "M", "L" }
 
 function slotsManage.init()
     print("slots init")
@@ -37,7 +37,9 @@ function slotsManage.init()
 end
 
 function slotsManage.ChangeConfigEnum(str)
-    local a, _ = table.find(t, function(item)
+    local t1 = table.copy(configs);
+    table.insert(t1, "T");
+    local a, _ = table.find(t1, function(item)
         return item == str
     end)
     assert(a ~= nil, "ConfigEnum have Error!");
@@ -47,7 +49,11 @@ function slotsManage.ChangeConfigEnum(str)
 end
 
 function slotsManage.CtrlConfigEnum()
-    slotsManage.ChangeConfigEnum(table.get_random_item(t));
+    if LEVEL_CONFIG_TEST then
+        slotsManage.ChangeConfigEnum("T");
+        return ;
+    end
+    slotsManage.ChangeConfigEnum(table.get_random_item(configs));
 end
 
 function slotsManage.GetConfigEnum()

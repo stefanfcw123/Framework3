@@ -23,7 +23,6 @@ function spinButton:Start()
 
 end
 
---todo 双击快速效果等待制作
 function spinButton:longPress()
     if not auto then
         if reduceSuccess then

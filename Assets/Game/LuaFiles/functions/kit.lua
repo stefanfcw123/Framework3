@@ -4,12 +4,100 @@
 --   time : 2021/9/16 9:59:31
 -------------------------------------------------------
 
+-- global func
+
+function int(num)
+    return math.modf(num);
+end
+
+function integer10(num)
+    assert(type(num) == "number")
+    num = int(num);
+    local numStr = tostring(num);
+    local charArr = string.to_char_arr(numStr);
+    charArr[#charArr] = "0";
+    return tonumber(table.concat(charArr));
+end
+
+function localize(id)
+    return Language[id][LANGUAGE_KEY];
+end
+
+function readOnlyTable(t)
+    local res = {}
+    setmetatable(res, {
+        __index = t,
+        __newindex = function(t, _)
+            error("Readonly " .. _, 2);
+        end
+    })
+    return res;
+end
+
+function global(key, val)
+    rawset(_G, key, val or false);
+end
+
+function getColor(a, b, c, d)
+    return Color(a / 255, b / 255, c / 255, d / 255);
+end
+
+function SetActive(ui, arg)
+    if arg then
+        ui.gameObject:SetActive(true);
+    else
+        ui.gameObject:SetActive(false);
+    end
+end
+
+function array2table(mono, uiType, isAll, func)
+    local res = {};
+    local array = nil;
+    if isAll then
+        array = mono:GetComponentsInChildren(typeof(uiType))
+    else
+        array = mono.transform:GetChildArray();
+    end
+
+    for i = 1, array.Length do
+        local ui = array[i - 1];
+        if uiType == Button then
+            ui.onClick:AddListener(function()
+                if func then
+                    func(ui);
+                end
+            end)
+        end
+        table.insert(res, ui);
+    end
+    return res;
+end
+
+function create_enum_table(tbl, idx)
+    local res = {}
+    local index = idx or 0
+
+    for i, v in ipairs(tbl) do
+        res[v] = index + i
+    end
+    return readOnlyTable(res);
+end
+
+function assert_true(val, msg)
+    assert(val, msg)
+end
+
+function randomSeed()
+    math.randomseed(tostring(os.time()):reverse():sub(1, 7));
+end
+
+
 -- arr
 
 function table.conversion(t)
-    local res ={};
+    local res = {};
     for i, v in ipairs(t) do
-        res[i] =tonumber(v);
+        res[i] = tonumber(v);
     end
     return res;
 end
@@ -150,21 +238,60 @@ function table.foreach_operation(arr, fn)
     end
 end
 
-function table.print_arr(arr)
+function table.print_arr(arr, other)
     local str = "";
 
     for i = 1, #arr do
         local interval = (i == #arr) and "" or " , ";
         str = str .. arr[i] .. interval;
     end
-
+    if other then
+        print(other)
+    end
     print(str);
 end
 
-function table.print_nest_arr(nest_arr)
+function table.isIncreasing(t)
+    for i = 1, #t - 1 do
+        local first = t[i];
+        local second = t[i + 1];
+        if first > second then
+            return false;
+        end
+    end
+    return true;
+end
+
+function table.print_nest_arr(nest_arr, other)
+    if other then
+        print(other)
+    end
     for i, v in ipairs(nest_arr) do
         table.print_arr(v);
     end
+end
+
+function table.division(t, few)
+    local fewNumber = int(#t / few);
+    local res = {};
+
+    for i = 1, few do
+        res[i] = {};
+    end
+
+    local resIndex = 1;
+
+    while (#t ~= 0) do
+        local first = table.remove(t, 1);
+        table.insert(res[resIndex], first);
+        if (#res[resIndex] >= fewNumber) and (resIndex ~= few) then
+            resIndex = resIndex + 1;
+        end ;
+    end
+
+    assert(resIndex == #res);
+    --table.print_nest_arr(res);
+    return res;
 end
 
 function table.get_range(arr, start, count)
@@ -426,89 +553,8 @@ function string.percent(n)
     return string.format("%.0f%%", N)
 end
 
--- global func
-
-function int(num)
-    return math.modf(num);
+--math
+function math.ratio(f)
+    return math.random() <= f;
 end
 
-function integer10(num)
-    assert(type(num) == "number")
-    num = int(num);
-    local numStr = tostring(num);
-    local charArr = string.to_char_arr(numStr);
-    charArr[#charArr] = "0";
-    return tonumber(table.concat(charArr));
-end
-
-function localize(id)
-    return Language[id][LANGUAGE_KEY];
-end
-
-function readOnlyTable(t)
-    local res = {}
-    setmetatable(res, {
-        __index = t,
-        __newindex = function(t, _)
-            error("Readonly " .. _, 2);
-        end
-    })
-    return res;
-end
-
-function global(key, val)
-    rawset(_G, key, val or false);
-end
-
-function getColor(a, b, c, d)
-    return Color(a / 255, b / 255, c / 255, d / 255);
-end
-
-function SetActive(ui, arg)
-    if arg then
-        ui.gameObject:SetActive(true);
-    else
-        ui.gameObject:SetActive(false);
-    end
-end
-
-function array2table(mono, uiType, isAll, func)
-    local res = {};
-    local array = nil;
-    if isAll then
-        array = mono:GetComponentsInChildren(typeof(uiType))
-    else
-        array = mono.transform:GetChildArray();
-    end
-
-    for i = 1, array.Length do
-        local ui = array[i - 1];
-        if uiType == Button then
-            ui.onClick:AddListener(function()
-                if func then
-                    func(ui);
-                end
-            end)
-        end
-        table.insert(res, ui);
-    end
-    return res;
-end
-
-function create_enum_table(tbl, idx)
-    local res = {}
-    local index = idx or 0
-
-    for i, v in ipairs(tbl) do
-        res[v] = index + i
-    end
-    return readOnlyTable(res);
-end
-
-function assert_true(val, msg)
-    assert(val, msg)
-end
-
-function randomSeed()
-    math.randomseed(tostring(os.time()):reverse():sub(1, 7));
-end

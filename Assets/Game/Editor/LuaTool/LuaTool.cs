@@ -11,7 +11,7 @@ public class LuaTool
     public static void MoveLuaFiles()
     {
         var luaPath = LuaSystem.LuaRoot();
-        var resPath = Application.dataPath + "/Game/Resources/LuaFiles";
+        var resPath = Application.dataPath + "/Game/Resources/Text/LuaFiles";
 
         resPath.DeleteDirIfExists();
         resPath.CreateDirIfNotExists();

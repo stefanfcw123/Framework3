@@ -23,4 +23,9 @@
   <Ver Number="22" Explain="1" />
   <Ver Number="23" Explain="1" />
   <Ver Number="24" Explain="1" />
+  <Ver Number="25" Explain="1" />
+  <Ver Number="26" Explain="1" />
+  <Ver Number="27" Explain="1" />
+  <Ver Number="28" Explain="1" />
+  <Ver Number="29" Explain="1" />
 </Root>

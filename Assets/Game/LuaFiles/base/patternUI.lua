@@ -27,7 +27,6 @@ function patternUI:init(spritePool, pH, wheelUI, first, second)
     self.spinSpeed = pH / 4;--这里不能超过规定高度
 
     self.spritePool = spritePool;
-    --todo 检查这里图片数据每次进入都要重置
     self:randomSetImage()
 
     self.first = first;

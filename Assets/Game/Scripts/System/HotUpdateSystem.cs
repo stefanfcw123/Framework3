@@ -60,8 +60,8 @@ public class HotUpdateSystem : GameSystem
             }
         }*/
 
-        yield return null;
         Incident.SendEvent(new StartPlay());
+        yield return null;
     }
 
     private IEnumerator LoadRemoteABFiles()

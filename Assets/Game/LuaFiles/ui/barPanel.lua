@@ -19,7 +19,6 @@ function barPanel:init()
         SetActive(self.gapBonusButton, true);
     end)
     addEvent(WILL_PLAY, function()
-        -- todo 处理自动旋转时候如果点击了返回键怎么办
         self.backButtonImage.sprite = AF:LoadSprite("dt");
         SetActive(self.videoButton);
         SetActive(self.gapBonusButton);

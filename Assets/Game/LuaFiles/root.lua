@@ -75,7 +75,7 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
-
+            --save.addChip(1000)
         --[[        self.x = { "a", "b", "c" };
                 local t = self.x;
                 table.filterItems(t, { "b" });
@@ -170,9 +170,6 @@ function root:init()
     pig2Panel = root.add_ui("pig2Panel");
     evaluatePanel = root.add_ui("evaluatePanel")
 
-    --todo 赢家,规则
-
-     --todo LuaFile路径替换了，包括loader也要更换了。
     global("auto", false)
     global("rotate",false);
 end

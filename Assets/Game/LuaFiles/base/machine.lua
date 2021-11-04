@@ -76,10 +76,32 @@ function machine:dealWithLevelData(keyArr)
     end
 
     assert(table.contentsEqual(keyArr, otherKeyArr));
+    assert(table.isIncreasing(otherKeyArr) == true)
+    local hightBets = table.division(table.division(otherKeyArr, 2)[2], 3);
+    self.hightBetLevel1 = hightBets[1];
+    self.hightBetLevel2 = hightBets[2];
+    self.hightBetLevel3 = hightBets[3];
+    table.print_arr(self.hightBetLevel1, "lv1");
+    table.print_arr(self.hightBetLevel2, "lv2");
+    table.print_arr(self.hightBetLevel3, "lv3");
+
+    self.bets = otherKeyArr;
     -- table.print_arr(weightArr)
     -- table.print_nest_arr(strArr)
     local w = weight.new(weightArr, strArr);
     self.weights = w;
+end
+
+function machine:HightBetLv(bet)
+    local betLv = 0;
+    if table.contains(self.hightBetLevel1, bet) then
+        betLv = 1;
+    elseif table.contains(self.hightBetLevel2, bet) then
+        betLv = 2
+    elseif table.contains(self.hightBetLevel3, bet) then
+        betLv = 3;
+    end
+    return betLv;
 end
 
 function machine:getTargetReturnRate()
@@ -101,6 +123,11 @@ function machine:getRandomMatrix()
     --table.print_nest_arr(res);
     --   print('-----------end')
     return res;
+end
+
+function machine:fixedMatrixMidRow(t)
+    local mid = int((#t / 2));
+    return t[mid + 1];
 end
 
 function machine:WheelNumber()
@@ -162,6 +189,20 @@ function machine:allSameAward(t, samePattern)
     end
     return true;
 end
+
+--todo 后续的spreite从UI找，岂不是更好
+function machine:isNearMiss(t)
+    local temp = {};
+    for i, v in ipairs(t) do
+        if i ~= #t then
+            table.insert(temp, v);
+        end
+    end
+
+    local awardPool = { "s1", "s2", "s3", "s4", "w2", "w3", "w4", "w5" };
+    return self:combinationAward(temp, awardPool);
+end
+
 
 --todo 后面还有限制个数比如2的写法，是否可以自洽
 function machine:combinationAward(t, awardPool)
@@ -272,7 +313,7 @@ function machine:whetherWinning(finalPatterns)
 
     print("machine totalRatio:", resRatio)
 
-    --table.print_nest_arr(finalPatterns)
+    table.print_nest_arr(finalPatterns)
     if SPIN_QUICK then
         self:addData(resRatio, finalPatterns);
     end
@@ -295,8 +336,9 @@ function machine:addData(resRatio, finalPatterns)
     -- self:dataWrite();
 end
 
-function machine:printDatas2()
+function machine:getBetsByWriteDatas()
     local t = {}
+    --这里i其实key注意
     for i, v in pairs(self.writeDatas) do
         table.insert(t, tonumber(i));
     end
@@ -324,7 +366,7 @@ end
 
 function machine:spinStart()
     self.levelData = require("data.Level" .. self.lv .. slotsManage.GetConfigEnum());
-    self:dealWithLevelData(self:printDatas2());
+    self:dealWithLevelData(self:getBetsByWriteDatas());
 end
 
 function machine:spinOver()

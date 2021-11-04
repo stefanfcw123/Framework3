@@ -133,6 +133,26 @@ PrefabInstance:
       propertyPath: m_ReferenceResolution.x
       value: 2400
       objectReference: {fileID: 0}
+    - target: {fileID: 4538834287256839598, guid: 8348bd3733493294e86c727d4c7e6035,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538834287256839598, guid: 8348bd3733493294e86c727d4c7e6035,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538834287256839598, guid: 8348bd3733493294e86c727d4c7e6035,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4538834287256839598, guid: 8348bd3733493294e86c727d4c7e6035,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4538834288019846587, guid: 8348bd3733493294e86c727d4c7e6035,
         type: 3}
       propertyPath: m_Name

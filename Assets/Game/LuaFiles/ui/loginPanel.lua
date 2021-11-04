@@ -7,7 +7,6 @@
 ---@class loginPanel
 local loginPanel = class('loginPanel', popui)
 
---todo 动画细节的完善
 function loginPanel:init()
     loginPanel.super.init(self)
     print("loginPanel init")

@@ -172,7 +172,7 @@ function root:init()
 
     --todo 赢家,规则
 
-
+     --todo LuaFile路径替换了，包括loader也要更换了。
     global("auto", false)
     global("rotate",false);
 end

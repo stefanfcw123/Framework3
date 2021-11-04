@@ -78,6 +78,9 @@ function uiMachine:rollAll()
         slotsManage.R1Change(R1 / 2)
 
         local mC = self:matrixChange(slotsManage.curMachine:getRandomMatrix())
+        local matrix = self:matrixChange(mC);
+        local lineTable = slotsManage.curMachine:fixedMatrixMidRow(matrix);
+        local nearMiss = (math.ratio(NEAR_MISS_RATIO)) and (slotsManage.curMachine:isNearMiss(lineTable));
 
         for i, v in ipairs(self.wheels) do
             self:roll(i, true);
@@ -88,7 +91,17 @@ function uiMachine:rollAll()
 
         for i, v in ipairs(self.wheels) do
             self:roll(i, false, mC)
-            coroutine.yield(WaitForSeconds(slotsManage.R2))
+
+            if i == (#self.wheels - 1) then
+                if nearMiss then
+                    coroutine.yield(WaitForSeconds(slotsManage.R2 * 3))
+                    print("nearMiss")
+                else
+                    coroutine.yield(WaitForSeconds(slotsManage.R2))
+                end
+            else
+                coroutine.yield(WaitForSeconds(slotsManage.R2))
+            end
         end
 
         if SPIN_QUICK then
@@ -96,10 +109,16 @@ function uiMachine:rollAll()
         else
         end
 
-        local matrix = self:getMapPatterns();
+        -- local matrix = self:getMapPatterns();
+
         local bet = slotsManage.curMachine:calculateLines(matrix);
 
-        --todo 验证快速动画过程中金币会少加吗？
+        local hightBetLv = slotsManage.curMachine:HightBetLv(bet);
+        if hightBetLv ~= 0 then
+            playPanel:showHightWinImage(hightBetLv);
+        end
+        print("playPanel:showHightWinImage", hightBetLv)
+
         sendEvent(SPIN_OVER, bet ~= 0, slotsManage.getTotalAward(bet))
         -- print(Time.time, "over")
 
@@ -119,8 +138,6 @@ function uiMachine:randomSetImage()
     end
 end
 
--- todo 单元测试row和col要数据统一
--- todo 限定生成池，不要222，目前第一款游戏哦
 function uiMachine:getMapPatterns(row, col)
     local bigT = {};
     for i, v in ipairs(self.wheels) do
