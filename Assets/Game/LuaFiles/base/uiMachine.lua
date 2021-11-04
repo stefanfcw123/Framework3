@@ -7,7 +7,7 @@
 ---@class uiMachine
 local uiMachine = class('uiMachine')
 
--- todo 后面采用动态生成的话，可以节省很多制造广告UI的时间，是非常值得的后面一定要搞起来
+-- 尽量用动态生成UI减少工作时间
 function uiMachine:ctor(lv)
     self.lv = lv;
     self.go = playPanel.go.transform:Find("Image" .. self.lv).gameObject;
@@ -15,6 +15,8 @@ function uiMachine:ctor(lv)
     local luaMonos = array2table(self.go.transform:Find("Image/Image"), RectTransform, false);
     self.wheels = {};
     local allSprites = self:loadAllSprite();
+    local allSpritesNames = table.selectItems(allSprites, "name");
+    slotsManage.SetAllSpritesNames(allSpritesNames);
 
     for i, v in ipairs(luaMonos) do
         table.insert(self.wheels, v:GetComponent(typeof(CS.LuaMono)).TableIns);
@@ -55,8 +57,6 @@ function uiMachine:SetImageByName(nameLists)
     end
 end
 
-
--- todo 也需要判断字符串是否含有trim()
 function uiMachine:loadAllSprite()
     local arr = AF:LoadSprites(self.lv);
 
@@ -64,6 +64,7 @@ function uiMachine:loadAllSprite()
     for i = 1, arr.Length do
         local s = arr[i - 1];
         table.insert(res, s);
+        assert(string.haveEmpty(s.name) == false, "The image name have empty char!");
     end
     table.insert(res, AF:LoadSprite("Empty"))
 
@@ -104,12 +105,11 @@ function uiMachine:rollAll()
             end
         end
 
-        if SPIN_QUICK then
+        if WRITE_DATA_MODE then
+            -- todo 下次写入还需要验证下这里对不对
             self:randomSetImage();
-        else
+            matrix = self:getMapPatterns();
         end
-
-        -- local matrix = self:getMapPatterns();
 
         local bet = slotsManage.curMachine:calculateLines(matrix);
 
@@ -124,6 +124,7 @@ function uiMachine:rollAll()
 
         rotate = false;
 
+        print("auto", auto)
         if auto then
             coroutine.yield(WaitForSeconds(1 / 10));
             playPanel:spinButtonAction2()

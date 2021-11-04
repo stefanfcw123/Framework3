@@ -169,6 +169,11 @@ function table.contains(arr, val)
     return false;
 end
 
+function table.isSubset(big, small)
+    local temp = table.intersection(big, small);
+    return table.contentsEqual(temp, small);
+end
+
 function table.intersection(arr1, arr2)
     local res = {};
     table.sort(arr1);
@@ -393,6 +398,7 @@ end
 
 
 -- hash
+
 function table.print_hash(hash)
 
     if table.contains_key(hash, 1) then
@@ -450,6 +456,12 @@ function table.contains_value(hash, val)
 end
 
 -- str
+
+function string.haveEmpty(str)
+    local temp = string.match(str, "%s");
+    return temp ~= nil;
+end
+
 function string.value_of(str, index)
     return string.sub(str, index, index)
 end

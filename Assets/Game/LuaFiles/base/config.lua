@@ -4,6 +4,8 @@
 --   time : 2021/9/26 14:39:58                                                                                           
 -------------------------------------------------------
 
+A = string.rep("A", 8);
+B = string.rep("B", 8);
 
 NEAR_MISS_RATIO = 0.3;
 
@@ -28,13 +30,14 @@ CHANEL = ANDROID_CHANEL.Google;
 
 LANGUAGE_KEY = "English";
 
+QUICK_NEARMISS = true;
 LOAD_QUICK = true;
-LEVEL_CONFIG_TEST = true;
+LEVEL_CONFIG_TEST = false;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
 PATTERNS_QUICK = false;
 LOSE_QUICK = false;
-SPIN_QUICK = false;-- todo 也许这里关联的太多了
+WRITE_DATA_MODE = false;
 ANALYSIS = false;
 
 R1 = 1.2;--旋转方面的时间
@@ -43,9 +46,15 @@ R3 = 0.15;
 R4 = 1;--hold的检查时长
 
 local rSpeed = 2;
-if SPIN_QUICK then
+if WRITE_DATA_MODE then
     R1 = R1 / rSpeed;
     R2 = R2 / rSpeed;
     R3 = R3 / rSpeed;
     R4 = R4 / rSpeed;
+end
+
+if QUICK_NEARMISS then
+    NEAR_MISS_RATIO = 1
+else
+    NEAR_MISS_RATIO = 0.3;
 end

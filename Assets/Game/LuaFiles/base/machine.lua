@@ -20,7 +20,7 @@ function machine:ctor(lv)
             }
     );
     self.winningPatterns = {};
-    if not SPIN_QUICK then
+    if not WRITE_DATA_MODE then
         local str = AF:LoadLuaDatas(self.lv);
         self.writeDatas = string.unserialize(str);
     else
@@ -147,7 +147,7 @@ function machine:addMatrix(m)
 end
 
 function machine:calculateLines(finalPatterns)
-    --todo 验证这里有没有从左向右的bug，刚想了下也许后面的模式有问题
+    --todo 这里如果有向上的线上的线，要改变遍历方式
 
 
     local finalPatterns = finalPatterns;
@@ -190,7 +190,6 @@ function machine:allSameAward(t, samePattern)
     return true;
 end
 
---todo 后续的spreite从UI找，岂不是更好
 function machine:isNearMiss(t)
     local temp = {};
     for i, v in ipairs(t) do
@@ -200,11 +199,11 @@ function machine:isNearMiss(t)
     end
 
     local awardPool = { "s1", "s2", "s3", "s4", "w2", "w3", "w4", "w5" };
+    assert(table.isSubset(slotsManage.AllSpritesNames, awardPool));
     return self:combinationAward(temp, awardPool);
 end
 
-
---todo 后面还有限制个数比如2的写法，是否可以自洽
+-- 这个讲究顺序，而且必须是满个数呢，呵呵最好别动，bug有一半是为了优雅改出来的
 function machine:combinationAward(t, awardPool)
     for i, v in ipairs(t) do
         if not table.contains(awardPool, v) then
@@ -258,7 +257,8 @@ end
 function machine:wildBaseRatio(wildPatternTable)
     local res = 1;
     for i, v in ipairs(wildPatternTable) do
-        local num = tonumber(string.value_of(v, 2)); --todo 警惕单个有超过10倍的出现
+        local num = tonumber(string.value_of(v, 2));
+        assert(#tostring(num) == 1, "More than 10 bet");
         res = res * num;
     end
     return res;
@@ -314,7 +314,7 @@ function machine:whetherWinning(finalPatterns)
     print("machine totalRatio:", resRatio)
 
     table.print_nest_arr(finalPatterns)
-    if SPIN_QUICK then
+    if WRITE_DATA_MODE then
         self:addData(resRatio, finalPatterns);
     end
 

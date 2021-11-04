@@ -87,7 +87,7 @@ function patternUI:spinOver()
     self.rect.anchoredPosition = Vector2(self.rect.anchoredPosition.x, self.initY);
 
     local s = DOTween.Sequence()
-    local offset = 60
+    local offset = 70
 
     s:Append(self.rect:DOAnchorPosY(-offset, R3 / 2):SetRelative(true))
     s:Append(self.rect:DOAnchorPosY(offset, R3 / 2):SetRelative(true))
@@ -100,15 +100,17 @@ function patternUI:setAnchoredPositionY(f)
     self.rect.anchoredPosition = Vector2(self.rect.anchoredPosition.x, f);
 end
 
--- todo 偏移起来不能够统一不知道为啥，暂时不想处理了
+--  偏移起来不能够统一，不知道原因，已经尽力了
 function patternUI:Update()
+
+    if WRITE_DATA_MODE then
+        return ;
+    end
+
     if self.isStop then
         return ;
     end
 
-    if SPIN_QUICK then
-        return ;
-    end
 
     self.curY = self.curY - self.spinSpeed;
     if self.curY <= self.first then

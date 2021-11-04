@@ -18,7 +18,7 @@ function playPanel:init()
         self:hide()
     end)
     addEvent(SPIN_OVER, function(isWin, award)
-        if SPIN_QUICK then
+        if WRITE_DATA_MODE then
             return ;
         end
 
@@ -92,7 +92,7 @@ function playPanel:spinButtonAction2()
     --print("spinButtonAction2")
     local reduceSuccess;
 
-    if SPIN_QUICK then
+    if WRITE_DATA_MODE then
         reduceSuccess = true;
     else
         local b = slotsManage.getBet();
@@ -110,8 +110,7 @@ function playPanel:spinButtonAction2()
 end
 
 function playPanel:closeAuto()
-    print(self.spinButton,"sssssssssssssksddssd")
-    --todo 不知道为啥self.spinButton为nil了
+    -- 不知道为啥self.spinButton为nil了  但是这里我用不到了
     if auto then
         auto = false;
         self.spinButton:GetComponent("Image").sprite = AF:LoadSprite("spin1");

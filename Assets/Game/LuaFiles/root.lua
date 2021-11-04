@@ -75,7 +75,7 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
-            --save.addChip(1000)
+        --save.addChip(1000)
         --[[        self.x = { "a", "b", "c" };
                 local t = self.x;
                 table.filterItems(t, { "b" });
@@ -105,9 +105,11 @@ function root:Update()
                 ]]
         -- evaluatePanel:show()
 
-       -- slotsManage.curMachine:dataWrite()
-
-        print("press key a")
+        -- slotsManage.curMachine:dataWrite()
+        local a = " h el lo w orld "
+        local c = "hhhkkk"
+        local k,k2 = string.match(c, "%s");
+        print(k)
     end
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.S) then
         --[[        local txt = AF:LoadTextAsset("Lv1/1")
@@ -118,7 +120,7 @@ function root:Update()
                 end]]
 
 
-       slotsManage.curMachine:getWeightItem();
+        slotsManage.curMachine:getWeightItem();
     end
 
     for i, v in pairs(systems) do
@@ -154,7 +156,7 @@ function root:init()
     level = root.add_sys("level");
     thingFly = root.add_sys("thingFly")
     ad = root.add_sys("ad");
-    analysis =root.add_sys("analysis");
+    analysis = root.add_sys("analysis");
 
     root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");
@@ -171,7 +173,7 @@ function root:init()
     evaluatePanel = root.add_ui("evaluatePanel")
 
     global("auto", false)
-    global("rotate",false);
+    global("rotate", false);
 end
 
 function root.set_tier(go, tier)

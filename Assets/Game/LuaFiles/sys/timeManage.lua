@@ -14,7 +14,6 @@ local function nowTimeStamp()
     return math.floor(CS.TimeHelper.GetNowTimeStamp());
 end
 
-local login = false;
 local loginMaxLv = 7;
 function timeManage.init()
     print("timeManage init")

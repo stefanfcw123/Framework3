@@ -36,6 +36,10 @@ function slotsManage.init()
     end)
 end
 
+function slotsManage.SetAllSpritesNames(t)
+    slotsManage.AllSpritesNames = t;
+end
+
 function slotsManage.ChangeConfigEnum(str)
     local t1 = table.copy(configs);
     table.insert(t1, "T");

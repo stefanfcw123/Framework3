@@ -26,7 +26,7 @@ end
 function spinButton:longPress()
     if not auto then
         if reduceSuccess then
-            auto = true; --todo 这里的循环是要等待所以携程结束
+            auto = true; --循环要等待所以携程结束,必须这样本身复杂度挺高的了，想早点下班就不要乱改
             self:setImg("auto");
         end
     else
