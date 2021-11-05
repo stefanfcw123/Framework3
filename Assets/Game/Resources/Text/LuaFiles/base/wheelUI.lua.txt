@@ -30,7 +30,7 @@ function wheelUI:init(spritePool)
     --  print("second",self:GetPosSecond());
 end
 
---todo 警惕写不好可能的bug哦
+-- todo 这里需要验证是否通用
 function wheelUI:GetPos(index)
     local len = #self. luaMonos;
     local minIndex = len / 2;
@@ -43,7 +43,7 @@ function wheelUI:GetPosFirst()
     return res;
 end
 
---todo 如果增加反，正效果会有bug
+--todo 如果增加反向运转模式，这里就会错
 function wheelUI:GetPosSecond()
     return self:GetPos(0);
 end
@@ -58,9 +58,9 @@ function wheelUI:getPatterns()
     local res = {}
 
     for i, v in ipairs(self.patterns) do
-        -- todo 后期换了长宽这里1就会是错误的
+        -- todo 如果增加反向运转模式，这里就会错
         if i ~= 1 then
-            table.insert(res, v:GetPatternImageName())
+            table.insert(res, v)
         end
     end
 

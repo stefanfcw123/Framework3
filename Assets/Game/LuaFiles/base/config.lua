@@ -4,8 +4,11 @@
 --   time : 2021/9/26 14:39:58                                                                                           
 -------------------------------------------------------
 
-A = string.rep("A", 8);
-B = string.rep("B", 8);
+AWARD_ANIM_DELAY1 = 1;
+AWARD_ANIM_DELAY2 = 1.25;
+
+A = string.rep("A", 13);
+B = string.rep("B", 13);
 
 NEAR_MISS_RATIO = 0.3;
 
@@ -30,9 +33,9 @@ CHANEL = ANDROID_CHANEL.Google;
 
 LANGUAGE_KEY = "English";
 
-QUICK_NEARMISS = true;
+QUICK_NEARMISS = false;
 LOAD_QUICK = true;
-LEVEL_CONFIG_TEST = false;
+LEVEL_CONFIG_TEST = true;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
 PATTERNS_QUICK = false;

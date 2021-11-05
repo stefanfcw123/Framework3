@@ -12,7 +12,8 @@ local pool = class('pool')
 function pool:ctor()
     self.objs = {};
 end
--- todo 感觉时序有问题
+
+-- 感觉时序有问题
 function pool:spawn(name, func)
     local tempGo;
     if #self.objs == 0 then

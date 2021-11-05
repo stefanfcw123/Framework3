@@ -6,7 +6,8 @@
 
 ---@class patternUI
 local patternUI = class('patternUI')
-
+local ratio = 0.55;
+-- 请注意patternUI表示的主要图片的父类哦
 function patternUI:ctor()
 end
 
@@ -49,6 +50,15 @@ function patternUI:GetPatternImageName()
     return self:GetPatternImage().sprite.name;
 end
 
+function patternUI:awardAnim()
+    local imgTrans = self:GetPatternImage().transform;
+    local s = DOTween.Sequence();
+    local offset = 0.125;
+    local totalTime = AWARD_ANIM_DELAY1;
+    s:Append(imgTrans:DOScale(offset, totalTime / 2):SetRelative(true):SetEase(Ease.InOutBounce));
+    s:Append(imgTrans:DOScale(-offset, totalTime / 2):SetRelative(true):SetEase(Ease.InOutBounce));
+end
+
 function patternUI:SetImageByName(name)
     local s = nil;
     for i, v in ipairs(self.spritePool) do
@@ -67,7 +77,11 @@ end
 function patternUI:SetImage(s)
     self:GetPatternImage() .sprite = s;
     self:GetPatternImage():SetNativeSize();
-    self:GetPatternImage().transform.localScale = Vector3.one * 0.6;
+    self:IamgeResetLocalScale();
+end
+
+function patternUI:IamgeResetLocalScale()
+    self:GetPatternImage().transform.localScale = Vector3.one * ratio;
 end
 
 function patternUI:randomSetImage()
@@ -110,7 +124,6 @@ function patternUI:Update()
     if self.isStop then
         return ;
     end
-
 
     self.curY = self.curY - self.spinSpeed;
     if self.curY <= self.first then

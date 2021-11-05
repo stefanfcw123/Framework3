@@ -16,7 +16,7 @@ function analysis.init()
 end
 
 function analysis.returnRate()
-    print("inChip:", analysis.inChip, " outChip:", analysis.outChip)
+  --  print("inChip:", analysis.inChip, " outChip:", analysis.outChip)
     return analysis.inChip / analysis.outChip;
 end
 

@@ -7,7 +7,9 @@
 ---@class shop
 local shop = class('shop')
 
-local pigChip = 1200;
+local pigChipBase = 1200;
+local pigChipAdd = 0;
+
 local pigDoller = 1.99;
 
 local shopMessages = {
@@ -43,21 +45,24 @@ function shop.buy(id)
         save.addChip(shop.shopMessage(id)[1]);
     end
     if id == 7 then
+        --todo 等真的回调
         cs_coroutine.start(function()
             pig2Panel:show();
             coroutine.yield(WaitForSeconds(1.5))
             pig2Panel:closeAnim();
         end)
         save.addChip(shop.getPigChip())
+        pigChipAdd = 0;
+        pigPanel:TotalPigChipRefresh()
     end
 end
 
 function shop.getPigChip()
-    return pigChip;
+    return pigChipBase + pigChipAdd;
 end
 
 function shop.addPigChip(val)
-    pigChip = pigChip + val;
+    pigChipAdd = pigChipAdd + val;
 end
 
 return shop

@@ -119,6 +119,15 @@ end
 
 -- arr
 
+function table.all(t, func)
+    for i, v in ipairs(t) do
+        if func(v) == false then
+            return false;
+        end
+    end
+    return true;
+end
+
 function table.conversion(t)
     local res = {};
     for i, v in ipairs(t) do
@@ -127,8 +136,25 @@ function table.conversion(t)
     return res;
 end
 
+function table.deep_copy(t)
+    --[[    local function deep_copy(orig)
+            local copy
+            if type(orig) == "table" then
+                copy = {}
+                for orig_key, orig_value in next, orig, nil do
+                    copy[deep_copy(orig_key)] = deep_copy(orig_value)
+                end
+                setmetatable(copy, deep_copy(getmetatable(orig)))
+            else
+                copy = orig
+            end
+            return copy
+        end
+        deep_copy(t);]]
+end
+
 function table.removeFirst(t)
-    table.remove(t, 1);
+    return table.remove(t, 1);
 end
 
 function table.real_len(t)
@@ -273,7 +299,7 @@ function table.print_arr(arr, other)
 
     for i = 1, #arr do
         local interval = (i == #arr) and "" or " , ";
-        str = str .. arr[i] .. interval;
+        str = str .. tostring(arr[i]) .. interval;
     end
     if other then
         print(other)
@@ -412,6 +438,17 @@ function table.copy(t)
     return res;
 end
 
+function table.copyMatrix(t)
+    local res = {};
+    for i, v in ipairs(t) do
+        res[i] = {}
+        for i1, v1 in ipairs(v) do
+            res[i][i1] = v1;
+        end
+    end
+    return res;
+end
+
 function table.selectItems(t, str)
 
     local res = {};
@@ -424,14 +461,20 @@ end
 
 -- hash
 
-function table.print_hash(hash)
+function table.print_hash(hash, vIsArry)
 
     if table.contains_key(hash, 1) then
         error("Don't support key is number 1.")
     end
 
     for i, v in pairs(hash) do
-        print(i, v);
+        if vIsArry then
+            local key = tostring(i);
+            print("key:" .. key .. " " .. "val:");
+            table.print_arr(v);
+        else
+            print(i, v);
+        end
     end
 end
 

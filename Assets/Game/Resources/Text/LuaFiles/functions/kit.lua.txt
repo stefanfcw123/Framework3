@@ -4,18 +4,157 @@
 --   time : 2021/9/16 9:59:31
 -------------------------------------------------------
 
--- arr
+-- global func
 
-function table.conversion(t)
-    local res ={};
-    for i, v in ipairs(t) do
-        res[i] =tonumber(v);
+function int(num)
+    return math.modf(num);
+end
+
+function integer(num, count)
+    assert(type(num) == "number")
+    if count == nil then
+        count = 2;
+    end
+
+    if count >= 2 then
+        if num < 100 then
+            print("Warning: too small!")
+        end
+    end
+
+    num = int(num);
+    local numStr = tostring(num);
+    if string.match(numStr, "-") then
+        assert(count <= (#numStr - 2))
+    else
+        assert(count <= (#numStr - 1))
+    end
+
+    local charArr = string.to_char_arr(numStr);
+
+    local counter = 0;
+    for i = #charArr, 1, -1 do
+        charArr[i] = "0";
+        counter = counter + 1;
+        if counter >= count then
+            break ;
+        end
+    end
+
+    return tonumber(table.concat(charArr));
+end
+
+function localize(id)
+    return Language[id][LANGUAGE_KEY];
+end
+
+function readOnlyTable(t)
+    local res = {}
+    setmetatable(res, {
+        __index = t,
+        __newindex = function(t, _)
+            error("Readonly " .. _, 2);
+        end
+    })
+    return res;
+end
+
+function global(key, val)
+    rawset(_G, key, val or false);
+end
+
+function getColor(a, b, c, d)
+    return Color(a / 255, b / 255, c / 255, d / 255);
+end
+
+function SetActive(ui, arg)
+    if arg then
+        ui.gameObject:SetActive(true);
+    else
+        ui.gameObject:SetActive(false);
+    end
+end
+
+function array2table(mono, uiType, isAll, func)
+    local res = {};
+    local array = nil;
+    if isAll then
+        array = mono:GetComponentsInChildren(typeof(uiType))
+    else
+        array = mono.transform:GetChildArray();
+    end
+
+    for i = 1, array.Length do
+        local ui = array[i - 1];
+        if uiType == Button then
+            ui.onClick:AddListener(function()
+                if func then
+                    func(ui);
+                end
+            end)
+        end
+        table.insert(res, ui);
     end
     return res;
 end
 
+function create_enum_table(tbl, idx)
+    local res = {}
+    local index = idx or 0
+
+    for i, v in ipairs(tbl) do
+        res[v] = index + i
+    end
+    return readOnlyTable(res);
+end
+
+function assert_true(val, msg)
+    assert(val, msg)
+end
+
+function randomSeed()
+    math.randomseed(tostring(os.time()):reverse():sub(1, 7));
+end
+
+
+-- arr
+
+function table.all(t, func)
+    for i, v in ipairs(t) do
+        if func(v) == false then
+            return false;
+        end
+    end
+    return true;
+end
+
+function table.conversion(t)
+    local res = {};
+    for i, v in ipairs(t) do
+        res[i] = tonumber(v);
+    end
+    return res;
+end
+
+function table.deep_copy(t)
+    --[[    local function deep_copy(orig)
+            local copy
+            if type(orig) == "table" then
+                copy = {}
+                for orig_key, orig_value in next, orig, nil do
+                    copy[deep_copy(orig_key)] = deep_copy(orig_value)
+                end
+                setmetatable(copy, deep_copy(getmetatable(orig)))
+            else
+                copy = orig
+            end
+            return copy
+        end
+        deep_copy(t);]]
+end
+
 function table.removeFirst(t)
-    table.remove(t, 1);
+    return table.remove(t, 1);
 end
 
 function table.real_len(t)
@@ -79,6 +218,11 @@ function table.contains(arr, val)
         end
     end
     return false;
+end
+
+function table.isSubset(big, small)
+    local temp = table.intersection(big, small);
+    return table.contentsEqual(temp, small);
 end
 
 function table.intersection(arr1, arr2)
@@ -150,21 +294,60 @@ function table.foreach_operation(arr, fn)
     end
 end
 
-function table.print_arr(arr)
+function table.print_arr(arr, other)
     local str = "";
 
     for i = 1, #arr do
         local interval = (i == #arr) and "" or " , ";
-        str = str .. arr[i] .. interval;
+        str = str .. tostring(arr[i]) .. interval;
     end
-
+    if other then
+        print(other)
+    end
     print(str);
 end
 
-function table.print_nest_arr(nest_arr)
+function table.isIncreasing(t)
+    for i = 1, #t - 1 do
+        local first = t[i];
+        local second = t[i + 1];
+        if first > second then
+            return false;
+        end
+    end
+    return true;
+end
+
+function table.print_nest_arr(nest_arr, other)
+    if other then
+        print(other)
+    end
     for i, v in ipairs(nest_arr) do
         table.print_arr(v);
     end
+end
+
+function table.division(t, few)
+    local fewNumber = int(#t / few);
+    local res = {};
+
+    for i = 1, few do
+        res[i] = {};
+    end
+
+    local resIndex = 1;
+
+    while (#t ~= 0) do
+        local first = table.remove(t, 1);
+        table.insert(res[resIndex], first);
+        if (#res[resIndex] >= fewNumber) and (resIndex ~= few) then
+            resIndex = resIndex + 1;
+        end ;
+    end
+
+    assert(resIndex == #res);
+    --table.print_nest_arr(res);
+    return res;
 end
 
 function table.get_range(arr, start, count)
@@ -255,6 +438,17 @@ function table.copy(t)
     return res;
 end
 
+function table.copyMatrix(t)
+    local res = {};
+    for i, v in ipairs(t) do
+        res[i] = {}
+        for i1, v1 in ipairs(v) do
+            res[i][i1] = v1;
+        end
+    end
+    return res;
+end
+
 function table.selectItems(t, str)
 
     local res = {};
@@ -266,14 +460,21 @@ end
 
 
 -- hash
-function table.print_hash(hash)
+
+function table.print_hash(hash, vIsArry)
 
     if table.contains_key(hash, 1) then
         error("Don't support key is number 1.")
     end
 
     for i, v in pairs(hash) do
-        print(i, v);
+        if vIsArry then
+            local key = tostring(i);
+            print("key:" .. key .. " " .. "val:");
+            table.print_arr(v);
+        else
+            print(i, v);
+        end
     end
 end
 
@@ -323,6 +524,12 @@ function table.contains_value(hash, val)
 end
 
 -- str
+
+function string.haveEmpty(str)
+    local temp = string.match(str, "%s");
+    return temp ~= nil;
+end
+
 function string.value_of(str, index)
     return string.sub(str, index, index)
 end
@@ -426,89 +633,8 @@ function string.percent(n)
     return string.format("%.0f%%", N)
 end
 
--- global func
-
-function int(num)
-    return math.modf(num);
+--math
+function math.ratio(f)
+    return math.random() <= f;
 end
 
-function integer10(num)
-    assert(type(num) == "number")
-    num = int(num);
-    local numStr = tostring(num);
-    local charArr = string.to_char_arr(numStr);
-    charArr[#charArr] = "0";
-    return tonumber(table.concat(charArr));
-end
-
-function localize(id)
-    return Language[id][LANGUAGE_KEY];
-end
-
-function readOnlyTable(t)
-    local res = {}
-    setmetatable(res, {
-        __index = t,
-        __newindex = function(t, _)
-            error("Readonly " .. _, 2);
-        end
-    })
-    return res;
-end
-
-function global(key, val)
-    rawset(_G, key, val or false);
-end
-
-function getColor(a, b, c, d)
-    return Color(a / 255, b / 255, c / 255, d / 255);
-end
-
-function SetActive(ui, arg)
-    if arg then
-        ui.gameObject:SetActive(true);
-    else
-        ui.gameObject:SetActive(false);
-    end
-end
-
-function array2table(mono, uiType, isAll, func)
-    local res = {};
-    local array = nil;
-    if isAll then
-        array = mono:GetComponentsInChildren(typeof(uiType))
-    else
-        array = mono.transform:GetChildArray();
-    end
-
-    for i = 1, array.Length do
-        local ui = array[i - 1];
-        if uiType == Button then
-            ui.onClick:AddListener(function()
-                if func then
-                    func(ui);
-                end
-            end)
-        end
-        table.insert(res, ui);
-    end
-    return res;
-end
-
-function create_enum_table(tbl, idx)
-    local res = {}
-    local index = idx or 0
-
-    for i, v in ipairs(tbl) do
-        res[v] = index + i
-    end
-    return readOnlyTable(res);
-end
-
-function assert_true(val, msg)
-    assert(val, msg)
-end
-
-function randomSeed()
-    math.randomseed(tostring(os.time()):reverse():sub(1, 7));
-end

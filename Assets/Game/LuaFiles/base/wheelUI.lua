@@ -60,7 +60,7 @@ function wheelUI:getPatterns()
     for i, v in ipairs(self.patterns) do
         -- todo 如果增加反向运转模式，这里就会错
         if i ~= 1 then
-            table.insert(res, v:GetPatternImageName())
+            table.insert(res, v)
         end
     end
 

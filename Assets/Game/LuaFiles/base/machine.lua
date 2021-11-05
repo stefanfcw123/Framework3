@@ -6,19 +6,17 @@
 
 ---@class machine
 local machine = class('machine')
+local weightFixed = 1000000;
 
 function machine:ctor(lv)
     self.lv = lv;
     self.wheelNum = 3;--col
     self.wheelPatternNum = 3;--row
     self.matrixTable = {};
-    self:addMatrix(
-            {
-                { 0, 0, 0 },
-                { 1, 1, 1 },
-                { 0, 0, 0 },
-            }
-    );
+    self:getLineNumberMatrix();
+
+    self:addMatrixs({ 1, 2 })
+
     self.winningPatterns = {};
     if not WRITE_DATA_MODE then
         local str = AF:LoadLuaDatas(self.lv);
@@ -27,10 +25,89 @@ function machine:ctor(lv)
         self.writeDatas = {};
     end
 
-
     --print("levelDatalen", #self.levelData)
 end
-local weightFixed = 1000000;
+
+function machine:addMatrixs(t)
+    self.addMatrixArgTable = t;
+
+    assert(table.all(t, function(item)
+        return type(item) == "number"
+    end));
+    assert(table.isIncreasing(t));
+
+    for i, v in ipairs(t) do
+        self:addMatrix(self.LineNumberMatrix[tostring(v)]);
+    end
+end
+
+function machine:getLineNumberMatrix()
+    self.LineNumberMatrix = {};
+    local m = self.LineNumberMatrix;
+
+    m["1"] = {
+        { 0, 0, 0 },
+        { 1, 1, 1 },
+        { 0, 0, 0 },
+    }
+
+    m["2"] = {
+        { 1, 1, 1 },
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+    }
+
+    m["3"] = {
+        { 0, 0, 0 },
+        { 0, 0, 0 },
+        { 1, 1, 1 },
+    }
+
+    m["4"] = {
+        { 1, 0, 0 },
+        { 0, 1, 0 },
+        { 0, 0, 1 },
+    }
+
+    m["5"] = {
+        { 0, 0, 1 },
+        { 0, 1, 0 },
+        { 1, 0, 0 },
+    }
+
+    m["6"] = {
+        { 0, 1, 0 },
+        { 0, 0, 0 },
+        { 1, 0, 1 },
+    }
+
+    m["7"] = {
+        { 1, 0, 1 },
+        { 0, 0, 0 },
+        { 0, 1, 0 },
+    }
+
+    m["8"] = {
+        { 0, 1, 0 },
+        { 1, 0, 1 },
+        { 0, 0, 0 },
+    }
+
+    m["9"] = {
+        { 0, 0, 0 },
+        { 1, 0, 1 },
+        { 0, 1, 0 },
+    }
+
+    for i, v in pairs(m) do
+        for i1, v1 in ipairs(v) do
+            for i2, v2 in ipairs(v1) do
+                assert((v2 == 1) or (v2 == 0))
+            end
+        end
+    end
+end
+
 function machine:dealWithLevelData(keyArr)
 
     local f = function(str)
@@ -149,13 +226,13 @@ end
 function machine:calculateLines(finalPatterns)
     --todo 这里如果有向上的线上的线，要改变遍历方式
 
-
     local finalPatterns = finalPatterns;
 
     local fL = #finalPatterns;
     local f1L = #finalPatterns[1];
     assert(fL == self.wheelPatternNum);
     assert(f1L == self.wheelNum);
+    local argTableKeys = {}
 
     for _, v in ipairs(self.matrixTable) do
         local tempPatterns = {};
@@ -169,9 +246,11 @@ function machine:calculateLines(finalPatterns)
             end
         end
         table.insert(self.winningPatterns, tempPatterns);
+        local argTableItem = tostring(self.addMatrixArgTable[_]);
+        table.insert(argTableKeys, argTableItem);
     end
 
-    return self:whetherWinning(finalPatterns);
+    return self:whetherWinning(finalPatterns, argTableKeys);
 end
 
 function machine:knightAward(t, princess, knight)
@@ -265,31 +344,70 @@ function machine:wildBaseRatio(wildPatternTable)
 end
 
 function machine:fixedCopyV(copyV, NotWildPatternTable)
+    -- 这里是设置wild
+    local animalData = {};
     for i, v in ipairs(copyV) do
         if isWildItem(v) then
             copyV[i] = table.get_random_item(NotWildPatternTable);
+            animalData[i] = true;
+        else
+            animalData[i] = false;
         end
     end
+    return animalData;
 end
 
-function machine:whetherWinning(finalPatterns)
+function machine:winAnimalRowBoolean()
+    local res = {};
+    for i = 1, self.wheelNum do
+        res[i] = true;
+    end
+    return res;
+end
+
+function machine:whetherWinning(finalPatterns, argTableKeys)
     local resRatio = 0;
+    self.winAnimalDic = {};
+    local winAnimalDic = self.winAnimalDic;
     for i, v in ipairs(self.winningPatterns) do
         local ratio = 0;
         local wildPatternTable, NotWildPatternTable = self:WildPatterns(v);
         local wildCount = #wildPatternTable;
+        local argTableKey = argTableKeys[i];
+        local animalData = nil;
+
+        local winAnimalRowFill = function(needAnimalData)
+            --todo 一般来讲没有wild都是全部显示，但是有例外下个模式会有问题
+            if needAnimalData == nil then
+                needAnimalData = false;
+            end
+
+            if ratio ~= 0 then
+                if needAnimalData then
+                    winAnimalDic[argTableKey] = animalData;
+                else
+                    winAnimalDic[argTableKey] = self:winAnimalRowBoolean();
+                end
+            end
+        end
 
         if wildCount > 0 then
             if self:knightAward(v, "w5", "w2") then
                 ratio = 1000;
+                winAnimalRowFill();
+
             elseif self:knightAward(v, "w4", "w2") then
                 ratio = 400;
+                winAnimalRowFill();
+
             elseif self:knightAward(v, "w3", "w2") then
                 ratio = 300;
+                winAnimalRowFill();
+
             elseif (wildCount == 1) or (wildCount == 2) then
                 local baseRatio = self:wildBaseRatio(wildPatternTable);
                 local copyV = table.copy(v);
-                self:fixedCopyV(copyV, NotWildPatternTable);
+                animalData = self:fixedCopyV(copyV, NotWildPatternTable);
 
                 local addRatio;
                 local fixedCalculateNotWild = self:calculateNotWild(copyV);
@@ -300,20 +418,28 @@ function machine:whetherWinning(finalPatterns)
                 end
 
                 ratio = baseRatio * addRatio;
+                winAnimalRowFill(addRatio == 1);
+
             else
                 ratio = 0;
+                winAnimalRowFill();
+
             end
         else
             ratio = self:calculateNotWild(v);
+            winAnimalRowFill();
+
         end
 
         resRatio = resRatio + ratio;
         print("machine perRatio:", ratio);
     end
 
-    print("machine totalRatio:", resRatio)
 
-    table.print_nest_arr(finalPatterns)
+
+    -- print("machine totalRatio:", resRatio)
+
+    -- table.print_nest_arr(finalPatterns)
     if WRITE_DATA_MODE then
         self:addData(resRatio, finalPatterns);
     end

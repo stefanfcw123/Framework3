@@ -11,7 +11,6 @@ function slotsMachine1:ctor(lv)
     slotsMachine1.super.ctor(self, lv);
 end
 
--- todo 后期这个方法挪到父亲类
 function slotsMachine1:initMachineUI()
     self.machineUI = require("base.machine.slotsUI" .. tostring(self.lv)).new(self.lv);
     print(self.machineUI, "form slotsMachine1")

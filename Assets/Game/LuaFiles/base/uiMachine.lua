@@ -32,6 +32,11 @@ function uiMachine:ctor(lv)
 
         self.wheels[i]:init(resSp);
     end
+
+    self.mapPatterns = self:getMapPatterns();
+
+    --[[    local nameT = self:getMapPatternNames();
+        table. print_nest_arr(nameT);]]
     print("uiMachine ctor")
 end
 
@@ -108,7 +113,15 @@ function uiMachine:rollAll()
         if WRITE_DATA_MODE then
             -- todo 下次写入还需要验证下这里对不对
             self:randomSetImage();
-            matrix = self:getMapPatterns();
+            matrix = self:getMapPatternNames();
+        end
+
+        if PATTERNS_QUICK then
+            matrix = {
+                { "s3", "w4", "b3" },
+                { "w2", "w3", "w2" },
+                { "s2", "b2", "b2" },
+            }
         end
 
         local bet = slotsManage.curMachine:calculateLines(matrix);
@@ -117,14 +130,52 @@ function uiMachine:rollAll()
         if hightBetLv ~= 0 then
             playPanel:showHightWinImage(hightBetLv);
         end
-        print("playPanel:showHightWinImage", hightBetLv)
+        -- print("playPanel:showHightWinImage", hightBetLv)
 
         sendEvent(SPIN_OVER, bet ~= 0, slotsManage.getTotalAward(bet))
         -- print(Time.time, "over")
 
+        local winAnimalDic = slotsManage.curMachine.winAnimalDic;
+        if table.hash_count(winAnimalDic) > 0 then
+            print(B)
+            self.awardAnimals = cs_coroutine.start(function()
+
+                while true do
+                    for i, v in pairs(winAnimalDic) do
+                        local winAnimal = table.copy(v);
+                        local completeMatrix = table.copyMatrix(slotsManage.curMachine.LineNumberMatrix[i]);
+
+                        --todo 遍历矩阵 machine:calculateLines的方式务必保持一致
+                        for i1, v1 in ipairs(completeMatrix) do
+                            for i2, v2 in ipairs(v1) do
+                                if completeMatrix[i1][i2] == 1 then
+                                    local rmVal = table.removeFirst(winAnimal);
+                                    completeMatrix[i1][i2] = rmVal and 1 or 0;
+                                end
+                            end
+                        end
+
+                        assert(#winAnimal == 0);
+                        --table.print_nest_arr(completeMatrix);
+                        for i1, v1 in ipairs(completeMatrix) do
+                            for i2, v2 in ipairs(v1) do
+                                if v2 == 1 then
+                                    self.mapPatterns[i1][i2]:awardAnim();
+                                end
+                            end
+                        end
+                        --print("---------------------")
+                        coroutine.yield(WaitForSeconds(AWARD_ANIM_DELAY2));
+                    end
+                end
+            end)
+
+            print(B)
+        end
+
         rotate = false;
 
-        print("auto", auto)
+        -- print("auto", auto)
         if auto then
             coroutine.yield(WaitForSeconds(1 / 10));
             playPanel:spinButtonAction2()
@@ -139,7 +190,7 @@ function uiMachine:randomSetImage()
     end
 end
 
-function uiMachine:getMapPatterns(row, col)
+function uiMachine:getMapPatterns()
     local bigT = {};
     for i, v in ipairs(self.wheels) do
         local t = v:getPatterns();
@@ -147,6 +198,17 @@ function uiMachine:getMapPatterns(row, col)
     end
 
     return self:matrixChange(bigT);
+end
+
+function uiMachine:getMapPatternNames()
+    local res = {};
+    for i, v in ipairs(self.mapPatterns) do
+        res[i] = {};
+        for i1, v1 in ipairs(v) do
+            res[i][i1] = v1:GetPatternImageName();
+        end
+    end
+    return res;
 end
 
 function uiMachine:matrixChange(matrix)
@@ -176,6 +238,10 @@ function uiMachine:roll(index, isStart, mC)
 end
 
 function uiMachine:spinStart()
+    if self.awardAnimals then
+        cs_coroutine.stop(self.awardAnimals);
+    end
+
     self:rollAll();
 end
 

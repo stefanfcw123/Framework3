@@ -76,43 +76,52 @@ function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
 
-        print(integer(161,1))
-        print(integer(100,1))
-        print(integer(-100,1))
-        print(integer(211,1))
-        print(integer(201,1))
-        print(integer(1211,1))
-        print(integer(-1211,1))
-        print(integer(-201,1))
-        print(integer(-222,1))
+        local g = { "a", "b" };
+        local c = table.removeFirst(g);
+        print(c);
+        --[[        print(integer(161,1))
+                print(integer(100,1))
+                print(integer(-100,1))
+                print(integer(211,1))
+                print(integer(201,1))
+                print(integer(1211,1))
+                print(integer(-1211,1))
+                print(integer(-201,1))
+                print(integer(-222,1))]]
         --save.addChip(1000)
         --[[        self.x = { "a", "b", "c" };
                 local t = self.x;
                 table.filterItems(t, { "b" });
                 table.print_arr(self.x);]]
 
-        --[[        local t = {
-                    { "w1", "w1", "w1" },
-                    { "w1", "w1", "w1" },
-                    { "w1", "w1", "w1" },
-                }
-                local t2 = {
-                    { "w2", "w2", "w2" },
-                    { "w1", "w1", "w1" },
-                    { "w1", "w1", "w1" },
-                }
-                local t3 = {
-                    { "w3", "w3", "w3" },
-                    { "w1", "w1", "w1" },
-                    { "w1", "w1", "w1" },
-                }
-                local bigT = {};
-                table.insert(bigT, t);
-                table.insert(bigT, t2);
-                table.insert(bigT, t3);
+        local t = {
+            { "w1", "w1", "w1" },
+            { "w1", "w1", "w1" },
+            { "w1", "w1", "w1" },
+        }
+        local t2 = {
+            { "w2", "w2", "w2" },
+            { "w1", "w1", "w1" },
+            { "w1", "w1", "w1" },
+        }
+        local t3 = {
+            { "w3", "w3", "w3" },
+            { "w1", "w1", "w1" },
+            { "w1", "w1", "w1" },
+        }
 
-                CS.IOHelpLua.CreateTemp(string.serialize(bigT));
-                ]]
+        local kkk = table.copyMatrix(t2);
+        kkk[1][1] = "hhhhk"
+        table.print_nest_arr(kkk);
+        print("-----------")
+        table.print_nest_arr(t2);
+
+        --[[                local bigT = {};
+                        table.insert(bigT, t);
+                        table.insert(bigT, t2);
+                        table.insert(bigT, t3);
+
+                        CS.IOHelpLua.CreateTemp(string.serialize(bigT));]]
         -- evaluatePanel:show()
 
         -- slotsManage.curMachine:dataWrite()

@@ -1,6 +1,6 @@
 ﻿local ProductConfig={{ID='',
-	CompanyName='SkyAllen',
-	ProductName='MemoryBread',
+	CompanyName='superwinslots',
+	ProductName='ClassicSlots',
 	ScreenLong=2400,
 	ScreenShort=1080,
 	LandScape=true,

@@ -12,7 +12,7 @@ function buyPanel:init()
     local btns = array2table(self.pImage, Button, true, function(btn)
         local i = string.get_pure_number(btn.name)
         print("buyPanel btn clicked:", i)
-        shop.buy(i + 1);--todo 后面待完善
+        shop.buy(i + 1);
     end);
     for i, v in ipairs(btns) do
         local t = v.transform:Find("titleText"):GetComponent("Text");

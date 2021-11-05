@@ -24,6 +24,7 @@ public class NewBehaviourScript : MonoBehaviour
         RectTransform re = transform as RectTransform;
         re.DOAnchorPosY(10, 2).SetRelative(true);
         re.DOAnchorPosY(3, 2).SetSpeedBased(true).SetEase(Ease.Flash);
+        var g222 = Ease.InBounce;
         //re.DOAnchorPos(Vector2.one, 2f)
         Image g;
         GameObject go;

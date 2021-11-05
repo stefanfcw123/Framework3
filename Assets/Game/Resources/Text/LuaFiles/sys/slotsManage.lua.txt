@@ -14,7 +14,7 @@ local curBet = 0;
 
 slotsManage.curMachine = nil;
 slotsManage.configEnum = nil;
-local t = { "S", "M", "L" }
+local configs = { "S", "M", "L" }
 
 function slotsManage.init()
     print("slots init")
@@ -36,8 +36,14 @@ function slotsManage.init()
     end)
 end
 
+function slotsManage.SetAllSpritesNames(t)
+    slotsManage.AllSpritesNames = t;
+end
+
 function slotsManage.ChangeConfigEnum(str)
-    local a, _ = table.find(t, function(item)
+    local t1 = table.copy(configs);
+    table.insert(t1, "T");
+    local a, _ = table.find(t1, function(item)
         return item == str
     end)
     assert(a ~= nil, "ConfigEnum have Error!");
@@ -47,7 +53,11 @@ function slotsManage.ChangeConfigEnum(str)
 end
 
 function slotsManage.CtrlConfigEnum()
-    slotsManage.ChangeConfigEnum(table.get_random_item(t));
+    if LEVEL_CONFIG_TEST then
+        slotsManage.ChangeConfigEnum("T");
+        return ;
+    end
+    slotsManage.ChangeConfigEnum(table.get_random_item(configs));
 end
 
 function slotsManage.GetConfigEnum()
@@ -91,14 +101,13 @@ function slotsManage.getWin()
 end
 
 function slotsManage.setBet()
-    -- todo 取整要整50呢？
     local liteChip = data.chip * 0.1;
-    local baseNum = 50;
+    local baseNum = 100;
     local perLite = math.max(baseNum, liteChip / maxLv);
     local chipAbout = betLv * perLite;
     local lvAbout = baseNum * level.curLV() + chipAbout * 0.1;
     local res = chipAbout + lvAbout;
-    local intRes = integer10(res);
+    local intRes = integer(res);
     --print("curLv", level.curLV(), "chipAbout", chipAbout, "lvAbout", lvAbout,"initRes",intRes);
     curBet = intRes;
 end
@@ -108,8 +117,8 @@ function slotsManage.getBet()
 end
 
 function slotsManage.getPig()
-    -- todo 也许注意取整呢
-    return slotsManage.getBet() * 0.1;
+    local res = slotsManage.getBet() * 0.1;
+    return integer(res, 1)
 end
 
 return slotsManage

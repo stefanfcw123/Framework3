@@ -9,17 +9,20 @@ local pigPanel = class('pigPanel', popui)
 
 function pigPanel:init()
     pigPanel.super.init(self)
-    self:pigTextRefresh(string.format_foreign(shop.getPigChip()))
-    --todo There refresh will it be outdated?
+
+    self:TotalPigChipRefresh();
     addEvent(SPIN_START, function()
-        self:pigTextRefresh(string.format_foreign(shop.getPigChip()))
+        self:TotalPigChipRefresh();
     end)
     self:buyTextRefresh(string.format("Break Now For $%s", shop.pigDoller()))
 end
 
+function pigPanel:TotalPigChipRefresh()
+    self:pigTextRefresh(string.format_foreign(shop.getPigChip()))
+end
+
 function pigPanel:buyButtonAction()
     sendEvent(SHOP_BUY, 7)
-    -- todo  Buy success clear cache 比如一些累积的金币
 end
 
 --auto

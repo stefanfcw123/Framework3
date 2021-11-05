@@ -4,7 +4,13 @@
 --   time : 2021/9/26 14:39:58                                                                                           
 -------------------------------------------------------
 
+AWARD_ANIM_DELAY1 = 1;
+AWARD_ANIM_DELAY2 = 1.25;
 
+A = string.rep("A", 13);
+B = string.rep("B", 13);
+
+NEAR_MISS_RATIO = 0.3;
 
 NET_TIMEOUT = 4;
 
@@ -27,13 +33,15 @@ CHANEL = ANDROID_CHANEL.Google;
 
 LANGUAGE_KEY = "English";
 
+QUICK_NEARMISS = false;
 LOAD_QUICK = true;
+LEVEL_CONFIG_TEST = true;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
 PATTERNS_QUICK = false;
 LOSE_QUICK = false;
-SPIN_QUICK = false;-- todo 也许这里关联的太多了
-ANALYSIS = true;
+WRITE_DATA_MODE = false;
+ANALYSIS = false;
 
 R1 = 1.2;--旋转方面的时间
 R2 = 0.4;
@@ -41,9 +49,15 @@ R3 = 0.15;
 R4 = 1;--hold的检查时长
 
 local rSpeed = 2;
-if SPIN_QUICK then
+if WRITE_DATA_MODE then
     R1 = R1 / rSpeed;
     R2 = R2 / rSpeed;
     R3 = R3 / rSpeed;
     R4 = R4 / rSpeed;
+end
+
+if QUICK_NEARMISS then
+    NEAR_MISS_RATIO = 1
+else
+    NEAR_MISS_RATIO = 0.3;
 end
