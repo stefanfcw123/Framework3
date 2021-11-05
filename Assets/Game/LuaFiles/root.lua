@@ -75,6 +75,16 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
+
+        print(integer(161,1))
+        print(integer(100,1))
+        print(integer(-100,1))
+        print(integer(211,1))
+        print(integer(201,1))
+        print(integer(1211,1))
+        print(integer(-1211,1))
+        print(integer(-201,1))
+        print(integer(-222,1))
         --save.addChip(1000)
         --[[        self.x = { "a", "b", "c" };
                 local t = self.x;
@@ -106,10 +116,6 @@ function root:Update()
         -- evaluatePanel:show()
 
         -- slotsManage.curMachine:dataWrite()
-        local a = " h el lo w orld "
-        local c = "hhhkkk"
-        local k,k2 = string.match(c, "%s");
-        print(k)
     end
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.S) then
         --[[        local txt = AF:LoadTextAsset("Lv1/1")

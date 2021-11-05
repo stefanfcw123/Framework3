@@ -101,14 +101,13 @@ function slotsManage.getWin()
 end
 
 function slotsManage.setBet()
-    -- todo 取整要整50呢？
     local liteChip = data.chip * 0.1;
-    local baseNum = 50;
+    local baseNum = 100;
     local perLite = math.max(baseNum, liteChip / maxLv);
     local chipAbout = betLv * perLite;
     local lvAbout = baseNum * level.curLV() + chipAbout * 0.1;
     local res = chipAbout + lvAbout;
-    local intRes = integer10(res);
+    local intRes = integer(res);
     --print("curLv", level.curLV(), "chipAbout", chipAbout, "lvAbout", lvAbout,"initRes",intRes);
     curBet = intRes;
 end
@@ -118,8 +117,8 @@ function slotsManage.getBet()
 end
 
 function slotsManage.getPig()
-    -- todo 也许注意取整呢
-    return slotsManage.getBet() * 0.1;
+    local res = slotsManage.getBet() * 0.1;
+    return integer(res, 1)
 end
 
 return slotsManage

@@ -10,12 +10,37 @@ function int(num)
     return math.modf(num);
 end
 
-function integer10(num)
+function integer(num, count)
     assert(type(num) == "number")
+    if count == nil then
+        count = 2;
+    end
+
+    if count >= 2 then
+        if num < 100 then
+            print("Warning: too small!")
+        end
+    end
+
     num = int(num);
     local numStr = tostring(num);
+    if string.match(numStr, "-") then
+        assert(count <= (#numStr - 2))
+    else
+        assert(count <= (#numStr - 1))
+    end
+
     local charArr = string.to_char_arr(numStr);
-    charArr[#charArr] = "0";
+
+    local counter = 0;
+    for i = #charArr, 1, -1 do
+        charArr[i] = "0";
+        counter = counter + 1;
+        if counter >= count then
+            break ;
+        end
+    end
+
     return tonumber(table.concat(charArr));
 end
 

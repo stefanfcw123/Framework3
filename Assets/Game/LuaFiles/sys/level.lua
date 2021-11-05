@@ -51,7 +51,7 @@ end
 
 function level.gapBonusAward()
     local res = curLV * 500 + math.min(data.chip * 0.01, 1000);
-    return integer10(res);
+    return integer(res);
 end
 
 function level.init()
