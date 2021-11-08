@@ -35,7 +35,7 @@ LANGUAGE_KEY = "English";
 
 QUICK_NEARMISS = false;
 LOAD_QUICK = true;
-LEVEL_CONFIG_TEST = true;
+LEVEL_CONFIG_TEST = false;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
 PATTERNS_QUICK = false;

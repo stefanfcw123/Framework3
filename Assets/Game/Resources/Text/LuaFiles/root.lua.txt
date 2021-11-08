@@ -173,7 +173,7 @@ function root:init()
     ad = root.add_sys("ad");
     analysis = root.add_sys("analysis");
 
-    root.add_ui("loadPanel");
+    local l=root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");
     barPanel = root.add_ui("barPanel");
     playPanel = root.add_ui("playPanel")

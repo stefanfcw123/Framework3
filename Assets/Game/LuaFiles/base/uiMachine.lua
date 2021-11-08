@@ -137,7 +137,7 @@ function uiMachine:rollAll()
 
         local winAnimalDic = slotsManage.curMachine.winAnimalDic;
         if table.hash_count(winAnimalDic) > 0 then
-            print(B)
+            --print(B)
             self.awardAnimals = cs_coroutine.start(function()
 
                 while true do
@@ -169,15 +169,14 @@ function uiMachine:rollAll()
                     end
                 end
             end)
-
-            print(B)
+           -- print(B)
         end
 
         rotate = false;
 
         -- print("auto", auto)
         if auto then
-            coroutine.yield(WaitForSeconds(1 / 10));
+            coroutine.yield(WaitForSeconds(0.33));
             playPanel:spinButtonAction2()
         else
         end

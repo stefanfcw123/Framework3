@@ -177,7 +177,7 @@ function uiMachine:rollAll()
 
         -- print("auto", auto)
         if auto then
-            coroutine.yield(WaitForSeconds(1 / 10));
+            coroutine.yield(WaitForSeconds(0.33));
             playPanel:spinButtonAction2()
         else
         end

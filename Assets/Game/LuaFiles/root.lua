@@ -75,10 +75,10 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
-
-        local g = { "a", "b" };
+          print("hello world")
+--[[        local g = { "a", "b" };
         local c = table.removeFirst(g);
-        print(c);
+        print(c);]]
         --[[        print(integer(161,1))
                 print(integer(100,1))
                 print(integer(-100,1))
@@ -94,7 +94,7 @@ function root:Update()
                 table.filterItems(t, { "b" });
                 table.print_arr(self.x);]]
 
-        local t = {
+--[[        local t = {
             { "w1", "w1", "w1" },
             { "w1", "w1", "w1" },
             { "w1", "w1", "w1" },
@@ -114,7 +114,7 @@ function root:Update()
         kkk[1][1] = "hhhhk"
         table.print_nest_arr(kkk);
         print("-----------")
-        table.print_nest_arr(t2);
+        table.print_nest_arr(t2);]]
 
         --[[                local bigT = {};
                         table.insert(bigT, t);
@@ -135,7 +135,7 @@ function root:Update()
                 end]]
 
 
-        slotsManage.curMachine:getWeightItem();
+       -- slotsManage.curMachine:getWeightItem();
     end
 
     for i, v in pairs(systems) do
@@ -173,7 +173,7 @@ function root:init()
     ad = root.add_sys("ad");
     analysis = root.add_sys("analysis");
 
-    root.add_ui("loadPanel");
+    local l=root.add_ui("loadPanel");
     lobbyPanel = root.add_ui("lobbyPanel");
     barPanel = root.add_ui("barPanel");
     playPanel = root.add_ui("playPanel")
