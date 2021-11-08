@@ -119,6 +119,25 @@ end
 
 -- arr
 
+function table.checkAllType(t, str)
+    local typeStr = type(t[1]);
+
+    if str ~= nil then
+        if typeStr ~= str then
+            return false;
+        end
+    end
+
+    for i, v in ipairs(t) do
+        local curType = type(v);
+        if curType ~= typeStr then
+            return false;
+        end
+    end
+
+    return true;
+end
+
 function table.all(t, func)
     for i, v in ipairs(t) do
         if func(v) == false then
@@ -307,11 +326,17 @@ function table.print_arr(arr, other)
     print(str);
 end
 
-function table.isIncreasing(t)
+function table.isIncreasing(t, increasingOne)
     for i = 1, #t - 1 do
         local first = t[i];
         local second = t[i + 1];
-        if first > second then
+
+        local condition = first > second;
+        if increasingOne ~= nil then
+            condition = (first + 1) ~= (second);
+        end
+
+        if condition then
             return false;
         end
     end

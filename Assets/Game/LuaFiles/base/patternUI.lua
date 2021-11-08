@@ -59,7 +59,7 @@ function patternUI:awardAnim()
     s:Append(imgTrans:DOScale(-offset, totalTime / 2):SetRelative(true):SetEase(Ease.InOutBounce));
 end
 
-function patternUI:SetImageByName(name)
+function patternUI:SetImageByName(name)--这里查找一遍，仅仅是为了校验而已
     local s = nil;
     for i, v in ipairs(self.spritePool) do
         if v.name == name then
@@ -67,6 +67,7 @@ function patternUI:SetImageByName(name)
             break ;
         end
     end
+
     if s == nil then
         error("The sprite don't find in self.spritePool")
     end

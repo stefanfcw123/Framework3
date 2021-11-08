@@ -12,18 +12,15 @@ function slotsMachine1:ctor(lv)
 end
 
 function slotsMachine1:initMachineUI()
-    self.machineUI = require("base.machine.slotsUI" .. tostring(self.lv)).new(self.lv);
-    print(self.machineUI, "form slotsMachine1")
+    slotsMachine1.super.initMachineUI(self);
 end
 
 function slotsMachine1:spinStart()
     slotsMachine1.super.spinStart(self)
-    self.machineUI:spinStart();
 end
 
 function slotsMachine1:spinOver()
     slotsMachine1.super.spinOver(self)
-    self.machineUI:spinOver();
 end
 
 return slotsMachine1

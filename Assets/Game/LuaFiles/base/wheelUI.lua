@@ -68,11 +68,12 @@ function wheelUI:getPatterns()
 end
 
 function wheelUI:SetImageByName(names)
-    --print(self.transform.gameObject.name)
-    -- table.print_arr(names);
+    --[[    print(self.transform.gameObject.name)
+         table.print_arr(names);]]
     for i, v in ipairs(self.patterns) do
         if i ~= 1 then
-            v:SetImageByName(names[i - 1])
+            --手动设置第一张是不需要设置的
+            v:SetImageByName(names[i - 1])--依次设置所以要减1，因为是从第二张图片开始的
         end
     end
 end

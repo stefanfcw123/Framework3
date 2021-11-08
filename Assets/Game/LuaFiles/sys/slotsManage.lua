@@ -40,6 +40,36 @@ function slotsManage.SetAllSpritesNames(t)
     slotsManage.AllSpritesNames = t;
 end
 
+function slotsManage.SpritesNameCheck(...)
+    if not CHECK_DATA_RIGHT then
+        return nil;
+    end
+
+    local arg = { ... }
+    local res = {};
+
+    for i, v in ipairs(arg) do
+        local content = v;
+        if type(content) == "string" then
+            table.insert(res, content);
+        elseif type(content) == "table" then
+            table.add_range(res, content);
+        else
+            error("Invalid type!")
+        end
+    end
+
+    print("SpritesNameCheck")
+    assert(table.checkAllType(res, "string"));
+
+    local res = table.distinct(res);--这里我感觉必须去重
+
+    -- table.print_arr(res, "BbbBBBBBB")
+
+    assert(table.isSubset(slotsManage.AllSpritesNames, res));
+    return res;
+end
+
 function slotsManage.ChangeConfigEnum(str)
     local t1 = table.copy(configs);
     table.insert(t1, "T");
@@ -94,10 +124,6 @@ function slotsManage.changeBetLv(n)
     end
     slotsManage.setBet();
     playPanel:betTextRefresh2()
-end
-
-function slotsManage.getWin()
-
 end
 
 function slotsManage.setBet()
