@@ -9,6 +9,7 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+          Image img;
         print(transform.GetSiblingIndex());
         var k = DOTween.Sequence();
         k.Complete();

@@ -6,13 +6,12 @@
 
 ---@class machine
 local machine = class('machine')
-local weightFixed = 1000000;
 
 function machine:ctor(lv)
     self.lv = lv;
-    self.wheelNum = 3;--col
-    self.wheelPatternNum = 3;--row
-    self.matrixTable = {};
+    self.wheelNum = 3;--有几个轮子就有几列
+    self.wheelPatternNum = 3;--每个轮子有几个图案就有几行
+    self.matrixTable = {};--装中奖的线矩阵的
     self:getLineNumberMatrix();
 
     self:addMatrixs({ 1, 2 })
@@ -125,7 +124,7 @@ function machine:dealWithLevelData(keyArr)
             local isW;
             if string.value_of(i, #i) == "w" then
                 isW = true;
-                weightArr[index] = int(v * weightFixed);
+                weightArr[index] = int(v * 1000000);
             else
                 isW = false;
                 strArr[index] = f(v);

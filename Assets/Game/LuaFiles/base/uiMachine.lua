@@ -11,6 +11,7 @@ local uiMachine = class('uiMachine')
 function uiMachine:ctor(lv)
     self.lv = lv;
     self.go = playPanel.go.transform:Find("Image" .. self.lv).gameObject;
+    self.lines = array2table(self.go.transform:Find("Image/GameObject"));
     self.go:GetComponent("Image").sprite = AF:LoadSprite("bg" .. self.lv);
     local luaMonos = array2table(self.go.transform:Find("Image/Image"), RectTransform, false);
     self.wheels = {};
@@ -38,6 +39,24 @@ function uiMachine:ctor(lv)
     --[[    local nameT = self:getMapPatternNames();
         table. print_nest_arr(nameT);]]
     print("uiMachine ctor")
+
+end
+
+function uiMachine:lineAnim(index, isOver)
+    local line = self.lines[index];
+    local img = line.transform:Find("Image"):GetComponent("Image");
+    if isOver then
+        img.fillAmount = 0;
+    else
+        img.fillAmount = 1;
+    end
+
+end
+
+function uiMachine:lineAnimReset()
+    for i, v in ipairs(self.lines) do
+        self:lineAnim(i, true);
+    end
 end
 
 function uiMachine:fixedAllSprite(allSprites, fT)
@@ -156,6 +175,7 @@ function uiMachine:rollAll()
                         end
 
                         assert(#winAnimal == 0);
+                        self:lineAnim(tonumber(i), false);
                         --table.print_nest_arr(completeMatrix);
                         for i1, v1 in ipairs(completeMatrix) do
                             for i2, v2 in ipairs(v1) do
@@ -166,10 +186,11 @@ function uiMachine:rollAll()
                         end
                         --print("---------------------")
                         coroutine.yield(WaitForSeconds(AWARD_ANIM_DELAY2));
+                        self:lineAnim(tonumber(i), true);
                     end
                 end
             end)
-           -- print(B)
+            -- print(B)
         end
 
         rotate = false;
@@ -239,6 +260,7 @@ end
 function uiMachine:spinStart()
     if self.awardAnimals then
         cs_coroutine.stop(self.awardAnimals);
+        self:lineAnimReset();
     end
 
     self:rollAll();
