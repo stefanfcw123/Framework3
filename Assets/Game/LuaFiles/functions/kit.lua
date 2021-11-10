@@ -119,6 +119,21 @@ end
 
 -- arr
 
+function table.csv2table(csvStr)
+    return string.split(csvStr, ",");
+end
+
+function table.table2csv(t)
+    local resTable = {};
+    for i, v in ipairs(t) do
+        table.insert(resTable, v);
+        if i ~= #t then
+            table.insert(resTable, ",")
+        end
+    end
+    return table.concat(resTable);
+end
+
 function table.checkAllType(t, str)
     local typeStr = type(t[1]);
 

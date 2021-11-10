@@ -33,7 +33,7 @@ CHANEL = ANDROID_CHANEL.Google;
 
 LANGUAGE_KEY = "English";
 
-CHECK_DATA_RIGHT = true;
+--CHECK_DATA_RIGHT = true;
 QUICK_NEARMISS = false;
 LOAD_QUICK = true;
 LEVEL_CONFIG_TEST = false;
@@ -48,6 +48,7 @@ R1 = 1.2;--旋转方面的时间
 R2 = 0.4;
 R3 = 0.15;
 R4 = 1;--hold的检查时长
+R5 = 0.33;
 
 local rSpeed = 2;
 if WRITE_DATA_MODE then
@@ -55,6 +56,7 @@ if WRITE_DATA_MODE then
     R2 = R2 / rSpeed;
     R3 = R3 / rSpeed;
     R4 = R4 / rSpeed;
+    R5 = R5 / rSpeed;
 end
 
 if QUICK_NEARMISS then

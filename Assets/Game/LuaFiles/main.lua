@@ -1,9 +1,9 @@
 if jit then
     jit.off();
     jit.flush()
+    print(jit, jit.version, _VERSION)
 end
 
-print(jit, jit.version, _VERSION)
 
 UnityEngine = CS.UnityEngine;
 Canvas = UnityEngine.Canvas

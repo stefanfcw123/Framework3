@@ -41,9 +41,6 @@ function slotsManage.SetAllSpritesNames(t)
 end
 
 function slotsManage.SpritesNameCheck(...)
-    if not CHECK_DATA_RIGHT then
-        return nil;
-    end
 
     local arg = { ... }
     local res = {};
@@ -59,7 +56,7 @@ function slotsManage.SpritesNameCheck(...)
         end
     end
 
-    print("SpritesNameCheck")
+   -- print("SpritesNameCheck")
     assert(table.checkAllType(res, "string"));
 
     local res = table.distinct(res);--这里我感觉必须去重

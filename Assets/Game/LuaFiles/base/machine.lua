@@ -14,15 +14,14 @@ function machine:ctor(lv)
 
     self:getLineNumberMatrix();--初始化中奖线池
 
-    self:addMatrixs({ 1, 2 })--中奖线池添加
+    self:addMatrixs({ 1 })--中奖线池添加
 
     self:initWriteDatas();
 end
 
 function machine:initWriteDatas()
     if not WRITE_DATA_MODE then
-        local str = AF:LoadLuaDatas(self.lv);
-        self.writeDatas = string.unserialize(str);
+        self:ReadData();
     else
         self.writeDatas = {};
     end
@@ -120,6 +119,7 @@ function machine:getLineNumberMatrix()
 end
 
 function machine:dealWithLevelData(keyArr)
+    -- 这里本应该严格在WriteDataMode模式之内的，现在看来还是算了吧
 
     local f = function(str)
         local res = {};
@@ -214,9 +214,10 @@ function machine:getWeightItem()
     return res;
 end
 
-function machine:getRandomMatrix()
+function machine:getRandomMatrixAbout()
     local randomKeys = self:getWeightItem();
     local key = table.get_random_item(randomKeys);
+    --key = "2";
     local res = table.get_random_item(self.writeDatas[key]);
     --[[    print('-----------start')
         table.print_arr(randomKeys);
@@ -258,7 +259,7 @@ function machine:calculateLines(finalPatterns)
     local f1L = #finalPatterns[1];
     assert(fL == self.wheelPatternNum);
     assert(f1L == self.wheelNum);
-    local argTableKeys = {}--提出有哪些是已经中了奖的线了。
+    local argTableKeys = {}--提出有哪些是已经中了奖的线了。比如{1,2,3}，那么有{2}线是中奖的
 
     for _, v in ipairs(self.matrixTable) do
         local tempPatterns = {};
@@ -282,10 +283,10 @@ end
 
 --todo 不适配超过3个轮子的
 function machine:knightAward(t, princess, knight)
---[[    local temp = slotsManage.SpritesNameCheck(princess, knight);
-    if temp then
-        table.print_arr(temp, "牛牛牛牛牛")
-    end]]
+    --[[    local temp = slotsManage.SpritesNameCheck(princess, knight);
+        if temp then
+            table.print_arr(temp, "牛牛牛牛牛")
+        end]]
 
     if t[1] == knight and t[2] == princess and t[3] == knight then
         return true;
@@ -411,9 +412,9 @@ end
 -- todo 这里如果都确定倍率了不应该再计算了真是的,但是我暂时先不动了
 function machine:whetherWinning(finalPatterns, argTableKeys)
     --根据图案获得中奖倍率
-    local resRatio = 0;
+    local resRatio = {};
     self.winAnimalDic = {};
-    local winAnimalDic = self.winAnimalDic;
+    local winAnimalDic = self.winAnimalDic;--key是第几线而已呢
     for i, v in ipairs(self.winningPatterns) do
         local ratio = 0;
         local wildPatternTable, NotWildPatternTable = self:WildPatterns(v);
@@ -476,39 +477,74 @@ function machine:whetherWinning(finalPatterns, argTableKeys)
 
         end
 
-        resRatio = resRatio + ratio;
+        table.insert(resRatio, ratio);
         print("machine perRatio:", ratio);
     end
 
     -- print("machine totalRatio:", resRatio)
     -- table.print_nest_arr(finalPatterns)
-    if WRITE_DATA_MODE then
-        self:addData(resRatio, finalPatterns, false);--真实写注意不要覆盖了，我感觉会很麻烦，如果覆盖了
+
+    self.fixedWinAnimalDic = {}
+    if table.hash_count(winAnimalDic) > 0 then
+        for i, v in pairs(winAnimalDic) do
+            local winAnimal = table.copy(v);
+            local completeMatrix = table.copyMatrix(slotsManage.curMachine.LineNumberMatrix[i]);--这是动画矩阵
+
+            --todo 遍历矩阵 machine:calculateLines的方式务必保持一致
+            for i1, v1 in ipairs(completeMatrix) do
+                for i2, v2 in ipairs(v1) do
+                    if completeMatrix[i1][i2] == 1 then
+                        local rmVal = table.removeFirst(winAnimal);
+                        completeMatrix[i1][i2] = rmVal and 1 or 0;
+                    end
+                end
+            end
+
+            assert(#winAnimal == 0);
+
+            self.fixedWinAnimalDic[i] = completeMatrix;
+        end
     end
 
-    return resRatio;
+    if WRITE_DATA_MODE then
+        self:WriteData(resRatio, finalPatterns, self.fixedWinAnimalDic);--真实写注意不要覆盖了，我感觉会很麻烦，如果覆盖了
+    end
+
+    return table.sum(resRatio);
 end
 
-function machine:addData(resRatio, finalPatterns, realWrite)
+function machine:WriteData(resRatio, finalPatterns, fixedWinAnimalDic)
     --如果是写入模式，添加到data池里，后面统一写入
+    local addContent = function()
+        return {
+            ["a"] = finalPatterns,
+            ["b"] = fixedWinAnimalDic,
+            ["c"] = table.table2csv(resRatio)
+        };--todo 这里欠一个反生成相关
+    end
+
     local datas = self.writeDatas;
-    local key = tostring(resRatio);
+    local key = tostring(table.sum(resRatio));
     if not table.contains_key(datas, key) then
         local t = {}
-        table.insert(t, finalPatterns);
+        table.insert(t, addContent());
         datas[key] = t;
     else
-        table.insert(datas[key], finalPatterns);
+        table.insert(datas[key], addContent());
     end
-    if realWrite then
-        self:dataWrite();
-    end
+
 end
 
-function machine:dataWrite()
+function machine:WData()
     print("machine dataWrite")
     local datas = self.writeDatas;
     CS.IOHelpLua.CreateLevelDatas(self.lv, string.serialize(datas));
+    self:printDatas();
+end
+
+function machine:ReadData()
+    local str = AF:LoadLuaDatas(self.lv);
+    self.writeDatas = string.unserialize(str);
 end
 
 function machine:getBetsByWriteDatas()
@@ -519,7 +555,7 @@ function machine:getBetsByWriteDatas()
         table.insert(t, tonumber(i));
     end
     table.sort(t);
-    table.print_arr(t, B);
+    table.print_arr(t, "AAAABBBBCCCC");
     return t;
 end
 
@@ -527,17 +563,20 @@ function machine:printDatas()
     print("---------Start-----------")
     for i, v in pairs(self.writeDatas) do
         print(string.format("DatasItem %sBet:", i))
-        for i2, v2 in ipairs(v) do
-            print("DatasItemPerMatrix:")
-            -- table.print_nest_arr(v2)
-        end
+        --[[        for i2, v2 in ipairs(v) do
+                    print("DatasItemPerMatrix:")
+                     table.print_nest_arr(v2)
+                end]]
     end
     print("---------End-----------")
 end
 
 function machine:spinStart()
-    self.levelData = require("data.Level" .. self.lv .. slotsManage.GetConfigEnum());
-    self:dealWithLevelData(self:getBetsByWriteDatas());
+    if not WRITE_DATA_MODE then
+        self.levelData = require("data.Level" .. self.lv .. slotsManage.GetConfigEnum());
+        local bets = self:getBetsByWriteDatas();
+        self:dealWithLevelData(bets);
+    end
 
     self.machineUI:spinStart();
 end

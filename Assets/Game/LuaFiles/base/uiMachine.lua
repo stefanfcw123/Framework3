@@ -94,7 +94,7 @@ function uiMachine:loadAllSprite()
         table.insert(res, s);
         assert(string.haveEmpty(s.name) == false, "The image name have empty char!");
     end
-    table.insert(res, AF:LoadSprite("Empty"))
+    table.insert(res, AF:LoadSprite("em"))
 
     return res;
 end
@@ -162,19 +162,22 @@ function uiMachine:rollAll()
         slotsManage.R2Change(R2)--改变时间
         slotsManage.R1Change(R1 / 2)
 
-        local rdmReadDataMatrixIntuitive = slotsManage.curMachine:getRandomMatrix()--得到的是玩家直观的;
-        local matrix = rdmReadDataMatrixIntuitive;
-        if PATTERNS_QUICK then
-            matrix = {
-                { "s3", "w4", "b3" },
-                { "w2", "w3", "w2" },
-                { "s2", "b2", "b2" },
-            }
-        end
+        local matrix = nil;--一直都是直观的
+        --[[        if PATTERNS_QUICK then
+                    matrix = {
+                        { "s3", "w4", "b3" },
+                        { "w2", "w3", "w2" },
+                        { "s2", "b2", "b2" },
+                    }
+                end]]
+        local matrixAbout = nil;--这个里面保护图案还有其他信息
         if WRITE_DATA_MODE then
             -- todo 下次写入还需要验证下这里对不对
             self:randomSetImage();--把隐藏的也设置了但是没有关系
             matrix = self:getMapPatternNames();--从直观的地方获取名字
+        else
+            matrixAbout = slotsManage.curMachine:getRandomMatrixAbout();
+            matrix = matrixAbout["a"]--得到的是玩家直观的;
         end
 
         local nearMissLineTable = slotsManage.curMachine:fixedMatrixMidRow(matrix);--获取nearMiss那条线默认是中间条
@@ -202,66 +205,68 @@ function uiMachine:rollAll()
             end
         end
 
-        local totalBet = slotsManage.curMachine:calculateLines(matrix);
-        local hightBetLv = slotsManage.curMachine:HightBetLv(totalBet);
-        if hightBetLv ~= 0 then
-            playPanel:showHightWinImage(hightBetLv);
+        local totalBet = nil;
+
+        if WRITE_DATA_MODE then
+            totalBet = slotsManage.curMachine:calculateLines(matrix);
+        else
+            totalBet = table.sum(table.csv2table(matrixAbout["c"]));
         end
+
+        if not WRITE_DATA_MODE then
+            local hightBetLv = slotsManage.curMachine:HightBetLv(totalBet);
+            if hightBetLv ~= 0 then
+                playPanel:showHightWinImage(hightBetLv);
+            end
+        end
+
         -- print("playPanel:showHightWinImage", hightBetLv)
         sendEvent(SPIN_OVER, totalBet ~= 0, slotsManage.getTotalAward(totalBet))
         rotate = false;
 
-        local winAnimalDic = slotsManage.curMachine.winAnimalDic;--动画相关
-        if table.hash_count(winAnimalDic) > 0 then
-            --print(B)
-            self.awardAnimals = cs_coroutine.start(function()
-                while true do
-                    for i, v in pairs(winAnimalDic) do
-                        local winAnimal = table.copy(v);
-                        local completeMatrix = table.copyMatrix(slotsManage.curMachine.LineNumberMatrix[i]);--这是动画矩阵
+        local fixedWinAnimalDic = nil;
+        if WRITE_DATA_MODE then
+            fixedWinAnimalDic = slotsManage.curMachine.fixedWinAnimalDic;--动画相关
+        else
+            fixedWinAnimalDic = matrixAbout["b"];
+            --print("hhhhhhhhhhhhhlkkk")
+            if table.hash_count(fixedWinAnimalDic) > 0 then
+                --print(B)
+                self.awardAnimals = cs_coroutine.start(function()
+                    while true do
+                        for i, v in pairs(fixedWinAnimalDic) do
+                            local completeMatrix = v;
 
-                        --todo 遍历矩阵 machine:calculateLines的方式务必保持一致
-                        for i1, v1 in ipairs(completeMatrix) do
-                            for i2, v2 in ipairs(v1) do
-                                if completeMatrix[i1][i2] == 1 then
-                                    local rmVal = table.removeFirst(winAnimal);
-                                    completeMatrix[i1][i2] = rmVal and 1 or 0;
+                            self:lineAnim(tonumber(i), false);
+
+                            --table.print_nest_arr(completeMatrix);
+                            for i1, v1 in ipairs(completeMatrix) do
+                                --得到动画矩阵后再播放单个的
+                                for i2, v2 in ipairs(v1) do
+                                    if v2 == 1 then
+                                        self.mapPatterns[i1][i2]:awardAnim();
+                                    end
                                 end
                             end
+                            --print("---------------------")
+                            coroutine.yield(WaitForSeconds(AWARD_ANIM_DELAY2));
+
+                            self:lineAnim(tonumber(i), true);
                         end
-
-                        assert(#winAnimal == 0);
-
-                        self:lineAnim(tonumber(i), false);
-
-                        --table.print_nest_arr(completeMatrix);
-                        for i1, v1 in ipairs(completeMatrix) do
-                            --得到动画矩阵后再播放单个的
-                            for i2, v2 in ipairs(v1) do
-                                if v2 == 1 then
-                                    self.mapPatterns[i1][i2]:awardAnim();
-                                end
-                            end
-                        end
-                        --print("---------------------")
-                        coroutine.yield(WaitForSeconds(AWARD_ANIM_DELAY2));
-
-                        self:lineAnim(tonumber(i), true);
                     end
-                end
-            end)
-            -- print(B)
+                end)
+                -- print(B)
+            end
         end
 
         -- print("auto", auto)--继续相关
         if auto then
-            coroutine.yield(WaitForSeconds(0.33));
+            coroutine.yield(WaitForSeconds(R5));
             playPanel:spinButtonAction2()
         else
         end
     end)
 end
-
 
 function uiMachine:SetImageByName(nameLists)
     --这个要非直观的3x3

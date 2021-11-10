@@ -75,7 +75,9 @@ end
 function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
-        print("hello world")
+
+--[[        local k = { 1, "2", "a", 3, 4 };
+        print(table.table2csv(k));]]
 
         --[[        local g = { "a", "b" };
                 local c = table.removeFirst(g);
@@ -125,7 +127,7 @@ function root:Update()
                         CS.IOHelpLua.CreateTemp(string.serialize(bigT));]]
         -- evaluatePanel:show()
 
-        -- slotsManage.curMachine:dataWrite()
+         slotsManage.curMachine:WData()
     end
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.S) then
         --[[        local txt = AF:LoadTextAsset("Lv1/1")
