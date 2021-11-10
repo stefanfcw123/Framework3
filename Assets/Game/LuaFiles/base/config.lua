@@ -36,13 +36,14 @@ LANGUAGE_KEY = "English";
 --CHECK_DATA_RIGHT = true;
 QUICK_NEARMISS = false;
 LOAD_QUICK = true;
-LEVEL_CONFIG_TEST = false;
+LEVEL_CONFIG_TEST = true;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
-PATTERNS_QUICK = false;
+PATTERNS_QUICK = true;
 LOSE_QUICK = false;
-WRITE_DATA_MODE = false;
+WRITE_DATA_MODE = true;
 ANALYSIS = false;
+LOCK_QUICK=true;
 
 R1 = 1.2;--旋转方面的时间
 R2 = 0.4;

@@ -21,7 +21,7 @@ function uiMachine:ctor(lv)
 end
 function uiMachine:initBaseData(lv)
     self.lv = lv;
-    self.go = playPanel.go.transform:Find("Image" .. self.lv).gameObject;
+    self.go = playPanel.go.transform:Find("lvGameObject/Image" .. self.lv).gameObject;
     self.lines = array2table(self.go.transform:Find("Image/GameObject"));
     self.go:GetComponent("Image").sprite = AF:LoadSprite("bg" .. self.lv);
 end
@@ -142,11 +142,16 @@ function uiMachine:matrixChange(matrix)
     return res;
 end
 
-function uiMachine:spinStart()
+function uiMachine:stopAllAnimal()
     if self.awardAnimals then
         cs_coroutine.stop(self.awardAnimals);
         self:lineAnimReset();
+        print("停止了携程")
     end
+end
+
+function uiMachine:spinStart()
+    self:stopAllAnimal();
 
     self:rollAll();
 end
@@ -163,13 +168,7 @@ function uiMachine:rollAll()
         slotsManage.R1Change(R1 / 2)
 
         local matrix = nil;--一直都是直观的
-        --[[        if PATTERNS_QUICK then
-                    matrix = {
-                        { "s3", "w4", "b3" },
-                        { "w2", "w3", "w2" },
-                        { "s2", "b2", "b2" },
-                    }
-                end]]
+
         local matrixAbout = nil;--这个里面保护图案还有其他信息
         if WRITE_DATA_MODE then
             -- todo 下次写入还需要验证下这里对不对
@@ -178,6 +177,14 @@ function uiMachine:rollAll()
         else
             matrixAbout = slotsManage.curMachine:getRandomMatrixAbout();
             matrix = matrixAbout["a"]--得到的是玩家直观的;
+        end
+
+        if PATTERNS_QUICK then
+            matrix = {
+                { "s3", "b1", "b3" },
+                { "s4", "b2", "s4" },
+                { "s2", "b2", "b2" },
+            }
         end
 
         local nearMissLineTable = slotsManage.curMachine:fixedMatrixMidRow(matrix);--获取nearMiss那条线默认是中间条
@@ -230,33 +237,34 @@ function uiMachine:rollAll()
         else
             fixedWinAnimalDic = matrixAbout["b"];
             --print("hhhhhhhhhhhhhlkkk")
-            if table.hash_count(fixedWinAnimalDic) > 0 then
-                --print(B)
-                self.awardAnimals = cs_coroutine.start(function()
-                    while true do
-                        for i, v in pairs(fixedWinAnimalDic) do
-                            local completeMatrix = v;
+        end
 
-                            self:lineAnim(tonumber(i), false);
+        if table.hash_count(fixedWinAnimalDic) > 0 then
+            --print(B)
+            self.awardAnimals = cs_coroutine.start(function()
+                while true do
+                    for i, v in pairs(fixedWinAnimalDic) do
+                        local completeMatrix = v;
 
-                            --table.print_nest_arr(completeMatrix);
-                            for i1, v1 in ipairs(completeMatrix) do
-                                --得到动画矩阵后再播放单个的
-                                for i2, v2 in ipairs(v1) do
-                                    if v2 == 1 then
-                                        self.mapPatterns[i1][i2]:awardAnim();
-                                    end
+                        self:lineAnim(tonumber(i), false);
+
+                        --table.print_nest_arr(completeMatrix);
+                        for i1, v1 in ipairs(completeMatrix) do
+                            --得到动画矩阵后再播放单个的
+                            for i2, v2 in ipairs(v1) do
+                                if v2 == 1 then
+                                    self.mapPatterns[i1][i2]:awardAnim();
                                 end
                             end
-                            --print("---------------------")
-                            coroutine.yield(WaitForSeconds(AWARD_ANIM_DELAY2));
-
-                            self:lineAnim(tonumber(i), true);
                         end
+                        --print("---------------------")
+                        coroutine.yield(WaitForSeconds(AWARD_ANIM_DELAY2));
+
+                        self:lineAnim(tonumber(i), true);
                     end
-                end)
-                -- print(B)
-            end
+                end
+            end)
+            -- print(B)
         end
 
         -- print("auto", auto)--继续相关

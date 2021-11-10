@@ -56,13 +56,15 @@ function slotsManage.SpritesNameCheck(...)
         end
     end
 
-   -- print("SpritesNameCheck")
+    -- print("SpritesNameCheck")
     assert(table.checkAllType(res, "string"));
 
-    local res = table.distinct(res);--这里我感觉必须去重
+   -- local res = table.distinct(res);--这里我感觉不是必须去重
 
-    -- table.print_arr(res, "BbbBBBBBB")
+    assert((#table.distinct(res)) == #res)
 
+    table.print_arr(res, A);
+    table.print_arr(slotsManage.AllSpritesNames, B);
     assert(table.isSubset(slotsManage.AllSpritesNames, res));
     return res;
 end

@@ -17,6 +17,7 @@ function machine:ctor(lv)
     self:addMatrixs({ 1 })--中奖线池添加
 
     self:initWriteDatas();
+
 end
 
 function machine:initWriteDatas()
@@ -283,14 +284,27 @@ end
 
 --todo 不适配超过3个轮子的
 function machine:knightAward(t, princess, knight)
-    --[[    local temp = slotsManage.SpritesNameCheck(princess, knight);
-        if temp then
-            table.print_arr(temp, "牛牛牛牛牛")
-        end]]
+    local temp = slotsManage.SpritesNameCheck(princess, knight);
 
     if t[1] == knight and t[2] == princess and t[3] == knight then
         return true;
     end
+    return false;
+end
+
+function machine:CountAward(t, pattern, count)
+    slotsManage.SpritesNameCheck(pattern)
+
+    local curCount = 0;
+    for i, v in ipairs(t) do
+        if v == pattern then
+            curCount = curCount + 1;
+            if curCount >= count then
+                return true;
+            end
+        end
+    end
+
     return false;
 end
 
@@ -305,9 +319,13 @@ function machine:allSameAward(t, samePattern)
     return true;
 end
 
-function machine:isNearMiss(t)
+function machine:nearMissCheck()
     local awardPool = { "s1", "s2", "s3", "s4", "w2", "w3", "w4", "w5" };
     slotsManage.SpritesNameCheck(awardPool);
+    return awardPool;
+end
+
+function machine:isNearMiss(t)
 
     local temp = {};
     for i, v in ipairs(t) do
@@ -316,7 +334,7 @@ function machine:isNearMiss(t)
         end
     end
 
-    return self:combinationAward(temp, awardPool);
+    return self:combinationAward(temp, self:nearMissCheck());
 end
 
 -- 这个讲究顺序，而且必须是满个数呢，呵呵最好别动，bug有一半是为了优雅改出来的
@@ -378,7 +396,8 @@ function machine:wildBaseRatio(wildPatternTable)
     --从每一行提取wild基础赔率
     local res = 1;
     for i, v in ipairs(wildPatternTable) do
-        local num = tonumber(string.value_of(v, 2));
+        local num = string.get_pure_number()
+        tonumber(string.value_of(v, 2));--todo 这里要修改倍率
         assert(#tostring(num) == 1, "More than 10 bet");
         res = res * num;
     end
@@ -408,8 +427,13 @@ function machine:winAnimalRowBoolean()
     end
     return res;
 end
+
+function machine:calculateWild(v, ratio, wildCount, wildPatternTable, NotWildPatternTable, animalData, winAnimalRowFill)
+end
+
 -- 如果有单独不是方法的不要漏了去checkRight,
--- todo 这里如果都确定倍率了不应该再计算了真是的,但是我暂时先不动了
+
+--todo  winAnimalRowFill一般来讲没有wild都是全部显示，但是有例外下个模式会有问题
 function machine:whetherWinning(finalPatterns, argTableKeys)
     --根据图案获得中奖倍率
     local resRatio = {};
@@ -423,7 +447,7 @@ function machine:whetherWinning(finalPatterns, argTableKeys)
         local animalData = nil;
 
         local winAnimalRowFill = function(needAnimalData)
-            --todo 一般来讲没有wild都是全部显示，但是有例外下个模式会有问题
+
             if needAnimalData == nil then
                 needAnimalData = false;
             end
@@ -474,7 +498,6 @@ function machine:whetherWinning(finalPatterns, argTableKeys)
         else
             ratio = self:calculateNotWild(v);
             winAnimalRowFill();
-
         end
 
         table.insert(resRatio, ratio);
@@ -520,7 +543,7 @@ function machine:WriteData(resRatio, finalPatterns, fixedWinAnimalDic)
             ["a"] = finalPatterns,
             ["b"] = fixedWinAnimalDic,
             ["c"] = table.table2csv(resRatio)
-        };--todo 这里欠一个反生成相关
+        };
     end
 
     local datas = self.writeDatas;

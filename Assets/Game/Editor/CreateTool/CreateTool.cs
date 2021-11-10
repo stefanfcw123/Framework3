@@ -709,6 +709,7 @@ return $table$
                 }
                 else
                 {
+                    //--todo playPanel要触发解决一下bug
                     Log.LogException(new Exception("already have the key"));
                 }
             }

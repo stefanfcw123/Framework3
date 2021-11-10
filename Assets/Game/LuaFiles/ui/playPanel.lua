@@ -16,6 +16,8 @@ function playPanel:init()
     addEvent(BACK_LOBBY, function()
         --  playPanel:closeAuto();
         self:hide()
+        local ui = slotsManage.curMachine.machineUI;
+        ui:stopAllAnimal();
     end)
     addEvent(SPIN_OVER, function(isWin, award)
         if WRITE_DATA_MODE then
@@ -66,6 +68,16 @@ function playPanel:init()
     end
 
     self.hightWinImage.gameObject:SetActive(false);
+
+    self.lvChilds = array2table(self.lvGameObject)
+    --table.print_arr(self.lvChilds, "lvChilds")
+end
+
+function playPanel:showLvChild(lv)
+    for i, v in ipairs(self.lvChilds) do
+        v.gameObject:SetActive(false);
+    end
+    self.lvChilds[lv].gameObject:SetActive(true);
 end
 
 function playPanel:betTextRefresh2()
@@ -133,41 +145,72 @@ function playPanel:addButtonAction()
 end
 
 --auto
-   
+
 function playPanel:ctor(go, tier)
     playPanel.super.ctor(self, go, tier)
-	self.lineImage1=self.go.transform:Find("Image1/Image/GameObject/lineImage1"):GetComponent('Image');
-	self.lineImage2=self.go.transform:Find("Image1/Image/GameObject/lineImage2"):GetComponent('Image');
-	self.tipButton=self.go.transform:Find("Image/tipButton"):GetComponent('Button');
-	self.reduceButton=self.go.transform:Find("Image/Image/reduceButton"):GetComponent('Button');
-	self.addButton=self.go.transform:Find("Image/Image/addButton"):GetComponent('Button');
-	self.betText=self.go.transform:Find("Image/Image/betText"):GetComponent('Text');
-	self.winText=self.go.transform:Find("Image/Image (1)/winText"):GetComponent('Text');
-	self.spinButton=self.go.transform:Find("Image/spinButton"):GetComponent('Button');
-	self.TipGameObject=self.go.transform:Find("TipGameObject").gameObject;
-	self.ReturnRateText=self.go.transform:Find("TipGameObject/ReturnRateText"):GetComponent('Text');
-	self.targetReturnRateText=self.go.transform:Find("TipGameObject/targetReturnRateText"):GetComponent('Text');
-	self.ConfigEnumText=self.go.transform:Find("TipGameObject/ConfigEnumText"):GetComponent('Text');
-	self.hightWinImage=self.go.transform:Find("hightWinImage"):GetComponent('Image');
-	self.hightWinText=self.go.transform:Find("hightWinImage/hightWinText"):GetComponent('Text');
-	
-    self.tipButton.onClick:AddListener(function()self:tipButtonAction()end);
-	self.reduceButton.onClick:AddListener(function()self:reduceButtonAction()end);
-	self.addButton.onClick:AddListener(function()self:addButtonAction()end);
-	self.spinButton.onClick:AddListener(function()self:spinButtonAction()end);
-	
+    self.lvGameObject = self.go.transform:Find("lvGameObject").gameObject;
+    self.lineImage1 = self.go.transform:Find("lvGameObject/Image1/Image/GameObject/lineImage1"):GetComponent('Image');
+    self.lineImage2 = self.go.transform:Find("lvGameObject/Image1/Image/GameObject/lineImage2"):GetComponent('Image');
+    self.tipButton = self.go.transform:Find("ImageCtrl/tipButton"):GetComponent('Button');
+    self.reduceButton = self.go.transform:Find("ImageCtrl/Image/reduceButton"):GetComponent('Button');
+    self.addButton = self.go.transform:Find("ImageCtrl/Image/addButton"):GetComponent('Button');
+    self.betText = self.go.transform:Find("ImageCtrl/Image/betText"):GetComponent('Text');
+    self.winText = self.go.transform:Find("ImageCtrl/Image (1)/winText"):GetComponent('Text');
+    self.spinButton = self.go.transform:Find("ImageCtrl/spinButton"):GetComponent('Button');
+    self.TipGameObject = self.go.transform:Find("TipGameObject").gameObject;
+    self.ReturnRateText = self.go.transform:Find("TipGameObject/ReturnRateText"):GetComponent('Text');
+    self.targetReturnRateText = self.go.transform:Find("TipGameObject/targetReturnRateText"):GetComponent('Text');
+    self.ConfigEnumText = self.go.transform:Find("TipGameObject/ConfigEnumText"):GetComponent('Text');
+    self.hightWinImage = self.go.transform:Find("hightWinImage"):GetComponent('Image');
+    self.hightWinText = self.go.transform:Find("hightWinImage/hightWinText"):GetComponent('Text');
+
+    self.tipButton.onClick:AddListener(function()
+        self:tipButtonAction()
+    end);
+    self.reduceButton.onClick:AddListener(function()
+        self:reduceButtonAction()
+    end);
+    self.addButton.onClick:AddListener(function()
+        self:addButtonAction()
+    end);
+    self.spinButton.onClick:AddListener(function()
+        self:spinButtonAction()
+    end);
+
 end
-	
-    function playPanel:lineImage1Refresh(t)self.lineImage1.sprite=t;end
-	function playPanel:lineImage2Refresh(t)self.lineImage2.sprite=t;end
-	function playPanel:betTextRefresh(t)self.betText.text=t;end
-	function playPanel:winTextRefresh(t)self.winText.text=t;end
-	function playPanel:TipGameObjectSetParent(t)t.transform:SetParent(self.TipGameObject.transform,false);end
-	function playPanel:ReturnRateTextRefresh(t)self.ReturnRateText.text=t;end
-	function playPanel:targetReturnRateTextRefresh(t)self.targetReturnRateText.text=t;end
-	function playPanel:ConfigEnumTextRefresh(t)self.ConfigEnumText.text=t;end
-	function playPanel:hightWinImageRefresh(t)self.hightWinImage.sprite=t;end
-	function playPanel:hightWinTextRefresh(t)self.hightWinText.text=t;end
-	    
+
+function playPanel:lvGameObjectSetParent(t)
+    t.transform:SetParent(self.lvGameObject.transform, false);
+end
+function playPanel:lineImage1Refresh(t)
+    self.lineImage1.sprite = t;
+end
+function playPanel:lineImage2Refresh(t)
+    self.lineImage2.sprite = t;
+end
+function playPanel:betTextRefresh(t)
+    self.betText.text = t;
+end
+function playPanel:winTextRefresh(t)
+    self.winText.text = t;
+end
+function playPanel:TipGameObjectSetParent(t)
+    t.transform:SetParent(self.TipGameObject.transform, false);
+end
+function playPanel:ReturnRateTextRefresh(t)
+    self.ReturnRateText.text = t;
+end
+function playPanel:targetReturnRateTextRefresh(t)
+    self.targetReturnRateText.text = t;
+end
+function playPanel:ConfigEnumTextRefresh(t)
+    self.ConfigEnumText.text = t;
+end
+function playPanel:hightWinImageRefresh(t)
+    self.hightWinImage.sprite = t;
+end
+function playPanel:hightWinTextRefresh(t)
+    self.hightWinText.text = t;
+end
 
 return playPanel

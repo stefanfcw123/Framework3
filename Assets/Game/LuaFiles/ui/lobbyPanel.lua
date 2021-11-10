@@ -13,16 +13,21 @@ local function initButton(self)
     btns = array2table(self.CGameObject, Button, true);
     for i = 1, #btns do
         btns[i].onClick:AddListener(function()
-            local isOpen;
 
             local curLv = level.curLV();
             local needLv = level.needLv(i);
-            if curLv >= needLv then
-                isOpen = true;
+            local isOpen = curLv >= needLv;
+
+            if LOCK_QUICK then
+                isOpen = true
+            end
+
+            if isOpen then
+                playPanel:showLvChild(i)
+
                 sendEvent(WILL_PLAY, i);
                 print(" lobbyPanel btn click " .. i)
             else
-                isOpen = false;
                 print("This level is lock !")
             end
         end)
