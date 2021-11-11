@@ -43,10 +43,6 @@ end
 
 function machine:addMatrixs(t)
 
-    if not WRITE_DATA_MODE then
-        return ;
-    end
-
     self.addMatrixArgTable = t;
 
     assert(table.all(t, function(item)
@@ -535,6 +531,7 @@ function machine:setFixedWinAnimalDic()
     if table.hash_count(winAnimalDic) > 0 then
         for i, v in pairs(winAnimalDic) do
             local winAnimal = table.copy(v);
+            --table.print_arr(winAnimal,"winAnimal")
             local completeMatrix = table.copyMatrix(slotsManage.curMachine.LineNumberMatrix[i]);--这是动画矩阵
 
             --todo 遍历矩阵 machine:calculateLines的方式务必保持一致

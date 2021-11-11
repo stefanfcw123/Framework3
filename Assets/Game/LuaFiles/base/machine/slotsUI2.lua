@@ -47,7 +47,7 @@ end
 function slotsUI2:quickPatterns()
     return {
         { "s3", "b1", "b3", "w2" },
-        { "s4", "s3", "s4", "w2" },
+        { "s4", "s4", "s2", "w2" },
         { "s2", "b2", "b2", "w2" },
     };
 end
