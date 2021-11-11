@@ -14,7 +14,9 @@ function machine:ctor(lv)
 
     self:getLineNumberMatrix();--初始化中奖线池
 
-    self:addMatrixs({ 1 })--中奖线池添加
+    self:CheckLineNumberMatrix(self.LineNumberMatrix);
+
+    self:addMatrixs({1})--中奖线池添加
 
     self:initWriteDatas();
 
@@ -40,6 +42,11 @@ function machine:initRowCol()
 end
 
 function machine:addMatrixs(t)
+
+    if not WRITE_DATA_MODE then
+        return ;
+    end
+
     self.addMatrixArgTable = t;
 
     assert(table.all(t, function(item)
@@ -109,7 +116,9 @@ function machine:getLineNumberMatrix()
         { 1, 0, 1 },
         { 0, 1, 0 },
     }
+end
 
+function machine:CheckLineNumberMatrix(m)
     for i, v in pairs(m) do
         for i1, v1 in ipairs(v) do
             for i2, v2 in ipairs(v1) do
@@ -278,12 +287,12 @@ function machine:calculateLines(finalPatterns)
         table.insert(argTableKeys, argTableItem);
     end
 
-    table.print_arr(argTableKeys, B);
+    --table.print_arr(argTableKeys, B);
     return self:whetherWinning(finalPatterns, argTableKeys);
 end
 
---todo 不适配超过3个轮子的
 function machine:knightAward(t, princess, knight)
+    assert(#t ~= 3);
     local temp = slotsManage.SpritesNameCheck(princess, knight);
 
     if t[1] == knight and t[2] == princess and t[3] == knight then
@@ -396,11 +405,10 @@ function machine:wildBaseRatio(wildPatternTable)
     --从每一行提取wild基础赔率
     local res = 1;
     for i, v in ipairs(wildPatternTable) do
-        local num = string.get_pure_number()
-        tonumber(string.value_of(v, 2));--todo 这里要修改倍率
-        assert(#tostring(num) == 1, "More than 10 bet");
+        local num = string.get_pure_number(v)
         res = res * num;
     end
+    --  print(res, "11111111111111111111111")
     return res;
 end
 
@@ -431,10 +439,7 @@ end
 function machine:calculateWild(v, ratio, wildCount, wildPatternTable, NotWildPatternTable, animalData, winAnimalRowFill)
 end
 
--- 如果有单独不是方法的不要漏了去checkRight,
-
---todo  winAnimalRowFill一般来讲没有wild都是全部显示，但是有例外下个模式会有问题
-function machine:whetherWinning(finalPatterns, argTableKeys)
+function machine:mainWhetherWinning(finalPatterns, argTableKeys)
     --根据图案获得中奖倍率
     local resRatio = {};
     self.winAnimalDic = {};
@@ -503,10 +508,29 @@ function machine:whetherWinning(finalPatterns, argTableKeys)
         table.insert(resRatio, ratio);
         print("machine perRatio:", ratio);
     end
+    return resRatio;
+end
+
+
+-- 如果有单独不是方法的不要漏了去checkRight,
+function machine:whetherWinning(finalPatterns, argTableKeys)
+
+    local resRatio = self:mainWhetherWinning(finalPatterns, argTableKeys);
 
     -- print("machine totalRatio:", resRatio)
     -- table.print_nest_arr(finalPatterns)
 
+    self:setFixedWinAnimalDic();
+
+    if WRITE_DATA_MODE then
+        self:WriteData(resRatio, finalPatterns, self.fixedWinAnimalDic);--真实写注意不要覆盖了，我感觉会很麻烦，如果覆盖了
+    end
+
+    return table.sum(resRatio);
+end
+
+function machine:setFixedWinAnimalDic()
+    local winAnimalDic = self.winAnimalDic;
     self.fixedWinAnimalDic = {}
     if table.hash_count(winAnimalDic) > 0 then
         for i, v in pairs(winAnimalDic) do
@@ -528,12 +552,6 @@ function machine:whetherWinning(finalPatterns, argTableKeys)
             self.fixedWinAnimalDic[i] = completeMatrix;
         end
     end
-
-    if WRITE_DATA_MODE then
-        self:WriteData(resRatio, finalPatterns, self.fixedWinAnimalDic);--真实写注意不要覆盖了，我感觉会很麻烦，如果覆盖了
-    end
-
-    return table.sum(resRatio);
 end
 
 function machine:WriteData(resRatio, finalPatterns, fixedWinAnimalDic)
@@ -584,14 +602,18 @@ end
 
 function machine:printDatas()
     print("---------Start-----------")
+    local temp = {};
     for i, v in pairs(self.writeDatas) do
         print(string.format("DatasItem %sBet:", i))
+        temp[#temp + 1] = i;
         --[[        for i2, v2 in ipairs(v) do
                     print("DatasItemPerMatrix:")
                      table.print_nest_arr(v2)
                 end]]
     end
     print("---------End-----------")
+    table.sort(temp);
+    table.print_arr(temp);
 end
 
 function machine:spinStart()

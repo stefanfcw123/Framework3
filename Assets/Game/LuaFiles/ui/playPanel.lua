@@ -9,10 +9,12 @@ local playPanel = class('playPanel', ui)
 local curUI = nil;
 function playPanel:init()
     playPanel.super.init(self)
-    addEvent(WILL_PLAY, function(n)
-        self:show()
-        --print("will paly1")
-    end)
+
+    --[[    addEvent(WILL_PLAY, function(n)
+            self:show()
+            --print("will paly1")
+        end)]]
+
     addEvent(BACK_LOBBY, function()
         --  playPanel:closeAuto();
         self:hide()
@@ -70,14 +72,26 @@ function playPanel:init()
     self.hightWinImage.gameObject:SetActive(false);
 
     self.lvChilds = array2table(self.lvGameObject)
+
     --table.print_arr(self.lvChilds, "lvChilds")
 end
 
+function playPanel:lvChildsShow()
+    for i, v in ipairs(self.lvChilds) do
+        v.gameObject:SetActive(true);
+    end
+end
+
 function playPanel:showLvChild(lv)
+    self:show();
+
     for i, v in ipairs(self.lvChilds) do
         v.gameObject:SetActive(false);
     end
-    self.lvChilds[lv].gameObject:SetActive(true);
+    local go = self.lvChilds[lv].gameObject;
+    go:SetActive(true);
+
+  -- print("showLvChild", go, go.name, go.activeInHierarchy);
 end
 
 function playPanel:betTextRefresh2()

@@ -14,7 +14,7 @@ end
 function wheelUI:init(spritePool)
     local height = self.transform.parent:GetComponent(typeof(RectTransform)).rect.height;
     local perHeight = height / slotsManage.curMachine:PatternWheelNumber();
-    --  print(height, perHeight)
+    print(height, perHeight)
     self.patterns = {};
     local t = self.transform:Find("Image");
     local luaMonos = array2table(t, RectTransform, false);
@@ -30,7 +30,7 @@ function wheelUI:init(spritePool)
     --  print("second",self:GetPosSecond());
 end
 
--- todo 这里需要验证是否通用
+-- todo 如果有向上的运动，这里需要验证是否通用
 function wheelUI:GetPos(index)
     local len = #self. luaMonos;
     local minIndex = len / 2;

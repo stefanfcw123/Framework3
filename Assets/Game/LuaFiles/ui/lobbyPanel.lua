@@ -23,6 +23,7 @@ local function initButton(self)
             end
 
             if isOpen then
+               -- print("playPanel:showLvChild")
                 playPanel:showLvChild(i)
 
                 sendEvent(WILL_PLAY, i);

@@ -27,13 +27,21 @@ function uiMachine:initBaseData(lv)
 end
 
 function uiMachine:initWheels()
+
+    print("uiMachine initWheels")
+    --playPanel:lvChildsShow()
+
     local luaMonos = array2table(self.go.transform:Find("Image/Image"), RectTransform, false);
     self.wheels = {};
     local allSprites = self:loadAllSprite();
     local allSpritesNames = table.selectItems(allSprites, "name");
     slotsManage.SetAllSpritesNames(allSpritesNames);--设置这个仅仅是为了校验一下名字而已
     for i, v in ipairs(luaMonos) do
-        table.insert(self.wheels, v:GetComponent(typeof(CS.LuaMono)).TableIns);
+        --local TableIns = v:GetComponent(typeof(CS.LuaMono)).TableIns;
+        local mono = v:GetComponent(typeof(CS.LuaMono));
+        --print(mono.gameObject.activeInHierarchy, "tableIns")
+        table.insert(self.wheels, mono.TableIns);
+       -- print(mono.TableIns, "mono.TableIns")
         local SPPoolPart = nil;
         if i == 1 then
             SPPoolPart = self:partSPPoolRemoveSome(allSprites, { "w3", "w4", "w5" })
@@ -47,6 +55,7 @@ function uiMachine:initWheels()
 end
 
 function uiMachine:mapPatternsInit()
+    --print("map init a ")
     self.mapPatterns = self:getMapPatterns();--玩家直观的
 end
 
@@ -112,6 +121,9 @@ function uiMachine:getMapPatterns()
         table.insert(bigT, t);
     end
 
+    -- print(#bigT,"sksksksksksk")
+    -- table.print_nest_arr(bigT,"BBBBGGGTTT")
+
     return self:matrixChange(bigT);
 end
 
@@ -129,7 +141,9 @@ end
 function uiMachine:matrixChange(matrix)
     local res = {};
 
-    for i, v in ipairs(matrix) do
+    local len = #matrix[1];
+
+    for i = 1, len do
         res[i] = {};
     end
 
@@ -159,7 +173,18 @@ end
 function uiMachine:spinOver()
 end
 
---todo 后面开始弄成小函数吧
+function uiMachine:quickPatterns()
+    return {
+        { "s3", "b1", "b3" },
+        { "s4", "b2", "s4" },
+        { "s2", "b2", "b2" },
+    };
+end
+
+function uiMachine:nearMissOffset()
+    return (#self.wheels - 1);
+end
+
 function uiMachine:rollAll()
     local s = cs_coroutine.start(function()
         rotate = true;
@@ -171,7 +196,7 @@ function uiMachine:rollAll()
 
         local matrixAbout = nil;--这个里面保护图案还有其他信息
         if WRITE_DATA_MODE then
-            -- todo 下次写入还需要验证下这里对不对
+            -- todo 每次写入都要验证下这里对不对
             self:randomSetImage();--把隐藏的也设置了但是没有关系
             matrix = self:getMapPatternNames();--从直观的地方获取名字
         else
@@ -180,11 +205,7 @@ function uiMachine:rollAll()
         end
 
         if PATTERNS_QUICK then
-            matrix = {
-                { "s3", "b1", "b3" },
-                { "s4", "b2", "s4" },
-                { "s2", "b2", "b2" },
-            }
+            matrix = self:quickPatterns();
         end
 
         local nearMissLineTable = slotsManage.curMachine:fixedMatrixMidRow(matrix);--获取nearMiss那条线默认是中间条
@@ -199,7 +220,8 @@ function uiMachine:rollAll()
 
         for i, v in ipairs(self.wheels) do
             self:roll(i, false, self:matrixChange(matrix))
-            if i == (#self.wheels - 1) then
+            if i == self:nearMissOffset() then
+
                 --要转到第三个之前的时候
                 if nearMiss then
                     coroutine.yield(WaitForSeconds(slotsManage.R2 * 3))
@@ -215,9 +237,12 @@ function uiMachine:rollAll()
         local totalBet = nil;
 
         if WRITE_DATA_MODE then
+            --table.print_nest_arr(matrix,"JJJJKKKK")
             totalBet = slotsManage.curMachine:calculateLines(matrix);
+          --  print("经过计算")
         else
             totalBet = table.sum(table.csv2table(matrixAbout["c"]));
+           -- print("没有经过计算")
         end
 
         if not WRITE_DATA_MODE then
@@ -229,6 +254,7 @@ function uiMachine:rollAll()
 
         -- print("playPanel:showHightWinImage", hightBetLv)
         sendEvent(SPIN_OVER, totalBet ~= 0, slotsManage.getTotalAward(totalBet))
+        print("totalBet:", totalBet);
         rotate = false;
 
         local fixedWinAnimalDic = nil;

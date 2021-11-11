@@ -63,8 +63,8 @@ function slotsManage.SpritesNameCheck(...)
 
     assert((#table.distinct(res)) == #res)
 
-    table.print_arr(res, A);
-    table.print_arr(slotsManage.AllSpritesNames, B);
+    --table.print_arr(res, A);
+    --table.print_arr(slotsManage.AllSpritesNames, B);
     assert(table.isSubset(slotsManage.AllSpritesNames, res));
     return res;
 end

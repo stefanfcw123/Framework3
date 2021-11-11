@@ -119,6 +119,17 @@ end
 
 -- arr
 
+function table.countItems(t, func)
+    local count = 0;
+    for i, v in ipairs(t) do
+        if func(v) then
+            count = count + 1;
+        end
+    end
+
+    return count;
+end
+
 function table.csv2table(csvStr)
     return string.split(csvStr, ",");
 end
@@ -466,6 +477,12 @@ function table.filterItems(t, fT)
     for i, v in ipairs(fT) do
         table.removeVal(t, v);
     end
+end
+
+function table.differenceSet(t1, t2)
+    local res = table.copy(t1);
+    table.filterItems(res, t2);
+    return res;
 end
 
 function table.copy(t)

@@ -29,15 +29,31 @@ function slotsUI2:initWheels()
         table.insert(self.wheels, v:GetComponent(typeof(CS.LuaMono)).TableIns);
         local SPPoolPart = nil;
         local wilds = { "w2", "w4", "w10", "w25" };
+        local DifferenceSet = table.differenceSet(allSpritesNames, wilds);
+
         if i == 1 then
-            SPPoolPart = self:partSPPoolRemoveSome(allSprites,wilds )
+            SPPoolPart = self:partSPPoolRemoveSome(allSprites, wilds)
         elseif i == 2 then
-            SPPoolPart = self:partSPPoolRemoveSome(allSprites,wilds)
+            SPPoolPart = self:partSPPoolRemoveSome(allSprites, wilds)
         elseif i == 3 then
-            SPPoolPart = self:partSPPoolRemoveSome(allSprites,wilds)
+            SPPoolPart = self:partSPPoolRemoveSome(allSprites, wilds)
+        elseif i == 4 then
+            SPPoolPart = self:partSPPoolRemoveSome(allSprites, DifferenceSet);
         end
         self.wheels[i]:init(SPPoolPart);
     end
+end
+
+function slotsUI2:quickPatterns()
+    return {
+        { "s3", "b1", "b3", "w2" },
+        { "s4", "s3", "s4", "w2" },
+        { "s2", "b2", "b2", "w2" },
+    };
+end
+
+function slotsUI2:nearMissOffset()
+    return (#self.wheels - 2);
 end
 
 return slotsUI2

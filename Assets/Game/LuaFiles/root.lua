@@ -76,8 +76,30 @@ function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
 
---[[        local k = { 1, "2", "a", 3, 4 };
-        print(table.table2csv(k));]]
+--[[        local a = { "aa", "a", 2, "22", 33, 33, 2, "a", "2", 22 };
+
+        print(table.countItems(a, function(item)
+            return item == 2
+        end))
+        print(table.countItems(a, function(item)
+            return item == "a"
+        end))
+        print(table.countItems(a, function(item)
+            return item == "2"
+        end))
+        print(table.countItems(a, function(item)
+            return item == "22"
+        end))]]
+
+
+        --[[        local a = { "a", "b", "c" };
+                local c = { "c" };
+                local g = table.differenceSet(a, c);
+                table.print_arr(g);
+                table.print_arr(a);]]
+
+        --[[        local k = { 1, "2", "a", 3, 4 };
+                print(table.table2csv(k));]]
 
         --[[        local g = { "a", "b" };
                 local c = table.removeFirst(g);
@@ -127,7 +149,9 @@ function root:Update()
                         CS.IOHelpLua.CreateTemp(string.serialize(bigT));]]
         -- evaluatePanel:show()
 
-         slotsManage.curMachine:WData()
+        if slotsManage.curMachine then
+            slotsManage.curMachine:WData()
+        end
     end
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.S) then
         --[[        local txt = AF:LoadTextAsset("Lv1/1")
@@ -167,6 +191,9 @@ function root:init()
     print "root init"
 
     save = root.add_sys("save");
+
+
+
     audio = root.add_sys("audio");
     timeManage = root.add_sys("timeManage");
     slotsManage = root.add_sys("slotsManage");
