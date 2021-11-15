@@ -9,18 +9,20 @@ local playPanel = class('playPanel', ui)
 local curUI = nil;
 function playPanel:init()
     playPanel.super.init(self)
-    addEvent(WILL_PLAY, function(n)
-        self:show()
-        --print("will paly1")
-    end)
+
+    --[[    addEvent(WILL_PLAY, function(n)
+            self:show()
+            --print("will paly1")
+        end)]]
+
     addEvent(BACK_LOBBY, function()
         --  playPanel:closeAuto();
         self:hide()
+        local ui = slotsManage.curMachine.machineUI;
+        ui:stopAllAnimal();
     end)
     addEvent(SPIN_OVER, function(isWin, award)
-        if WRITE_DATA_MODE then
-            return ;
-        end
+
 
         if isWin then
             DOTween                     .To(function(f)
@@ -43,8 +45,13 @@ function playPanel:init()
             end
             save.addChip(award)
             analysis.addInChip(award);
-
         end
+
+        if WRITE_DATA_MODE then
+            return ;
+        end
+
+        --todo 这里开启模式要报错等待解决
         self:ReturnRateTextRefresh("实际返还率:" .. analysis.returnRate());
         self:targetReturnRateTextRefresh("理论返还率:" .. analysis.getTargetReturnRate());
         self:ConfigEnumTextRefresh("当前配置是:" .. slotsManage.GetConfigEnum());
@@ -66,6 +73,28 @@ function playPanel:init()
     end
 
     self.hightWinImage.gameObject:SetActive(false);
+
+    self.lvChilds = array2table(self.lvGameObject)
+
+    --table.print_arr(self.lvChilds, "lvChilds")
+end
+
+function playPanel:lvChildsShow()
+    for i, v in ipairs(self.lvChilds) do
+        v.gameObject:SetActive(true);
+    end
+end
+
+function playPanel:showLvChild(lv)
+    self:show();
+
+    for i, v in ipairs(self.lvChilds) do
+        v.gameObject:SetActive(false);
+    end
+    local go = self.lvChilds[lv].gameObject;
+    go:SetActive(true);
+
+    -- print("showLvChild", go, go.name, go.activeInHierarchy);
 end
 
 function playPanel:betTextRefresh2()
@@ -136,12 +165,15 @@ end
 
 function playPanel:ctor(go, tier)
     playPanel.super.ctor(self, go, tier)
-    self.tipButton = self.go.transform:Find("Image/tipButton"):GetComponent('Button');
-    self.reduceButton = self.go.transform:Find("Image/Image/reduceButton"):GetComponent('Button');
-    self.addButton = self.go.transform:Find("Image/Image/addButton"):GetComponent('Button');
-    self.betText = self.go.transform:Find("Image/Image/betText"):GetComponent('Text');
-    self.winText = self.go.transform:Find("Image/Image (1)/winText"):GetComponent('Text');
-    self.spinButton = self.go.transform:Find("Image/spinButton"):GetComponent('Button');
+    self.lvGameObject = self.go.transform:Find("lvGameObject").gameObject;
+    self.lineImage1 = self.go.transform:Find("lvGameObject/Image1/Image/GameObject/lineImage1"):GetComponent('Image');
+    self.lineImage2 = self.go.transform:Find("lvGameObject/Image1/Image/GameObject/lineImage2"):GetComponent('Image');
+    self.tipButton = self.go.transform:Find("ImageCtrl/tipButton"):GetComponent('Button');
+    self.reduceButton = self.go.transform:Find("ImageCtrl/Image/reduceButton"):GetComponent('Button');
+    self.addButton = self.go.transform:Find("ImageCtrl/Image/addButton"):GetComponent('Button');
+    self.betText = self.go.transform:Find("ImageCtrl/Image/betText"):GetComponent('Text');
+    self.winText = self.go.transform:Find("ImageCtrl/Image (1)/winText"):GetComponent('Text');
+    self.spinButton = self.go.transform:Find("ImageCtrl/spinButton"):GetComponent('Button');
     self.TipGameObject = self.go.transform:Find("TipGameObject").gameObject;
     self.ReturnRateText = self.go.transform:Find("TipGameObject/ReturnRateText"):GetComponent('Text');
     self.targetReturnRateText = self.go.transform:Find("TipGameObject/targetReturnRateText"):GetComponent('Text');
@@ -164,6 +196,15 @@ function playPanel:ctor(go, tier)
 
 end
 
+function playPanel:lvGameObjectSetParent(t)
+    t.transform:SetParent(self.lvGameObject.transform, false);
+end
+function playPanel:lineImage1Refresh(t)
+    self.lineImage1.sprite = t;
+end
+function playPanel:lineImage2Refresh(t)
+    self.lineImage2.sprite = t;
+end
 function playPanel:betTextRefresh(t)
     self.betText.text = t;
 end

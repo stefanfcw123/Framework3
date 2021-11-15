@@ -1,0 +1,62 @@
+
+4x.png
+size: 651,546
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg
+  rotate: false
+  xy: 2, 194
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+flower
+  rotate: true
+  xy: 550, 91
+  size: 103, 97
+  orig: 105, 97
+  offset: 1, 0
+  index: -1
+n1
+  rotate: true
+  xy: 354, 196
+  size: 348, 290
+  orig: 348, 290
+  offset: 0, 0
+  index: -1
+n2
+  rotate: false
+  xy: 550, 2
+  size: 99, 87
+  orig: 99, 87
+  offset: 0, 0
+  index: -1
+n3
+  rotate: true
+  xy: 320, 57
+  size: 135, 120
+  orig: 135, 120
+  offset: 0, 0
+  index: -1
+n4
+  rotate: true
+  xy: 442, 75
+  size: 119, 106
+  orig: 119, 106
+  offset: 0, 0
+  index: -1
+x4
+  rotate: true
+  xy: 2, 19
+  size: 173, 157
+  orig: 173, 157
+  offset: 0, 0
+  index: -1
+x4 2
+  rotate: true
+  xy: 161, 19
+  size: 173, 157
+  orig: 173, 157
+  offset: 0, 0
+  index: -1

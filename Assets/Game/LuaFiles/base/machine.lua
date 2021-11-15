@@ -16,7 +16,7 @@ function machine:ctor(lv)
 
     self:CheckLineNumberMatrix(self.LineNumberMatrix);
 
-    self:addMatrixs({1})--中奖线池添加
+    self:addMatrixs({ 1 })--中奖线池添加
 
     self:initWriteDatas();
 
@@ -223,7 +223,12 @@ end
 function machine:getRandomMatrixAbout()
     local randomKeys = self:getWeightItem();
     local key = table.get_random_item(randomKeys);
-    --key = "2";
+
+    if CONFIG_KEY_QUICK then
+        key = table.get_random_item({ "6", "9", "12" })
+        -- key = "9";
+    end
+
     local res = table.get_random_item(self.writeDatas[key]);
     --[[    print('-----------start')
         table.print_arr(randomKeys);
@@ -233,10 +238,19 @@ function machine:getRandomMatrixAbout()
     return res;
 end
 
+function machine:GetMidRow(t)
+    if t == nil then
+        error("error a ");
+    end
+    local mid = int((#t / 2)) + 1;
+    return mid;
+end
+
 function machine:fixedMatrixMidRow(t)
     -- 这里只是最终图案的中间，所以调换了旋转方向也无所谓
-    local mid = int((#t / 2));
-    return t[mid + 1];
+
+    local mid = self:GetMidRow(t);
+    return t[mid];
 end
 
 function machine:WheelNumber()
@@ -288,7 +302,7 @@ function machine:calculateLines(finalPatterns)
 end
 
 function machine:knightAward(t, princess, knight)
-    assert(#t ~= 3);
+    assert(#t == 3);
     local temp = slotsManage.SpritesNameCheck(princess, knight);
 
     if t[1] == knight and t[2] == princess and t[3] == knight then
@@ -620,7 +634,14 @@ function machine:spinStart()
         self:dealWithLevelData(bets);
     end
 
+    self:playSpinSound();
     self.machineUI:spinStart();
+end
+
+function machine:playSpinSound()
+    local audios = { "Music_Slot", "Music_Slot1", "Music_Slot2" };
+    local cur = table.get_random_item(audios);
+    audio.PlaySound(cur);
 end
 
 function machine:spinOver()

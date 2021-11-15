@@ -12,8 +12,10 @@ local btns = {};
 local function initButton(self)
     btns = array2table(self.CGameObject, Button, true);
     for i = 1, #btns do
-        btns[i].onClick:AddListener(function()
+        btns[i]:GetComponent("Image").sprite = AF:LoadSprite("l" .. i);
+        btns[i].transform:Find("Image"):GetComponent("Image").sprite = AF:LoadSprite("l" .. i);
 
+        btns[i].onClick:AddListener(function()
             local curLv = level.curLV();
             local needLv = level.needLv(i);
             local isOpen = curLv >= needLv;
@@ -23,16 +25,46 @@ local function initButton(self)
             end
 
             if isOpen then
-               -- print("playPanel:showLvChild")
-                playPanel:showLvChild(i)
+                self:btnAnimal(i);
+                cs_coroutine.start(function()
+                    if LEVEL_QUICK then
+                        coroutine.yield(WaitForSeconds(QUICK_TIME));
+                    else
+                        coroutine.yield(WaitForSeconds(LOBBY_BTN));
+                    end
 
-                sendEvent(WILL_PLAY, i);
-                print(" lobbyPanel btn click " .. i)
+                    -- todo 这里有bug需要
+                    print(LOBBY_BTN, "LOBBY_BTN");
+
+                    curtainPanel:fade(function()
+                        audio.PauseMusic();
+                        -- print("playPanel:showLvChild")
+                        playPanel:showLvChild(i)
+                        sendEvent(WILL_PLAY, i);
+                        print(" lobbyPanel btn click " .. i)
+                    end)
+                end)
             else
+                audio.PlaySound("ui_locked");
+                tipPanel:createTip("未解锁，需要到达等级" .. level.locks[i]);
                 print("This level is lock !")
             end
         end)
+
+
     end
+end
+
+function lobbyPanel:btnAnimal(i)
+    local img = btns[i].transform:Find("Image"):GetComponent("Image");
+    local s = DOTween.Sequence();
+
+    s:Append(img.transform:DOScale(0.5, LOBBY_BTN):SetRelative(true))
+    s:Insert(0, img:DOFade(0, LOBBY_BTN));
+    s:OnComplete(function()
+        img.transform:DOScale(-0.5, 0):SetRelative(true)
+        img:DOFade(1, 0)
+    end)
 end
 
 function lobbyPanel:init()

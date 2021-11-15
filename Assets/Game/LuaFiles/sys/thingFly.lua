@@ -15,6 +15,7 @@ function thingFly.fly(startPos)
     local secondOffset = 0.75;
 
     cs_coroutine.start(function()
+        audio.PlaySound("CoinAnim");
         for i = 1, flyNum do
             coroutine.yield(WaitForSeconds(FLY_DELAY));
             local go = Spawn("flyGO");

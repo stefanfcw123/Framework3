@@ -14,9 +14,15 @@ function loginPanel:init()
     self:dayTextRefresh(timeManage.loginDayNum());
     self:baseChipTextRefresh(string.format_foreign(timeManage.loginBonus()));
     self:multipleChipTextRefresh(timeManage.loginMultiple());
+
     DOTween.To(function(f)
         self:chipTextRefresh(string.format_foreign(f))
     end, 0, timeManage.loginTotalBonus(), GIGITAL_SLOW)
+end
+
+function loginPanel:show()
+    loginPanel.super.show(self);
+    audio.PlaySound("CreditsRollUp");
 end
 
 function loginPanel:closeAnim()

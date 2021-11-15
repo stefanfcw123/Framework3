@@ -53,7 +53,7 @@ function save.load()
             gapBonusStamp = 0,
             loginStamp = 0,
             loginLv = 0,
-            levelExp = 9,
+            levelExp = 0,
         }
     else
         data = string.unserialize(data_str);

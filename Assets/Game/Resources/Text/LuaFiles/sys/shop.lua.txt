@@ -42,6 +42,7 @@ end
 function shop.buy(id)
     print("shop.buy")
     if id < 7 then
+        audio.PlaySound("CreditsRollUp");
         save.addChip(shop.shopMessage(id)[1]);
     end
     if id == 7 then
@@ -51,6 +52,7 @@ function shop.buy(id)
             coroutine.yield(WaitForSeconds(1.5))
             pig2Panel:closeAnim();
         end)
+        audio.PlaySound("CreditsRollUp");
         save.addChip(shop.getPigChip())
         pigChipAdd = 0;
         pigPanel:TotalPigChipRefresh()

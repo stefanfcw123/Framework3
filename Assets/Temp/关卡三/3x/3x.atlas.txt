@@ -1,0 +1,48 @@
+
+3x.png
+size: 676,524
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg
+  rotate: false
+  xy: 2, 172
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+n1
+  rotate: true
+  xy: 354, 196
+  size: 326, 320
+  orig: 342, 320
+  offset: 4, 0
+  index: -1
+n2
+  rotate: false
+  xy: 368, 37
+  size: 177, 157
+  orig: 177, 157
+  offset: 0, 0
+  index: -1
+n3
+  rotate: true
+  xy: 547, 63
+  size: 131, 117
+  orig: 131, 117
+  offset: 0, 0
+  index: -1
+x3
+  rotate: false
+  xy: 2, 2
+  size: 181, 168
+  orig: 181, 168
+  offset: 0, 0
+  index: -1
+x32
+  rotate: false
+  xy: 185, 2
+  size: 181, 168
+  orig: 181, 168
+  offset: 0, 0
+  index: -1

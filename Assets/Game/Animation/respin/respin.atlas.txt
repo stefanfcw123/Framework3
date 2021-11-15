@@ -1,0 +1,41 @@
+
+respin.png
+size: 635,668
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg
+  rotate: false
+  xy: 2, 316
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+di
+  rotate: false
+  xy: 354, 50
+  size: 272, 272
+  orig: 272, 272
+  offset: 0, 0
+  index: -1
+respin
+  rotate: true
+  xy: 246, 2
+  size: 312, 94
+  orig: 313, 94
+  offset: 1, 0
+  index: -1
+xuan
+  rotate: true
+  xy: 2, 79
+  size: 235, 242
+  orig: 284, 278
+  offset: 2, 1
+  index: -1
+zhuan
+  rotate: false
+  xy: 354, 324
+  size: 279, 342
+  orig: 279, 342
+  offset: 0, 0
+  index: -1

@@ -20,6 +20,7 @@ function wheelUI:init(spritePool)
     local luaMonos = array2table(t, RectTransform, false);
     self.perHeight = perHeight;
     self.luaMonos = luaMonos;
+    self.LightBox = self.transform:Find("LightBox").gameObject;
 
     for i, v in ipairs(luaMonos) do
         table.insert(self.patterns, v:GetComponent(typeof(CS.LuaMono)).TableIns);
@@ -65,6 +66,10 @@ function wheelUI:getPatterns()
     end
 
     return res;
+end
+
+function wheelUI:showLightBox(show)
+    self.LightBox:SetActive(show);
 end
 
 function wheelUI:SetImageByName(names)

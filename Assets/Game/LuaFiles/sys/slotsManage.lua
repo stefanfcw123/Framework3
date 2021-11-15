@@ -40,6 +40,10 @@ function slotsManage.SetAllSpritesNames(t)
     slotsManage.AllSpritesNames = t;
 end
 
+function slotsManage.getRandomAllSpritesName()
+    return table.get_random_item(slotsManage.AllSpritesNames);
+end
+
 function slotsManage.SpritesNameCheck(...)
 
     local arg = { ... }
@@ -57,15 +61,24 @@ function slotsManage.SpritesNameCheck(...)
     end
 
     -- print("SpritesNameCheck")
-    assert(table.checkAllType(res, "string"));
+    local allTypeCheck = table.checkAllType(res, "string");
+    if allTypeCheck == false then
+        error("check error");
+    end
 
-   -- local res = table.distinct(res);--这里我感觉不是必须去重
+    -- local res = table.distinct(res);--这里我感觉不是必须去重
 
-    assert((#table.distinct(res)) == #res)
+    local distinctCheck = (#table.distinct(res)) == #res;
+    if distinctCheck == false then
+        error("check error");
+    end
 
     --table.print_arr(res, A);
     --table.print_arr(slotsManage.AllSpritesNames, B);
-    assert(table.isSubset(slotsManage.AllSpritesNames, res));
+    local subCheck = table.isSubset(slotsManage.AllSpritesNames, res);
+    if subCheck == false then
+        error("check error")
+    end
     return res;
 end
 
@@ -112,6 +125,11 @@ function slotsManage.getTotalAward(bet)
 end
 
 function slotsManage.changeBetLv(n)
+    --todo 更友好的体验，点击其他按键也要停下来暂时不做
+    if rotate then
+        return ;
+    end
+
     if n == 1 then
         if betLv < maxLv then
             betLv = betLv + 1;

@@ -22,9 +22,7 @@ function playPanel:init()
         ui:stopAllAnimal();
     end)
     addEvent(SPIN_OVER, function(isWin, award)
-        if WRITE_DATA_MODE then
-            return ;
-        end
+
 
         if isWin then
             DOTween                     .To(function(f)
@@ -47,8 +45,13 @@ function playPanel:init()
             end
             save.addChip(award)
             analysis.addInChip(award);
-
         end
+
+        if WRITE_DATA_MODE then
+            return ;
+        end
+
+        --todo 这里开启模式要报错等待解决
         self:ReturnRateTextRefresh("实际返还率:" .. analysis.returnRate());
         self:targetReturnRateTextRefresh("理论返还率:" .. analysis.getTargetReturnRate());
         self:ConfigEnumTextRefresh("当前配置是:" .. slotsManage.GetConfigEnum());
@@ -91,7 +94,7 @@ function playPanel:showLvChild(lv)
     local go = self.lvChilds[lv].gameObject;
     go:SetActive(true);
 
-  -- print("showLvChild", go, go.name, go.activeInHierarchy);
+    -- print("showLvChild", go, go.name, go.activeInHierarchy);
 end
 
 function playPanel:betTextRefresh2()

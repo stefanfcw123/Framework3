@@ -13,7 +13,7 @@ local _soundAudioSources = {}
 function audio.init()
     _musicAudioSource = GameGo:AddComponent(typeof(AudioSource));
 
-    audio.PlayMusic("lobbyBG",true);
+    audio.PlayMusic("lobbyBG",true,0.3);
     audio.switchMusic();
 end
 

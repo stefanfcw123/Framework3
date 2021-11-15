@@ -1,0 +1,53 @@
+-------------------------------------------------------
+-- author : sky_allen                                                                                                                  
+--  email : 894982165@qq.com      
+--   time : 2021/10/14 16:52:15                                                                                           
+-------------------------------------------------------
+
+---@class slotsUI3
+local slotsUI3 = class('slotsUI3', require("base.uiMachine"))
+
+function slotsUI3:ctor(lv)
+    slotsUI3.super.ctor(self, lv)
+end
+
+function slotsUI3:spinStart()
+    slotsUI3.super.spinStart(self);
+end
+
+function slotsUI3:spinOver()
+    slotsUI3.super.spinOver(self);
+end
+
+function slotsUI3:initWheels()
+
+    local luaMonos = array2table(self.go.transform:Find("Image/Image"), RectTransform, false);
+    self.wheels = {};
+    local allSprites = self:loadAllSprite();
+    local allSpritesNames = table.selectItems(allSprites, "name");
+    slotsManage.SetAllSpritesNames(allSpritesNames);--设置这个仅仅是为了校验一下名字而已
+    for i, v in ipairs(luaMonos) do
+        local mono = v:GetComponent(typeof(CS.LuaMono));
+        table.insert(self.wheels, mono.TableIns);
+        local samePart = { "w3", "w4" };
+        local SPPoolPart = nil;
+        if i == 1 then
+            SPPoolPart = self:partSPPoolRemoveSome(allSprites, samePart)
+        elseif i == 2 then
+            SPPoolPart = self:partSPPoolRemoveSome(allSprites, {})
+        elseif i == 3 then
+            SPPoolPart = self:partSPPoolRemoveSome(allSprites, samePart)
+        end
+        self.wheels[i]:init(SPPoolPart);
+    end
+end
+
+function slotsUI3:quickPatterns()
+    return {
+        { "w2", "w3", "em" },
+        { "em", "w4", "em" },
+        { "b1", "b1", "b3" },
+    };
+end
+
+return slotsUI3

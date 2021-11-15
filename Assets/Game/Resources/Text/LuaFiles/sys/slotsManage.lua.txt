@@ -40,6 +40,44 @@ function slotsManage.SetAllSpritesNames(t)
     slotsManage.AllSpritesNames = t;
 end
 
+function slotsManage.SpritesNameCheck(...)
+
+    local arg = { ... }
+    local res = {};
+
+    for i, v in ipairs(arg) do
+        local content = v;
+        if type(content) == "string" then
+            table.insert(res, content);
+        elseif type(content) == "table" then
+            table.add_range(res, content);
+        else
+            error("Invalid type!")
+        end
+    end
+
+    -- print("SpritesNameCheck")
+    local allTypeCheck = table.checkAllType(res, "string");
+    if allTypeCheck == false then
+        error("check error");
+    end
+
+    -- local res = table.distinct(res);--这里我感觉不是必须去重
+
+    local distinctCheck = (#table.distinct(res)) == #res;
+    if distinctCheck == false then
+        error("check error");
+    end
+
+    --table.print_arr(res, A);
+    --table.print_arr(slotsManage.AllSpritesNames, B);
+    local subCheck = table.isSubset(slotsManage.AllSpritesNames, res);
+    if subCheck == false then
+        error("check error")
+    end
+    return res;
+end
+
 function slotsManage.ChangeConfigEnum(str)
     local t1 = table.copy(configs);
     table.insert(t1, "T");
@@ -83,6 +121,11 @@ function slotsManage.getTotalAward(bet)
 end
 
 function slotsManage.changeBetLv(n)
+    --todo 更友好的体验，点击其他按键也要停下来暂时不做
+    if rotate then
+        return ;
+    end
+
     if n == 1 then
         if betLv < maxLv then
             betLv = betLv + 1;
@@ -94,10 +137,6 @@ function slotsManage.changeBetLv(n)
     end
     slotsManage.setBet();
     playPanel:betTextRefresh2()
-end
-
-function slotsManage.getWin()
-
 end
 
 function slotsManage.setBet()

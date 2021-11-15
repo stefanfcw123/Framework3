@@ -77,6 +77,7 @@ function level.friendlyLevelMessage()
 
     if curLV ~= lv then
         curLV = lv;
+        audio.PlaySound("LevelUp")
         sendEvent(LEVEL_UP)
     end
 

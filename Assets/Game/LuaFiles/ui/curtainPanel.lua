@@ -1,0 +1,49 @@
+﻿-------------------------------------------------------
+-- author : sky_allen                                                                                                                  
+--  email : 894982165@qq.com      
+--   time : 2021/11/15 18:13:08                                                                                           
+-------------------------------------------------------
+
+---@class curtainPanel
+local curtainPanel = class('curtainPanel', ui)
+
+function curtainPanel:init()
+    self.tier = "Curtain";
+    curtainPanel.super.init(self)
+
+    print("curtainPanel init")
+    self.bImage.color = getColor(0, 0, 0, 0);
+
+end
+
+function curtainPanel:fade(callback)
+    self:show();
+    local totalCost = 1;
+
+    if LEVEL_QUICK then
+        totalCost = QUICK_TIME;
+    end
+
+    self.bImage:DOFade(1, totalCost / 2):OnComplete(function()
+        self.bImage:DOFade(0, totalCost / 2):OnComplete(function()
+            self:hide();
+            if callback ~= nil then
+                callback();
+            end
+        end)
+    end)
+end
+
+function curtainPanel:show()
+    curtainPanel.super.show(self);
+end
+
+--auto
+
+function curtainPanel:ctor(go, tier)
+    curtainPanel.super.ctor(self, go, tier)
+
+
+end
+
+return curtainPanel
