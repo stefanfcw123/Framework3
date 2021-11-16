@@ -154,13 +154,15 @@ public class VersionTool : EditorWindow
 
     private static void MoveVersionFile()
     {
-        var v = EditorGame.GetMyOtherVersionPath();
+        /*var v = EditorGame.GetMyOtherVersionPath();
         var vT = HotUpdateSystem.GetSA();
         File.Copy(v, Path.Combine(vT, "version.txt"), true);
         EditorGame.Refresh();
 
         IOHelper.DirectoryCopy2(vT, EditorGame.GetHFS_A(), true);
-        EditorGame.Refresh();
+        EditorGame.Refresh();*/
+
+        LuaTool.MoveLuaFiles();
 
         Log.LogPrint("Move Files Success!");
     }

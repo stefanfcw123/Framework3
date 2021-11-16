@@ -206,6 +206,7 @@ function uiMachine:nearMissSuccess()
     end)
 end
 
+-- todo 每次写入都要验证下WRITE_DATA_MODE这里对不对
 function uiMachine:rollAll()
     local s = cs_coroutine.start(function()
         rotate = true;
@@ -213,24 +214,22 @@ function uiMachine:rollAll()
         slotsManage.R2Change(R2)--改变时间这里应该对该修改的声音进行重置
         slotsManage.R1Change(R1 / 2)
 
+        local curMachine = slotsManage.curMachine;
         local matrix = nil;--一直都是直观的
-
         local matrixAbout = nil;--这个里面保护图案还有其他信息
         if WRITE_DATA_MODE then
-            -- todo 每次写入都要验证下这里对不对
             self:randomSetImage();--把隐藏的也设置了但是没有关系
             matrix = self:getMapPatternNames();--从直观的地方获取名字
         else
-            matrixAbout = slotsManage.curMachine:getRandomMatrixAbout();
+            matrixAbout = curMachine:getRandomMatrixAbout();
             matrix = matrixAbout["a"]--得到的是玩家直观的;
         end
-
         if PATTERNS_QUICK then
             matrix = self:quickPatterns();
         end
 
-        local nearMissLineTable = slotsManage.curMachine:fixedMatrixMidRow(matrix);--获取nearMiss那条线默认是中间条
-        local nearMiss = (math.ratio(NEAR_MISS_RATIO)) and (slotsManage.curMachine:isNearMiss(nearMissLineTable));
+        local nearMissLineTable = curMachine:fixedMatrixMidRow(matrix);--获取nearMiss那条线默认是中间条
+        local nearMiss = (math.ratio(NEAR_MISS_RATIO)) and (curMachine:isNearMiss(nearMissLineTable));
 
         for i, v in ipairs(self.wheels) do
             self:roll(i, true);
@@ -258,18 +257,15 @@ function uiMachine:rollAll()
         local totalBet = nil;
 
         if WRITE_DATA_MODE then
-            --table.print_nest_arr(matrix,"JJJJKKKK")
-            totalBet = slotsManage.curMachine:calculateLines(matrix);
-            --  print("经过计算")
+            totalBet = curMachine:calculateLines(matrix);
         else
             totalBet = table.sum(table.csv2table(matrixAbout["c"]));
-            -- print("没有经过计算")
         end
 
         local isWin = (totalBet ~= 0);
 
         if not WRITE_DATA_MODE then
-            local hightBetLv = slotsManage.curMachine:HightBetLv(totalBet);
+            local hightBetLv = curMachine:HightBetLv(totalBet);
             if hightBetLv ~= 0 then
                 playPanel:showHightWinImage(hightBetLv);
                 audio.PlaySound("CreditsRollUpHeightWin");
@@ -280,56 +276,42 @@ function uiMachine:rollAll()
             end
         end
 
-        -- print("playPanel:showHightWinImage", hightBetLv)
-
         sendEvent(SPIN_OVER, isWin, slotsManage.getTotalAward(totalBet))
         if isWin then
             self:winShowLightBox(true);
         end
-        print("totalBet:", totalBet);
         rotate = false;
 
         local fixedWinAnimalDic = nil;
         if WRITE_DATA_MODE then
-            fixedWinAnimalDic = slotsManage.curMachine.fixedWinAnimalDic;--动画相关
+            fixedWinAnimalDic = curMachine.fixedWinAnimalDic;--动画相关
         else
             fixedWinAnimalDic = matrixAbout["b"];
-            --print("hhhhhhhhhhhhhlkkk")
         end
 
         if table.hash_count(fixedWinAnimalDic) > 0 then
-            --print(B)
             self.awardAnimals = cs_coroutine.start(function()
                 while true do
                     for i, v in pairs(fixedWinAnimalDic) do
                         local completeMatrix = v;
-
                         self:lineAnim(tonumber(i), false);
-
-                        --table.print_nest_arr(completeMatrix);
                         for i1, v1 in ipairs(completeMatrix) do
-                            --得到动画矩阵后再播放单个的
                             for i2, v2 in ipairs(v1) do
                                 if v2 == 1 then
                                     self.mapPatterns[i1][i2]:awardAnim();
                                 end
                             end
                         end
-                        --print("---------------------")
                         coroutine.yield(WaitForSeconds(AWARD_ANIM_DELAY2));
-
                         self:lineAnim(tonumber(i), true);
                     end
                 end
             end)
-            -- print(B)
         end
 
-        -- print("auto", auto)--继续相关
         if auto then
             coroutine.yield(WaitForSeconds(R5));
             playPanel:spinButtonAction2()
-        else
         end
     end)
 end
@@ -341,12 +323,15 @@ function uiMachine:SetImageByName(nameLists)
     end
 end
 
-function uiMachine:roll(index, isStart, mC)
+function uiMachine:roll(index, isStart, mC, playReelStop)
     local wheel = self.wheels[index];
     if isStart then
         wheel:spinStart();
     else
-        audio.PlaySound("Reel_Stop")
+        if playReelStop == nil then
+            audio.PlaySound("Reel_Stop")
+        end
+
         wheel:spinOver();
         wheel:SetImageByName(mC[index]);
     end

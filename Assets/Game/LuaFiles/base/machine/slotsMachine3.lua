@@ -29,7 +29,7 @@ function slotsMachine3:nearMissCheck()
     return awardPool;
 end
 
-function slotsMachine3:isReSpin(midT)
+--[[function slotsMachine3:isReSpin(midT)
     local haveEmpty = false;
     local wildCount = 0;
     for i, v in ipairs(midT) do
@@ -37,13 +37,13 @@ function slotsMachine3:isReSpin(midT)
             haveEmpty = true;
         end
 
-        if string.value_of(v, 1) == "w" then -- todo 冗余了暂时没办法而已
+        if string.value_of(v, 1) == "w" then
             wildCount = wildCount + 1;
         end
     end
 
     return haveEmpty and wildCount == 1;
-end
+end]]
 
 function slotsMachine3:calculateNotWild(v)
     --每一行不是wild的判断中奖

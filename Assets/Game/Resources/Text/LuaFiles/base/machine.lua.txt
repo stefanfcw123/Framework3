@@ -223,7 +223,12 @@ end
 function machine:getRandomMatrixAbout()
     local randomKeys = self:getWeightItem();
     local key = table.get_random_item(randomKeys);
-    --key = "2";
+
+    if CONFIG_KEY_QUICK then
+        key = table.get_random_item({ "6", "9", "12" })
+        -- key = "9";
+    end
+
     local res = table.get_random_item(self.writeDatas[key]);
     --[[    print('-----------start')
         table.print_arr(randomKeys);
@@ -233,10 +238,19 @@ function machine:getRandomMatrixAbout()
     return res;
 end
 
+function machine:GetMidRow(t)
+    if t == nil then
+        error("error a ");
+    end
+    local mid = int((#t / 2)) + 1;
+    return mid;
+end
+
 function machine:fixedMatrixMidRow(t)
     -- 这里只是最终图案的中间，所以调换了旋转方向也无所谓
-    local mid = int((#t / 2));
-    return t[mid + 1];
+
+    local mid = self:GetMidRow(t);
+    return t[mid];
 end
 
 function machine:WheelNumber()

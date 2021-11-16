@@ -33,15 +33,15 @@ local function initButton(self)
                         coroutine.yield(WaitForSeconds(LOBBY_BTN));
                     end
 
-                    -- todo 这里有bug需要
-                    print(LOBBY_BTN, "LOBBY_BTN");
-
-                    curtainPanel:fade(function()
+                    local f = function()
                         audio.PauseMusic();
-                        -- print("playPanel:showLvChild")
                         playPanel:showLvChild(i)
                         sendEvent(WILL_PLAY, i);
                         print(" lobbyPanel btn click " .. i)
+                    end
+
+                    curtainPanel:fade(function()
+                        f();
                     end)
                 end)
             else

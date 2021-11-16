@@ -27,13 +27,22 @@ local function initButton(self)
             if isOpen then
                 self:btnAnimal(i);
                 cs_coroutine.start(function()
-                    coroutine.yield(WaitForSeconds(LOBBY_BTN));
+                    if LEVEL_QUICK then
+                        coroutine.yield(WaitForSeconds(QUICK_TIME));
+                    else
+                        coroutine.yield(WaitForSeconds(LOBBY_BTN));
+                    end
 
-                    audio.PauseMusic();
-                    -- print("playPanel:showLvChild")
-                    playPanel:showLvChild(i)
-                    sendEvent(WILL_PLAY, i);
-                    print(" lobbyPanel btn click " .. i)
+                    local f = function()
+                        audio.PauseMusic();
+                        playPanel:showLvChild(i)
+                        sendEvent(WILL_PLAY, i);
+                        print(" lobbyPanel btn click " .. i)
+                    end
+
+                    curtainPanel:fade(function()
+                        f();
+                    end)
                 end)
             else
                 audio.PlaySound("ui_locked");

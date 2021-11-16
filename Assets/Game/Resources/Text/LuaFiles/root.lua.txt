@@ -59,6 +59,8 @@ ad = false;
 evaluatePanel = false;
 ---@type analysis
 analysis = false;
+---@type curtainPanel
+curtainPanel = false;
 
 GameGo = GameObject.Find("Game");
 data = false;
@@ -76,20 +78,20 @@ function root:Update()
 
     if UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.A) then
 
---[[        local a = { "aa", "a", 2, "22", 33, 33, 2, "a", "2", 22 };
+        --[[        local a = { "aa", "a", 2, "22", 33, 33, 2, "a", "2", 22 };
 
-        print(table.countItems(a, function(item)
-            return item == 2
-        end))
-        print(table.countItems(a, function(item)
-            return item == "a"
-        end))
-        print(table.countItems(a, function(item)
-            return item == "2"
-        end))
-        print(table.countItems(a, function(item)
-            return item == "22"
-        end))]]
+                print(table.countItems(a, function(item)
+                    return item == 2
+                end))
+                print(table.countItems(a, function(item)
+                    return item == "a"
+                end))
+                print(table.countItems(a, function(item)
+                    return item == "2"
+                end))
+                print(table.countItems(a, function(item)
+                    return item == "22"
+                end))]]
 
 
         --[[        local a = { "a", "b", "c" };
@@ -163,7 +165,7 @@ function root:Update()
 
 
         -- slotsManage.curMachine:getWeightItem();
-
+        curtainPanel:fade(nil);
     end
 
     for i, v in pairs(systems) do
@@ -193,8 +195,6 @@ function root:init()
 
     save = root.add_sys("save");
 
-
-
     audio = root.add_sys("audio");
     timeManage = root.add_sys("timeManage");
     slotsManage = root.add_sys("slotsManage");
@@ -217,6 +217,7 @@ function root:init()
     guidePanel = root.add_ui("guidePanel")
     pig2Panel = root.add_ui("pig2Panel");
     evaluatePanel = root.add_ui("evaluatePanel")
+    curtainPanel = root.add_ui("curtainPanel");
 
     global("auto", false)
     global("rotate", false);

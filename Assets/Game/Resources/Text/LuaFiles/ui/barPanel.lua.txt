@@ -148,8 +148,10 @@ function barPanel:backButtonAction()
     local isFight = self.backButtonImage.sprite.name == "dt";
     if isFight then
         if not rotate then
-            audio.RecoverMusic();
-            sendEvent(BACK_LOBBY)
+            curtainPanel:fade(function()
+                audio.RecoverMusic();
+                sendEvent(BACK_LOBBY)
+            end)
         end
     else
         UnityEngine.Application.Quit();

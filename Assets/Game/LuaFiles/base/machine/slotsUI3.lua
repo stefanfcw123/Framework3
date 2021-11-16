@@ -39,6 +39,7 @@ function slotsUI3:initWheels()
         elseif i == 3 then
             SPPoolPart = self:partSPPoolRemoveSome(allSprites, samePart)
         end
+
         self.wheels[i]:init(SPPoolPart);
     end
 
@@ -173,7 +174,7 @@ function slotsUI3:rollAll()
         print(totalBet, "totalBet,,,")
 
         local reSpinJudge = function(bNum)
-            if (totalBet == (bNum * 3)) and math.ratio(ratio) then
+            if (totalBet == (bNum * 3)) and math.ratio(ratio) then --这里是3是硬编码哦
                 isReSpin = true;
 
                 if isReSpin then

@@ -40,6 +40,10 @@ function slotsManage.SetAllSpritesNames(t)
     slotsManage.AllSpritesNames = t;
 end
 
+function slotsManage.getRandomAllSpritesName()
+    return table.get_random_item(slotsManage.AllSpritesNames);
+end
+
 function slotsManage.SpritesNameCheck(...)
 
     local arg = { ... }

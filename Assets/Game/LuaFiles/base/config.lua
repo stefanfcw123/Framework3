@@ -12,11 +12,13 @@ AWARD_ANIM_DELAY2 = 1.25;
 A = string.rep("A", 13);
 B = string.rep("B", 13);
 
-NEAR_MISS_RATIO = 0.05;
+NEAR_MISS_RATIO = nil;
 
 NET_TIMEOUT = 4;
 
-LOBBY_BTN = 1.25;
+RE_WIND_COST = 2.7;
+
+LOBBY_BTN = 1;
 
 TIP_SAVE = 2;
 TIP_LEAVE = 0.5;
@@ -40,7 +42,7 @@ LANGUAGE_KEY = "English";
 
 QUICK_NEARMISS = false;
 LOAD_QUICK = true;
-LEVEL_CONFIG_TEST = false;
+LEVEL_CONFIG_TEST = true;
 GAPBONUS_QUICK = false;
 LOGIN_QUICK = false;
 PATTERNS_QUICK = false;
@@ -48,9 +50,9 @@ LOSE_QUICK = false;
 WRITE_DATA_MODE = false;
 ANALYSIS = false;
 LOCK_QUICK = true;
-LEVEL_QUICK = false;
-RESPIN_QUICK = false;
-CONFIG_KEY_QUICK =false;
+LEVEL_QUICK = true;
+RESPIN_QUICK = true;
+CONFIG_KEY_QUICK = false;
 
 R1 = 1.2;--旋转方面的时间
 R2 = 0.4;
@@ -72,5 +74,5 @@ end
 if QUICK_NEARMISS then
     NEAR_MISS_RATIO = 1
 else
-    NEAR_MISS_RATIO = 0.3;
+    NEAR_MISS_RATIO = 0.08;
 end
